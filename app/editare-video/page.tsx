@@ -3,6 +3,7 @@ import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
 import Photo from '@/components/Photo';
+import VideoClip from '@/components/VideoClip';
 import { ArrowIcon, MockPlayer } from '@/components/Visuals';
 
 export const metadata: Metadata = {
@@ -97,7 +98,7 @@ export default function EditareVideoPage() {
               </div>
             </div>
             <div className="hero-visual">
-              <MockPlayer />
+              <VideoClip name="filmare" fallback={<MockPlayer />} />
               <div className="float-chip p1">🎬 4K • Vertical • Horizontal</div>
               <div className="float-chip p2">⚡ Livrare în 48h</div>
             </div>

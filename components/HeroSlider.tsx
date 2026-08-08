@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Photo from './Photo';
+import VideoClip from './VideoClip';
 import { ArrowIcon, MockDoc, MockPlayer } from './Visuals';
 
 const INTERVAL = 6500;
@@ -43,7 +45,10 @@ export default function HeroSlider() {
             </div>
           </div>
           <div className="hero-visual">
-            <MockPlayer />
+            <VideoClip
+              name="editare"
+              fallback={<Photo name="video-editing" alt="Editare video profesională" fallback={<MockPlayer />} />}
+            />
             <div className="float-chip p1">🎬 Montaj &amp; efecte vizuale</div>
             <div className="float-chip p2">✨ Corecții de culoare</div>
           </div>
@@ -63,7 +68,11 @@ export default function HeroSlider() {
             </div>
           </div>
           <div className="hero-visual">
-            <MockPlayer delay=".5s" screenStyle={{ background: 'linear-gradient(135deg,#0ea5e9 0%,#2563eb 60%,#16307a 130%)' }} />
+            <Photo
+              name="social-media"
+              alt="Clipuri pentru rețelele sociale"
+              fallback={<MockPlayer delay=".5s" screenStyle={{ background: 'linear-gradient(135deg,#0ea5e9 0%,#2563eb 60%,#16307a 130%)' }} />}
+            />
             <div className="float-chip p1">📱 Reels &amp; TikTok</div>
             <div className="float-chip p2">🎙️ Podcasturi &amp; interviuri</div>
           </div>
@@ -83,7 +92,7 @@ export default function HeroSlider() {
             </div>
           </div>
           <div className="hero-visual">
-            <MockDoc />
+            <Photo name="writing" alt="Redactare de conținut" fallback={<MockDoc />} />
             <div className="float-chip p1">✍️ Articole de blog</div>
             <div className="float-chip p2">🛍️ Descrieri de produse</div>
           </div>

@@ -4,19 +4,17 @@ import { useEffect, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 
 /**
- * Afișează o poză din public/photos/ (descărcată cu `npm run fetch:photos`).
- * Dacă fișierul nu există încă, se afișează `fallback` (dacă e dat) sau nimic —
- * secțiunile arată bine și fără poze.
+ * Afișează un clip video din public/videos/ (descărcat cu `npm run fetch:photos`).
+ * Rulează pe mut, în buclă, fără controale — ca fundal viu de secțiune.
+ * Dacă fișierul nu există încă, se afișează `fallback`.
  */
-export default function Photo({
+export default function VideoClip({
   name,
-  alt,
   ratio = '16 / 10',
   style,
   fallback = null,
 }: {
   name: string;
-  alt: string;
   ratio?: string;
   style?: CSSProperties;
   fallback?: ReactNode;
@@ -24,19 +22,20 @@ export default function Photo({
   const [ok, setOk] = useState(false);
 
   useEffect(() => {
-    const img = new Image();
-    img.onload = () => setOk(true);
-    img.src = `/photos/${name}.jpg`;
+    fetch(`/videos/${name}.mp4`, { method: 'HEAD' })
+      .then(r => setOk(r.ok))
+      .catch(() => { /* fișier absent — rămâne fallback-ul */ });
   }, [name]);
 
   if (!ok) return <>{fallback}</>;
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={`/photos/${name}.jpg`}
-      alt={alt}
-      loading="lazy"
+    <video
+      src={`/videos/${name}.mp4`}
+      autoPlay
+      muted
+      loop
+      playsInline
       style={{
         width: '100%',
         aspectRatio: ratio,

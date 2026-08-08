@@ -64,4 +64,38 @@ for (const p of PHOTOS) {
   }
 }
 
-console.log('\nGata! Rulează `npm run build` ca pozele să intre în site.');
+/* Clipuri video de fundal (rulează pe mut, în buclă, în secțiunile-cheie) */
+const VID_OUT = path.join(process.cwd(), 'public', 'videos');
+fs.mkdirSync(VID_OUT, { recursive: true });
+
+const VIDEOS = [
+  { name: 'editare', query: 'video editing timeline computer' },
+  { name: 'filmare', query: 'camera filming behind the scenes' },
+];
+
+for (const v of VIDEOS) {
+  try {
+    const res = await fetch(
+      `https://api.pexels.com/videos/search?query=${encodeURIComponent(v.query)}&per_page=1&orientation=landscape`,
+      { headers: { Authorization: KEY } }
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const video = data.videos?.[0];
+    if (!video) throw new Error('niciun rezultat');
+    // alegem un fișier mp4 de dimensiune moderată (site-ul să rămână rapid)
+    const files = (video.video_files || [])
+      .filter(f => f.file_type === 'video/mp4' && f.width)
+      .sort((a, b) => a.width - b.width);
+    const file = files.find(f => f.width >= 960 && f.width <= 1400) || files[files.length - 1];
+    if (!file) throw new Error('fără fișier mp4');
+    const vidRes = await fetch(file.link);
+    if (!vidRes.ok) throw new Error(`descărcare HTTP ${vidRes.status}`);
+    fs.writeFileSync(path.join(VID_OUT, `${v.name}.mp4`), Buffer.from(await vidRes.arrayBuffer()));
+    console.log(`✔ videos/${v.name}.mp4  (${file.width}x${file.height}, de: ${video.user?.name} / Pexels)`);
+  } catch (err) {
+    console.warn(`⚠ video ${v.name}: ${err.message}`);
+  }
+}
+
+console.log('\nGata! Rulează `npm run build` ca pozele și clipurile să intre în site.');

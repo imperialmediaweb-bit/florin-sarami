@@ -120,20 +120,17 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: min(1180px, 92%); margin-inline: auto; }
 
-/* Logo pe „pastilă" albă, ca pe materialele de brand */
+/* Logo simplu, fără fundal — tema deschisă îl lasă să respire */
 .logo-pill {
   display: inline-flex; align-items: center;
-  background: #fff; border-radius: 999px; padding: 8px 20px 8px 12px;
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 24px -12px rgba(29, 78, 216, .35);
-  transition: transform .25s, box-shadow .25s;
+  transition: transform .25s;
 }
-.logo-pill:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -12px rgba(29, 78, 216, .5); }
-/* multiply face ca un PNG cu fundal alb/deschis să se topească în pastila albă */
-.logo-pill img { mix-blend-mode: multiply; border-radius: 999px; }
-.nav-logo img { height: 42px; width: auto; }
+.logo-pill:hover { transform: translateY(-2px); }
+/* multiply face ca un PNG cu fundal alb/deschis să dispară pe fundalul deschis */
+.logo-pill img { mix-blend-mode: multiply; }
+.nav-logo img { height: 50px; width: auto; }
 .footer-brand .logo-pill { margin-bottom: 18px; }
-.footer-brand .logo-pill img { height: 42px; margin-bottom: 0; }
+.footer-brand .logo-pill img { height: 48px; margin-bottom: 0; }
 
 .nav-links { display: flex; align-items: center; gap: 6px; }
 .nav-links a {
