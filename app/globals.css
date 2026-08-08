@@ -120,35 +120,45 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: var(--nav-h);
   display: flex; align-items: center;
-  transition: background .35s, box-shadow .35s, backdrop-filter .35s;
+  /* fundal alb permanent — logo-ul albastru se citește mereu perfect */
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  transition: box-shadow .35s;
 }
 .nav.scrolled {
-  background: var(--glass);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 8px 30px -16px rgba(29, 78, 216, .35);
-  border-bottom: 1px solid var(--line);
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: min(1180px, 92%); margin-inline: auto; }
 
-/* Logo simplu, fără fundal — tema deschisă îl lasă să respire */
-.logo-pill {
-  display: inline-flex; align-items: center;
-  transition: transform .25s;
-}
+/* Logo: pasărea reală + wordmark HTML — clar la orice dimensiune */
+.logo-pill { display: inline-flex; align-items: center; transition: transform .25s; }
 .logo-pill:hover { transform: translateY(-2px); }
-/* multiply face ca un PNG cu fundal alb/deschis să dispară pe fundalul deschis */
-.logo-pill img { mix-blend-mode: multiply; }
-/* logo mare; scale compensează spațiul alb din jurul graficii din PNG;
-   halou alb ca textul albastru închis să se citească pe fundalul colorat */
-.nav-logo img {
-  height: 96px; width: auto; transform-origin: left center; transform: scale(1.35);
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, .95)) drop-shadow(0 0 26px rgba(255, 255, 255, .8));
+.logo-lockup { display: inline-flex; align-items: center; gap: 12px; }
+.logo-lockup img {
+  height: 62px; width: auto;
+  mix-blend-mode: multiply; /* fundalul alb/deschis al PNG-ului dispare */
+  filter: drop-shadow(0 4px 10px rgba(29, 78, 216, .25));
 }
-.logo-pill:hover .nav-logo img, .nav-logo:hover img { transform: scale(1.4); }
-@media (max-width: 640px) { .nav-logo img { height: 62px; transform: scale(1.2); } }
+.logo-word {
+  font-family: var(--font-head); font-style: italic; font-weight: 800;
+  font-size: 2rem; letter-spacing: -.02em; line-height: 1; white-space: nowrap;
+  color: var(--blue-800);
+}
+.logo-word b {
+  font-weight: 800;
+  background: var(--grad-text);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@media (max-width: 640px) {
+  .logo-lockup img { height: 44px; }
+  .logo-word { font-size: 1.4rem; }
+}
 .footer-brand .logo-pill { margin-bottom: 18px; }
-.footer-brand .logo-pill img { height: 84px; margin-bottom: 0; transform-origin: left center; transform: scale(1.25); }
+.footer-brand .logo-lockup img { height: 48px; }
+.footer-brand .logo-word { font-size: 1.5rem; }
 
 .nav-links { display: flex; align-items: center; gap: 6px; }
 .nav-links a {

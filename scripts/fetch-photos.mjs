@@ -41,22 +41,39 @@ const PIXABAY = process.env.PIXABAY_API_KEY;
    Întâi varianta cu fundal transparent + margini tăiate; dacă transformarea nu
    e disponibilă, cade pe imaginea originală (multiply în CSS ascunde fundalul alb).
    Dacă pui manual public/assets/logo.png, fișierul tău are prioritate și nu e atins. */
-const LOGO_DEST = path.join(process.cwd(), 'public', 'assets', 'logo.png');
-const LOGO_URLS = [
-  'https://res.cloudinary.com/kaz6teok/image/upload/e_trim:10/e_make_transparent:20/h_220,c_fit/v1786184469/Screenshot_1049_mdo29q.png',
-  'https://res.cloudinary.com/kaz6teok/image/upload/v1786184469/Screenshot_1049_mdo29q.png',
+const LOGO_BASE = 'https://res.cloudinary.com/kaz6teok/image/upload';
+const LOGO_ID = 'v1786184469/Screenshot_1049_mdo29q.png';
+const LOGO_FILES = [
+  {
+    dest: path.join(process.cwd(), 'public', 'assets', 'logo.png'),
+    urls: [
+      `${LOGO_BASE}/e_trim:10/e_make_transparent:20/h_220,c_fit/${LOGO_ID}`,
+      `${LOGO_BASE}/${LOGO_ID}`,
+    ],
+    label: 'assets/logo.png',
+  },
+  {
+    // doar pasărea (stânga imaginii) — folosită în ansamblul logo + text HTML
+    dest: path.join(process.cwd(), 'public', 'assets', 'logo-bird.png'),
+    urls: [
+      `${LOGO_BASE}/c_crop,g_west,w_0.36,h_1.0/e_trim:10/e_make_transparent:20/h_220,c_fit/${LOGO_ID}`,
+      `${LOGO_BASE}/e_trim:10/e_make_transparent:20/h_220,c_fit/${LOGO_ID}`,
+    ],
+    label: 'assets/logo-bird.png',
+  },
 ];
-if (!fs.existsSync(LOGO_DEST)) {
-  for (const url of LOGO_URLS) {
+for (const f of LOGO_FILES) {
+  if (fs.existsSync(f.dest)) continue; // fișierul pus manual are prioritate
+  for (const url of f.urls) {
     try {
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      fs.mkdirSync(path.dirname(LOGO_DEST), { recursive: true });
-      fs.writeFileSync(LOGO_DEST, Buffer.from(await res.arrayBuffer()));
-      console.log(`✔ assets/logo.png descărcat (${url.includes('e_trim') ? 'variantă transparentă' : 'original'})`);
+      fs.mkdirSync(path.dirname(f.dest), { recursive: true });
+      fs.writeFileSync(f.dest, Buffer.from(await res.arrayBuffer()));
+      console.log(`✔ ${f.label} descărcat`);
       break;
     } catch (err) {
-      console.warn(`⚠ logo (${url.slice(0, 60)}...): ${err.message}`);
+      console.warn(`⚠ ${f.label} (${url.slice(0, 60)}...): ${err.message}`);
     }
   }
 }

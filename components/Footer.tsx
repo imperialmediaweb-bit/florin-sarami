@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <span className="logo-pill"><Logo height={42} /></span>
+            <span className="logo-pill"><Logo /></span>
             <p>Transformăm filmările tale în videoclipuri care atrag atenția, iar ideile tale în conținut care face diferența.</p>
           </div>
           <div>

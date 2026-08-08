@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import MediaCard from './MediaCard';
 import { ArrowIcon, MockDoc, MockPlayer } from './Visuals';
 
 const INTERVAL = 6500;
@@ -43,7 +44,12 @@ export default function HeroSlider() {
             </div>
           </div>
           <div className="hero-visual">
-            <MockPlayer />
+            <MediaCard
+              video="editare"
+              tag="Live din editor"
+              title="Montaj & post-producție"
+              fallback={<MockPlayer />}
+            />
             <div className="float-chip p1">🎬 Montaj &amp; efecte vizuale</div>
             <div className="float-chip p2">✨ Corecții de culoare</div>
           </div>
