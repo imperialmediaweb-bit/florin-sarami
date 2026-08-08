@@ -96,5 +96,35 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, emailSent: false });
   }
 
+  // confirmare automată către client (dacă eșuează, nu blocăm nimic)
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: process.env.RESEND_FROM || 'Sarami Media <onboarding@resend.dev>',
+        to: [email],
+        reply_to: process.env.CONTACT_TO || 'contact@sarami.ro',
+        subject: 'Am primit mesajul tău — Sarami Media',
+        text: [
+          `Bună, ${nume.split(' ')[0]}!`,
+          '',
+          formular === 'Contact'
+            ? 'Îți confirmăm că am primit mesajul tău.'
+            : `Îți confirmăm că am primit brief-ul tău pentru ${serviciu.toLowerCase()}.`,
+          'Îl analizăm și revenim cu un răspuns — de obicei în aceeași zi lucrătoare.',
+          '',
+          'Dacă între timp vrei să adaugi ceva, răspunde direct la acest email.',
+          '',
+          'O zi bună,',
+          'Echipa Sarami Media',
+          'sarami.ro • contact@sarami.ro',
+        ].join('\n'),
+      }),
+    });
+  } catch (err) {
+    console.error('Confirmarea către client a eșuat:', err);
+  }
+
   return NextResponse.json({ ok: true, emailSent: true });
 }
