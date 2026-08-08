@@ -6,11 +6,15 @@ export default function CtaBand({
   text,
   label = 'Contactează-ne',
   href = '/contact',
+  secondLabel,
+  secondHref,
 }: {
   title: string;
   text: string;
   label?: string;
   href?: string;
+  secondLabel?: string;
+  secondHref?: string;
 }) {
   return (
     <section className="section">
@@ -18,9 +22,16 @@ export default function CtaBand({
         <div className="cta-band reveal">
           <h2 className="h-lg">{title}</h2>
           <p>{text}</p>
-          <Link href={href} className="btn">
-            {label} <ArrowIcon />
-          </Link>
+          <div className="btn-row">
+            <Link href={href} className="btn">
+              {label} <ArrowIcon />
+            </Link>
+            {secondLabel && secondHref && (
+              <Link href={secondHref} className="btn btn-outline-light">
+                {secondLabel}
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </section>

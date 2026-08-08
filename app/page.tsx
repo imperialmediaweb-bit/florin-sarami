@@ -262,9 +262,12 @@ export default function HomePage() {
       <LatestPosts />
 
       <CtaBand
-        title="Ai un proiect? Contactează-ne!"
-        text="Suntem gata să transformăm materialele tale într-un conținut care face diferența. Prețuri corecte, adaptate fiecărui proiect."
-        label="Hai să vorbim"
+        title="Ai un proiect? Cere oferta în 2 minute!"
+        text="Completează brief-ul potrivit și primești o ofertă corectă, adaptată proiectului — de obicei în aceeași zi lucrătoare."
+        label="🎬 Brief editare video"
+        href="/brief-video"
+        secondLabel="✍️ Brief redactare conținut"
+        secondHref="/brief-continut"
       />
     </>
   );
