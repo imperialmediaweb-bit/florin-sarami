@@ -2,12 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
 import Faq from '@/components/Faq';
+import { getSettings } from '@/lib/settings';
 
 export const metadata: Metadata = {
   title: 'Contact',
   description:
     'Contactează Sarami Media pentru editare video și redactare de conținut. Trimite-ne un mesaj și primești rapid o ofertă personalizată.',
 };
+
+// datele de contact se administrează din /admin → Setări și apar instant
+export const dynamic = 'force-dynamic';
 
 const INFO_FAQ = [
   {
@@ -25,6 +29,7 @@ const INFO_FAQ = [
 ];
 
 export default function ContactPage() {
+  const s = getSettings();
   return (
     <>
       <section className="page-hero">
@@ -60,7 +65,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <b>Email</b>
-                      <a href="mailto:contact@sarami.ro">contact@sarami.ro</a>
+                      <a href={`mailto:${s.email}`}>{s.email}</a>
                     </div>
                   </div>
                 </div>
@@ -71,8 +76,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <b>Telefon</b>
-                      {/* Înlocuiește cu numărul real de telefon */}
-                      <a href="tel:+40700000000">+40 7xx xxx xxx</a>
+                      <a href={`tel:${s.telefon.replace(/\s/g, '')}`}>{s.telefon}</a>
                     </div>
                   </div>
                 </div>
@@ -83,12 +87,11 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <b>Date firmă</b>
-                      {/* Înlocuiește cu datele reale ale firmei */}
                       <span>
-                        SARAMI MEDIA S.R.L.<br />
-                        CUI: ROxxxxxxxx<br />
-                        Reg. Com.: Jxx/xxxx/20xx<br />
-                        Sediu: Str. Exemplu nr. 1, Oraș, România
+                        {s.firma}<br />
+                        CUI: {s.cui}<br />
+                        Reg. Com.: {s.regcom}<br />
+                        Sediu: {s.adresa}
                       </span>
                     </div>
                   </div>
@@ -100,7 +103,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <b>Program</b>
-                      <span>Luni – Vineri: 09:00 – 18:00<br />Răspundem rapid și în weekend la mesaje.</span>
+                      <span>{s.program}<br />Răspundem rapid și în weekend la mesaje.</span>
                     </div>
                   </div>
                 </div>

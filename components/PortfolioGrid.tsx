@@ -9,6 +9,7 @@ const CATS: { key: 'toate' | FolioItem['cat']; label: string }[] = [
   { key: 'promo', label: 'Promoționale' },
   { key: 'podcast', label: 'Podcasturi' },
   { key: 'eveniment', label: 'Evenimente' },
+  { key: 'redactare', label: 'Redactare conținut' },
 ];
 
 const GRADIENTS = [
@@ -49,6 +50,12 @@ export default function PortfolioGrid({ items }: { items: FolioItem[] }) {
                   loading="lazy"
                 />
               </div>
+            ) : item.link ? (
+              <a href={item.link} target="_blank" rel="noopener noreferrer">
+                <div className="folio-media placeholder" style={{ background: GRADIENTS[i % GRADIENTS.length] }}>
+                  <span style={{ fontSize: '2.6rem' }}>📝</span>
+                </div>
+              </a>
             ) : (
               <div className="folio-media placeholder" style={{ background: GRADIENTS[i % GRADIENTS.length] }}>
                 <div className="mock-play"></div>
@@ -56,7 +63,7 @@ export default function PortfolioGrid({ items }: { items: FolioItem[] }) {
             )}
             <div className="folio-body">
               <span className="folio-tag">{CATS.find(c => c.key === item.cat)?.label || item.cat}</span>
-              <h3>{item.title}</h3>
+              <h3>{item.link ? <a href={item.link} target="_blank" rel="noopener noreferrer">{item.title} ↗</a> : item.title}</h3>
               <span>{item.desc}</span>
             </div>
           </article>

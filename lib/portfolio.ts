@@ -4,11 +4,13 @@ import { dataDir } from './storage';
 
 export type FolioItem = {
   id: string;
-  cat: 'social' | 'promo' | 'podcast' | 'eveniment';
+  cat: 'social' | 'promo' | 'podcast' | 'eveniment' | 'redactare';
   title: string;
   desc: string;
   /** ID-ul clipului YouTube (ex: abc123XYZ). Gol = placeholder cu gradient. */
   videoId?: string;
+  /** Link extern (ex: articolul publicat) — folosit la lucrările de redactare. */
+  link?: string;
 };
 
 export const FOLIO_CATS: { key: FolioItem['cat']; label: string }[] = [
@@ -16,6 +18,7 @@ export const FOLIO_CATS: { key: FolioItem['cat']; label: string }[] = [
   { key: 'promo', label: 'Promoționale' },
   { key: 'podcast', label: 'Podcasturi' },
   { key: 'eveniment', label: 'Evenimente' },
+  { key: 'redactare', label: 'Redactare conținut' },
 ];
 
 export const folioCatLabel = (key: string) =>

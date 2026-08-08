@@ -28,10 +28,11 @@ type Message = {
 
 type FolioItem = {
   id: string;
-  cat: 'social' | 'promo' | 'podcast' | 'eveniment';
+  cat: 'social' | 'promo' | 'podcast' | 'eveniment' | 'redactare';
   title: string;
   desc: string;
   videoId?: string;
+  link?: string;
 };
 
 const FOLIO_CATS = [
@@ -39,10 +40,14 @@ const FOLIO_CATS = [
   { key: 'promo', label: 'Promoționale' },
   { key: 'podcast', label: 'Podcasturi' },
   { key: 'eveniment', label: 'Evenimente' },
+  { key: 'redactare', label: 'Redactare conținut' },
 ] as const;
 
+type Testimonial = { id: string; name: string; role: string; text: string };
+
 const EMPTY: Post = { slug: '', title: '', date: '', category: '', excerpt: '', contentHtml: '', image: '' };
-const EMPTY_FOLIO: FolioItem = { id: '', cat: 'social', title: '', desc: '', videoId: '' };
+const EMPTY_FOLIO: FolioItem = { id: '', cat: 'social', title: '', desc: '', videoId: '', link: '' };
+const EMPTY_TESTI: Testimonial = { id: '', name: '', role: '', text: '' };
 
 const slugify = (s: string) =>
   s
@@ -61,7 +66,7 @@ const parseYoutubeId = (input: string): string => {
 };
 
 export default function AdminPage() {
-  const [view, setView] = useState<'login' | 'articole' | 'editor' | 'portofoliu' | 'mesaje'>('login');
+  const [view, setView] = useState<'login' | 'acasa' | 'articole' | 'editor' | 'portofoliu' | 'testimoniale' | 'mesaje' | 'setari'>('login');
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
@@ -76,6 +81,9 @@ export default function AdminPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [folio, setFolio] = useState<FolioItem[]>([]);
   const [folioEdit, setFolioEdit] = useState<FolioItem | null>(null);
+  const [testi, setTesti] = useState<Testimonial[]>([]);
+  const [testiEdit, setTestiEdit] = useState<Testimonial | null>(null);
+  const [settings, setSettings] = useState<Record<string, string>>({});
 
   const [replyFor, setReplyFor] = useState<string | null>(null);
   const [replySubject, setReplySubject] = useState('');
@@ -101,14 +109,37 @@ export default function AdminPage() {
     setFolio((await res.json()).items || []);
   }, []);
 
+  const loadSettings = useCallback(async () => {
+    const res = await fetch('/api/admin/settings/');
+    if (res.status === 401) { setView('login'); return; }
+    setSettings((await res.json()).settings || {});
+  }, []);
+
   useEffect(() => {
-    loadPosts().then(ok => { if (ok) setView('articole'); }).catch(() => setView('login'));
+    loadPosts().then(ok => {
+      if (ok) {
+        setView('acasa');
+        // încarcă restul datelor pentru statisticile de pe Acasă
+        loadMessages().catch(() => {});
+        loadFolio().catch(() => {});
+        loadTesti().catch(() => {});
+        loadSettings().catch(() => {});
+      }
+    }).catch(() => setView('login'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadPosts]);
+
+  const loadTesti = useCallback(async () => {
+    const res = await fetch('/api/admin/testimonials/');
+    if (res.status === 401) { setView('login'); return; }
+    setTesti((await res.json()).items || []);
+  }, []);
 
   useEffect(() => {
     if (view === 'mesaje') loadMessages().catch(() => {});
     if (view === 'portofoliu') loadFolio().catch(() => {});
-  }, [view, loadMessages, loadFolio]);
+    if (view === 'testimoniale') loadTesti().catch(() => {});
+  }, [view, loadMessages, loadFolio, loadTesti]);
 
   const go = (v: typeof view) => { setNotice(''); setError(''); setView(v); };
 
@@ -236,6 +267,47 @@ export default function AdminPage() {
     saveFolio(items);
   };
 
+  /* ---------- testimoniale ---------- */
+  async function saveTesti(items: Testimonial[]) {
+    setBusy(true);
+    setError('');
+    try {
+      const res = await fetch('/api/admin/testimonials/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Salvarea a eșuat.');
+      setTesti(items);
+      setTestiEdit(null);
+      setNotice('✅ Testimonialele sunt actualizate pe site chiar acum.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Salvarea a eșuat.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function submitTestiEdit(e: FormEvent) {
+    e.preventDefault();
+    if (!testiEdit) return;
+    if (!testiEdit.name.trim() || !testiEdit.text.trim()) { setError('Numele și textul sunt obligatorii.'); return; }
+    const exists = testi.some(t => t.id === testiEdit.id);
+    const items = exists
+      ? testi.map(t => (t.id === testiEdit.id ? testiEdit : t))
+      : [...testi, { ...testiEdit, id: `testi-${Date.now()}` }];
+    saveTesti(items);
+  }
+
+  const moveTesti = (idx: number, dir: -1 | 1) => {
+    const items = [...testi];
+    const j = idx + dir;
+    if (j < 0 || j >= items.length) return;
+    [items[idx], items[j]] = [items[j], items[idx]];
+    saveTesti(items);
+  };
+
   /* ---------- mesaje ---------- */
   async function onDeleteMessage(id: string) {
     if (!confirm('Ștergi acest mesaj?')) return;
@@ -309,9 +381,12 @@ export default function AdminPage() {
         {/* Meniul lateral */}
         <aside className="admin-side">
           <div className="admin-brand">Sarami <span>Admin</span></div>
+          <button className={view === 'acasa' ? 'on' : ''} onClick={() => go('acasa')}>🏠 Acasă</button>
           <button className={view === 'articole' || view === 'editor' ? 'on' : ''} onClick={() => go('articole')}>📚 Articole</button>
           <button className={view === 'portofoliu' ? 'on' : ''} onClick={() => go('portofoliu')}>🎬 Portofoliu</button>
+          <button className={view === 'testimoniale' ? 'on' : ''} onClick={() => go('testimoniale')}>⭐ Testimoniale</button>
           <button className={view === 'mesaje' ? 'on' : ''} onClick={() => go('mesaje')}>✉️ Mesaje &amp; Briefuri</button>
+          <button className={view === 'setari' ? 'on' : ''} onClick={() => go('setari')}>⚙️ Setări</button>
           <div className="admin-side-bottom">
             <a href="/" target="_blank" rel="noopener noreferrer">🌐 Vezi site-ul</a>
             <button onClick={onLogout}>🚪 Ieși din cont</button>
@@ -322,6 +397,47 @@ export default function AdminPage() {
         <main className="admin-main">
           {notice && <p style={{ color: '#059669', fontWeight: 600, marginBottom: 16 }}>{notice}</p>}
           {error && view !== 'editor' && <p style={{ color: '#dc2626', fontWeight: 600, marginBottom: 16 }}>⚠ {error}</p>}
+
+          {/* ---- ACASĂ (dashboard clienți) ---- */}
+          {view === 'acasa' && (
+            <>
+              <div className="admin-title">
+                <h1>🏠 Bine ai venit!</h1>
+                <button className="btn btn-ghost" onClick={() => { loadMessages(); loadFolio(); loadTesti(); }}>↻ Reîncarcă datele</button>
+              </div>
+              <div className="stats" style={{ marginBottom: 30 }}>
+                <button className="stat" style={{ cursor: 'pointer', border: '1px solid var(--line)', font: 'inherit' }} onClick={() => go('mesaje')}>
+                  <b>{messages.filter(m => m.formular !== 'Contact').length}</b><span>📋 Briefuri primite</span>
+                </button>
+                <button className="stat" style={{ cursor: 'pointer', border: '1px solid var(--line)', font: 'inherit' }} onClick={() => go('mesaje')}>
+                  <b>{messages.filter(m => m.formular === 'Contact').length}</b><span>💬 Mesaje de contact</span>
+                </button>
+                <button className="stat" style={{ cursor: 'pointer', border: '1px solid var(--line)', font: 'inherit' }} onClick={() => go('portofoliu')}>
+                  <b>{folio.filter(f => f.videoId || f.link).length}</b><span>🎬 Lucrări în portofoliu</span>
+                </button>
+                <button className="stat" style={{ cursor: 'pointer', border: '1px solid var(--line)', font: 'inherit' }} onClick={() => go('testimoniale')}>
+                  <b>{testi.length}</b><span>⭐ Testimoniale</span>
+                </button>
+              </div>
+
+              <div className="admin-title"><h1 style={{ fontSize: '1.15rem' }}>Ultimele mesaje de la clienți</h1></div>
+              {messages.length === 0 ? (
+                <p style={{ color: 'var(--text-faint)' }}>Niciun mesaj încă — când un client completează un brief sau formularul de contact, apare aici.</p>
+              ) : (
+                <div style={{ display: 'grid', gap: 10 }}>
+                  {messages.slice(0, 5).map(m => (
+                    <div className="admin-row" key={m.id} style={{ cursor: 'pointer' }} onClick={() => go('mesaje')}>
+                      <div style={{ minWidth: 0 }}>
+                        <b style={{ display: 'block', fontSize: '.95rem' }}>{m.formular === 'Contact' ? '💬' : '📋'} {m.nume} <span style={{ color: 'var(--text-faint)', fontWeight: 400 }}>• {m.serviciu || 'general'}</span></b>
+                        <span style={{ color: 'var(--text-faint)', fontSize: '.8rem' }}>{new Date(m.date).toLocaleString('ro-RO')} • {m.email}</span>
+                      </div>
+                      <span style={{ color: 'var(--blue-600)', fontWeight: 600, fontSize: '.85rem' }}>Deschide →</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
 
           {/* ---- ARTICOLE ---- */}
           {view === 'articole' && (
@@ -426,10 +542,17 @@ export default function AdminPage() {
                           {FOLIO_CATS.map(c => <option key={c.key} value={c.key}>{c.label}</option>)}
                         </select>
                       </div>
-                      <div className="form-field full">
-                        <label>Link YouTube (sau doar ID-ul clipului)</label>
-                        <input value={folioEdit.videoId || ''} onChange={e => setFolioEdit(f => f && { ...f, videoId: e.target.value })} placeholder="https://www.youtube.com/watch?v=..." />
-                      </div>
+                      {folioEdit.cat === 'redactare' ? (
+                        <div className="form-field full">
+                          <label>Link către articolul publicat (unde poate fi citit)</label>
+                          <input value={folioEdit.link || ''} onChange={e => setFolioEdit(f => f && { ...f, link: e.target.value, videoId: '' })} placeholder="https://site-client.ro/articolul-scris-de-noi" />
+                        </div>
+                      ) : (
+                        <div className="form-field full">
+                          <label>Link YouTube (sau doar ID-ul clipului)</label>
+                          <input value={folioEdit.videoId || ''} onChange={e => setFolioEdit(f => f && { ...f, videoId: e.target.value, link: '' })} placeholder="https://www.youtube.com/watch?v=..." />
+                        </div>
+                      )}
                       <div className="form-field full">
                         <label>Descriere scurtă</label>
                         <input value={folioEdit.desc} onChange={e => setFolioEdit(f => f && { ...f, desc: e.target.value })} placeholder="ex: Montaj multi-cameră cu subtitrări dinamice" />
@@ -461,6 +584,127 @@ export default function AdminPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </>
+          )}
+
+          {/* ---- TESTIMONIALE ---- */}
+          {view === 'testimoniale' && (
+            <>
+              <div className="admin-title">
+                <h1>⭐ Testimoniale ({testi.length})</h1>
+                <button className="btn btn-primary" onClick={() => { setError(''); setTestiEdit({ ...EMPTY_TESTI }); }}>+ Adaugă testimonial</button>
+              </div>
+
+              {testiEdit && (
+                <div className="admin-card" style={{ marginBottom: 20 }}>
+                  <h3 className="h-md" style={{ marginBottom: 16 }}>{testi.some(t => t.id === testiEdit.id) ? 'Editează testimonialul' : 'Testimonial nou'}</h3>
+                  <form onSubmit={submitTestiEdit}>
+                    <div className="form-grid">
+                      <div className="form-field">
+                        <label>Nume client *</label>
+                        <input value={testiEdit.name} onChange={e => setTestiEdit(t => t && { ...t, name: e.target.value })} required placeholder="ex: Andreea M." />
+                      </div>
+                      <div className="form-field">
+                        <label>Firma / rolul</label>
+                        <input value={testiEdit.role} onChange={e => setTestiEdit(t => t && { ...t, role: e.target.value })} placeholder="ex: Magazin online fashion" />
+                      </div>
+                      <div className="form-field full">
+                        <label>Textul testimonialului *</label>
+                        <textarea style={{ minHeight: 110 }} value={testiEdit.text} onChange={e => setTestiEdit(t => t && { ...t, text: e.target.value })} required />
+                      </div>
+                    </div>
+                    {error && <p style={{ color: '#dc2626', fontSize: '.9rem', marginTop: 12 }}>⚠ {error}</p>}
+                    <div className="btn-row mt-2">
+                      <button className="btn btn-primary" disabled={busy}>{busy ? 'Se salvează...' : '💾 Salvează'}</button>
+                      <button type="button" className="btn btn-ghost" onClick={() => setTestiEdit(null)}>Renunță</button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              <div style={{ display: 'grid', gap: 10 }}>
+                {testi.map((t, i) => (
+                  <div className="admin-row" key={t.id}>
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <b style={{ display: 'block', fontSize: '.96rem' }}>{t.name} <span style={{ color: 'var(--text-faint)', fontWeight: 400 }}>• {t.role}</span></b>
+                      <span style={{ color: 'var(--text-dim)', fontSize: '.85rem' }}>{t.text.slice(0, 120)}{t.text.length > 120 ? '…' : ''}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+                      <button className="btn btn-ghost" style={{ padding: '8px 12px', fontSize: '.85rem' }} onClick={() => moveTesti(i, -1)} disabled={busy || i === 0}>↑</button>
+                      <button className="btn btn-ghost" style={{ padding: '8px 12px', fontSize: '.85rem' }} onClick={() => moveTesti(i, 1)} disabled={busy || i === testi.length - 1}>↓</button>
+                      <button className="btn btn-ghost" style={{ padding: '8px 16px', fontSize: '.85rem' }} onClick={() => { setError(''); setTestiEdit({ ...t }); }}>Editează</button>
+                      <button className="btn btn-ghost" style={{ padding: '8px 16px', fontSize: '.85rem', color: '#dc2626', borderColor: 'rgba(220,38,38,.4)' }} onClick={() => { if (confirm(`Ștergi testimonialul de la „${t.name}"?`)) saveTesti(testi.filter(x => x.id !== t.id)); }} disabled={busy}>Șterge</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* ---- SETĂRI ---- */}
+          {view === 'setari' && (
+            <>
+              <div className="admin-title"><h1>⚙️ Setări site</h1></div>
+              <div className="admin-card" style={{ maxWidth: 720 }}>
+                <p style={{ color: 'var(--text-dim)', fontSize: '.92rem', marginBottom: 18 }}>
+                  Datele de mai jos apar pe pagina de Contact a site-ului — modificările sunt live instant.
+                </p>
+                <form
+                  onSubmit={async e => {
+                    e.preventDefault();
+                    setBusy(true);
+                    setError('');
+                    try {
+                      const res = await fetch('/api/admin/settings/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(settings),
+                      });
+                      if (!res.ok) throw new Error('Salvarea a eșuat.');
+                      setNotice('✅ Setările sunt live pe site.');
+                    } catch (err) {
+                      setError(err instanceof Error ? err.message : 'Salvarea a eșuat.');
+                    } finally {
+                      setBusy(false);
+                    }
+                  }}
+                >
+                  <div className="form-grid">
+                    <div className="form-field">
+                      <label>Telefon</label>
+                      <input value={settings.telefon || ''} onChange={e => setSettings(s => ({ ...s, telefon: e.target.value }))} placeholder="+40 7xx xxx xxx" />
+                    </div>
+                    <div className="form-field">
+                      <label>Email de contact</label>
+                      <input value={settings.email || ''} onChange={e => setSettings(s => ({ ...s, email: e.target.value }))} placeholder="contact@sarami.ro" />
+                    </div>
+                    <div className="form-field">
+                      <label>Numele firmei</label>
+                      <input value={settings.firma || ''} onChange={e => setSettings(s => ({ ...s, firma: e.target.value }))} placeholder="SARAMI MEDIA S.R.L." />
+                    </div>
+                    <div className="form-field">
+                      <label>CUI</label>
+                      <input value={settings.cui || ''} onChange={e => setSettings(s => ({ ...s, cui: e.target.value }))} placeholder="ROxxxxxxxx" />
+                    </div>
+                    <div className="form-field">
+                      <label>Reg. Com.</label>
+                      <input value={settings.regcom || ''} onChange={e => setSettings(s => ({ ...s, regcom: e.target.value }))} placeholder="Jxx/xxxx/20xx" />
+                    </div>
+                    <div className="form-field">
+                      <label>Program</label>
+                      <input value={settings.program || ''} onChange={e => setSettings(s => ({ ...s, program: e.target.value }))} placeholder="Luni – Vineri: 09:00 – 18:00" />
+                    </div>
+                    <div className="form-field full">
+                      <label>Adresa sediului</label>
+                      <input value={settings.adresa || ''} onChange={e => setSettings(s => ({ ...s, adresa: e.target.value }))} placeholder="Str. ..., Oraș, România" />
+                    </div>
+                  </div>
+                  {error && <p style={{ color: '#dc2626', fontSize: '.9rem', marginTop: 12 }}>⚠ {error}</p>}
+                  <div className="btn-row mt-2">
+                    <button className="btn btn-primary" disabled={busy}>{busy ? 'Se salvează...' : '💾 Salvează setările'}</button>
+                  </div>
+                </form>
               </div>
             </>
           )}

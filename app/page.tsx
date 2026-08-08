@@ -6,6 +6,10 @@ import Faq from '@/components/Faq';
 import LatestPosts from '@/components/LatestPosts';
 import MediaCard from '@/components/MediaCard';
 import { ArrowIcon, MockDoc } from '@/components/Visuals';
+import { getTestimonials } from '@/lib/testimonials';
+
+// testimonialele și articolele administrate din /admin apar instant
+export const dynamic = 'force-dynamic';
 
 const VIDEO_SERVICES = [
   {
@@ -239,7 +243,7 @@ export default function HomePage() {
             <span className="eyebrow">Testimoniale</span>
             <h2 className="h-lg">Ce spun <span className="grad-text">clienții noștri</span></h2>
           </div>
-          <Testimonials />
+          <Testimonials items={getTestimonials()} />
         </div>
       </section>
 

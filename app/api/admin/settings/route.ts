@@ -1,0 +1,37 @@
+import { NextResponse } from 'next/server';
+import { isAuthorized } from '@/lib/admin';
+import { getSettings, saveSettings } from '@/lib/settings';
+import type { SiteSettings } from '@/lib/settings';
+
+export const dynamic = 'force-dynamic';
+
+export async function GET(req: Request) {
+  if (!isAuthorized(req)) {
+    return NextResponse.json({ error: 'Neautorizat.' }, { status: 401 });
+  }
+  return NextResponse.json({ settings: getSettings() });
+}
+
+export async function POST(req: Request) {
+  if (!isAuthorized(req)) {
+    return NextResponse.json({ error: 'Neautorizat.' }, { status: 401 });
+  }
+  let data: Partial<SiteSettings>;
+  try {
+    data = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Cerere invalidă.' }, { status: 400 });
+  }
+  const current = getSettings();
+  const next: SiteSettings = {
+    telefon: String(data.telefon ?? current.telefon).trim(),
+    email: String(data.email ?? current.email).trim(),
+    firma: String(data.firma ?? current.firma).trim(),
+    cui: String(data.cui ?? current.cui).trim(),
+    regcom: String(data.regcom ?? current.regcom).trim(),
+    adresa: String(data.adresa ?? current.adresa).trim(),
+    program: String(data.program ?? current.program).trim(),
+  };
+  saveSettings(next);
+  return NextResponse.json({ ok: true });
+}
