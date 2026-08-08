@@ -3,6 +3,7 @@ import HeroSlider from '@/components/HeroSlider';
 import Testimonials from '@/components/Testimonials';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
+import Photo from '@/components/Photo';
 import { ArrowIcon, MockDoc } from '@/components/Visuals';
 
 const VIDEO_SERVICES = [
@@ -186,6 +187,17 @@ export default function HomePage() {
               <MockDoc />
               <div className="float-chip p1">📝 SEO friendly</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* În culise (poze — apar după `npm run fetch:photos`) */}
+      <section className="section-tight">
+        <div className="container">
+          <div className="cards-3">
+            <div className="reveal d1"><Photo name="video-editing" alt="Editare video profesională" /></div>
+            <div className="reveal d2"><Photo name="podcast" alt="Editare podcasturi" /></div>
+            <div className="reveal d3"><Photo name="social-media" alt="Clipuri pentru social media" /></div>
           </div>
         </div>
       </section>

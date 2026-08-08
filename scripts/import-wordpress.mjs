@@ -109,6 +109,9 @@ async function downloadLocally(url, slugHint) {
 }
 
 async function processImage(url, slugHint) {
+  // SKIP_IMAGES=1 → sare procesarea imaginilor (rămân URL-urile originale);
+  // util când rulezi fără acces la internet — reimporți apoi cu imagini.
+  if (process.env.SKIP_IMAGES === '1') return null;
   try {
     return cloudinary ? await uploadToCloudinary(url, slugHint) : await downloadLocally(url, slugHint);
   } catch (err) {
@@ -476,7 +479,9 @@ if (redirects.length) {
     '# Generat de scripts/import-wordpress.mjs — NU șterge (protejează SEO).',
     '# Google urmează redirectul și transferă autoritatea paginilor vechi.',
     '# ============================================================',
-    ...redirects.map(r => `Redirect 301 ${r.from} https://sarami.ro${r.to}`),
+    // ținte relative (doar calea) → redirecturile merg identic pe orice domeniu
+    // (subdomeniu de test sau sarami.ro), fără modificări
+    ...redirects.map(r => `Redirect 301 ${r.from} ${r.to}`),
     '',
   ];
   fs.writeFileSync(HTACCESS, lines.join('\n'));

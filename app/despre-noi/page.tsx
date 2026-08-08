@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
+import Photo from '@/components/Photo';
 import { ArrowIcon } from '@/components/Visuals';
 
 export const metadata: Metadata = {
@@ -52,6 +53,13 @@ export default function DespreNoiPage() {
           <span className="eyebrow">Povestea noastră</span>
           <h1 className="h-xl">Creăm conținut <span className="grad-text">din 2020</span></h1>
           <p className="lead">Sarami Media a pornit dintr-o pasiune simplă: aceea de a spune povești care prind viață pe ecran și pe hârtie. Astăzi, ajutăm branduri din toată România să comunice mai bine.</p>
+        </div>
+      </section>
+
+      {/* Poza echipei (apare după `npm run fetch:photos`) */}
+      <section className="section-tight" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <div className="reveal in"><Photo name="team" alt="Echipa Sarami Media la lucru" ratio="21 / 8" /></div>
         </div>
       </section>
 

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
+import Photo from '@/components/Photo';
 import { ArrowIcon, MockPlayer } from '@/components/Visuals';
 
 export const metadata: Metadata = {
@@ -151,7 +152,7 @@ export default function EditareVideoPage() {
               </div>
             </div>
             <div className="reveal-right hero-visual">
-              <MockPlayer delay=".6s" screenStyle={{ background: 'linear-gradient(135deg,#16307a,#0ea5e9 70%,#7dd3fc 140%)' }} />
+              <Photo name="studio-camera" alt="Studio de filmare profesional" ratio="4 / 3.4" />
               <div className="float-chip p1">🎧 Audio &amp; muzică licențiată</div>
             </div>
           </div>
