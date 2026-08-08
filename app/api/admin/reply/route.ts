@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { isAuthorized } from '@/lib/admin';
+import { brandEmail, nl2br } from '@/lib/email';
 
 /** Trimite un răspuns (ofertă) către client, direct din panoul de admin. */
 export async function POST(req: Request) {
@@ -44,6 +45,16 @@ export async function POST(req: Request) {
         reply_to: process.env.CONTACT_TO || 'contact@sarami.ro',
         subject,
         text: `${text}\n\n—\nSarami Media • sarami.ro • contact@sarami.ro`,
+        html: brandEmail({
+          heading: subject,
+          preheader: text.slice(0, 90),
+          bodyHtml: `
+            <div style="margin:0 0 18px;">${nl2br(text)}</div>
+            <table cellpadding="0" cellspacing="0"><tr><td style="background:linear-gradient(135deg,#1d4ed8,#2563eb);background-color:#2563eb;border-radius:999px;">
+              <a href="https://sarami.ro" style="display:inline-block;padding:11px 26px;color:#ffffff;font-weight:700;font-size:13.5px;text-decoration:none;">Vizitează sarami.ro</a>
+            </td></tr></table>
+          `,
+        }),
       }),
     });
   } catch (err) {

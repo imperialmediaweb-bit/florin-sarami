@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
+import { brandEmail, fieldsTable, nl2br } from '@/lib/email';
 import { dataDir } from '@/lib/storage';
 
 /**
@@ -83,6 +84,22 @@ export async function POST(req: Request) {
         '',
         '— trimis de pe sarami.ro (consimțământ GDPR bifat)',
       ].join('\n'),
+      html: brandEmail({
+        heading: `${formular === 'Contact' ? '💬 Mesaj nou' : '📋 Brief nou'} — ${serviciu || 'general'}`,
+        preheader: `${nume}: ${mesaj.slice(0, 80)}`,
+        bodyHtml: `
+          ${fieldsTable([
+            ['Nume', nume],
+            ['Email', email],
+            ['Telefon', telefon || '—'],
+            ['Serviciu', serviciu || '—'],
+            ...Object.entries(extra).map(([k, v]) => [k, String(v).trim()] as [string, string]),
+          ])}
+          <p style="margin:16px 0 6px;font-weight:700;color:#16307a;">Mesajul:</p>
+          <div style="background:#f7faff;border-left:3px solid #2563eb;border-radius:8px;padding:14px 18px;">${nl2br(mesaj)}</div>
+          <p style="margin:18px 0 0;font-size:12px;color:#7d8fb0;">Trimis de pe sarami.ro • consimțământ GDPR bifat • poți răspunde direct la acest email.</p>
+        `,
+      }),
     }),
     });
   } catch (err) {
@@ -120,6 +137,23 @@ export async function POST(req: Request) {
           'Echipa Sarami Media',
           'sarami.ro • contact@sarami.ro',
         ].join('\n'),
+        html: brandEmail({
+          heading: `Bună, ${nume.split(' ')[0]}! Am primit ${formular === 'Contact' ? 'mesajul' : 'brief-ul'} tău 🎉`,
+          preheader: 'Revenim cu un răspuns de obicei în aceeași zi lucrătoare.',
+          bodyHtml: `
+            <p style="margin:0 0 14px;">${
+              formular === 'Contact'
+                ? 'Îți confirmăm că mesajul tău a ajuns la noi.'
+                : `Îți confirmăm că brief-ul tău pentru <strong style="color:#16307a;">${serviciu.toLowerCase()}</strong> a ajuns la noi.`
+            }</p>
+            <p style="margin:0 0 14px;">Îl analizăm cu atenție și revenim cu un răspuns — <strong style="color:#16307a;">de obicei în aceeași zi lucrătoare</strong>.</p>
+            <p style="margin:0 0 20px;">Dacă între timp vrei să adaugi ceva, răspunde direct la acest email.</p>
+            <table cellpadding="0" cellspacing="0"><tr><td style="background:linear-gradient(135deg,#1d4ed8,#2563eb);background-color:#2563eb;border-radius:999px;">
+              <a href="https://sarami.ro/portofoliu/" style="display:inline-block;padding:11px 26px;color:#ffffff;font-weight:700;font-size:13.5px;text-decoration:none;">▶ Vezi portofoliul nostru</a>
+            </td></tr></table>
+            <p style="margin:20px 0 0;color:#43587f;">O zi bună,<br><strong style="color:#16307a;">Echipa Sarami Media</strong></p>
+          `,
+        }),
       }),
     });
   } catch (err) {
