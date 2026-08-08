@@ -668,7 +668,8 @@ export default function AdminPage() {
               <div className="admin-title"><h1>⚙️ Setări site</h1></div>
               <div className="admin-card" style={{ maxWidth: 720 }}>
                 <p style={{ color: 'var(--text-dim)', fontSize: '.92rem', marginBottom: 18 }}>
-                  Datele de mai jos apar pe pagina de Contact a site-ului — modificările sunt live instant.
+                  Datele de mai jos apar pe pagina de Contact. Tot de aici pornești butonul de WhatsApp
+                  și bara de anunț de pe site — modificările sunt live instant.
                 </p>
                 <form
                   onSubmit={async e => {
@@ -718,6 +719,14 @@ export default function AdminPage() {
                     <div className="form-field full">
                       <label>Adresa sediului</label>
                       <input value={settings.adresa || ''} onChange={e => setSettings(s => ({ ...s, adresa: e.target.value }))} placeholder="Str. ..., Oraș, România" />
+                    </div>
+                    <div className="form-field">
+                      <label>WhatsApp — buton plutitor pe site (doar cifre, gol = ascuns)</label>
+                      <input value={settings.whatsapp || ''} onChange={e => setSettings(s => ({ ...s, whatsapp: e.target.value }))} placeholder="40723111222" />
+                    </div>
+                    <div className="form-field">
+                      <label>Anunț / promoție — bară sus pe site (gol = ascunsă)</label>
+                      <input value={settings.anunt || ''} onChange={e => setSettings(s => ({ ...s, anunt: e.target.value }))} placeholder="🎬 Ofertă: -20% la primul proiect video în august!" />
                     </div>
                   </div>
                   {error && <p style={{ color: '#dc2626', fontSize: '.9rem', marginTop: 12 }}>⚠ {error}</p>}

@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CookieBanner from '@/components/CookieBanner';
+import SiteExtras from '@/components/SiteExtras';
 import ScrollFx from '@/components/ScrollFx';
 import JsonLd, { ORGANIZATION, WEBSITE } from '@/components/JsonLd';
 
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main>{children}</main>
         <Footer />
         <CookieBanner />
+        <SiteExtras />
         <ScrollFx />
       </body>
     </html>

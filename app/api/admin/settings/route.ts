@@ -31,6 +31,8 @@ export async function POST(req: Request) {
     regcom: String(data.regcom ?? current.regcom).trim(),
     adresa: String(data.adresa ?? current.adresa).trim(),
     program: String(data.program ?? current.program).trim(),
+    whatsapp: String(data.whatsapp ?? current.whatsapp).replace(/[^0-9]/g, ''),
+    anunt: String(data.anunt ?? current.anunt).trim(),
   };
   saveSettings(next);
   return NextResponse.json({ ok: true });

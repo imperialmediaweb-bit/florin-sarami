@@ -10,6 +10,10 @@ export type SiteSettings = {
   regcom: string;
   adresa: string;
   program: string;
+  /** număr WhatsApp (ex: 40723111222, fără +) — completat → apare butonul plutitor */
+  whatsapp: string;
+  /** text promoțional — completat → apare bara de anunț sus pe site */
+  anunt: string;
 };
 
 const DEFAULTS: SiteSettings = {
@@ -20,6 +24,8 @@ const DEFAULTS: SiteSettings = {
   regcom: 'Jxx/xxxx/20xx',
   adresa: 'Str. Exemplu nr. 1, Oraș, România',
   program: 'Luni – Vineri: 09:00 – 18:00',
+  whatsapp: '',
+  anunt: '',
 };
 
 function fileFor(): string {
