@@ -322,9 +322,23 @@ export default function AdminPage() {
   }
 
   function startReply(m: Message) {
+    const prenume = m.nume.split(' ')[0];
+    const serviciu = (m.serviciu || 'proiectul tău').toLowerCase();
     setReplyFor(m.id);
     setReplySubject(`Oferta Sarami Media — ${m.serviciu || 'proiectul tău'}`);
-    setReplyText(`Bună, ${m.nume.split(' ')[0]}!\n\nMulțumim pentru mesaj. `);
+    setReplyText(
+      `Bună, ${prenume}!\n\n` +
+      `Mulțumim pentru încrederea acordată și pentru detaliile trimise — ne-au ajutat să înțelegem exact ce ai nevoie pentru ${serviciu}.\n\n` +
+      `Iată oferta noastră:\n\n` +
+      `• Ce livrăm: [descrie pe scurt livrabilele]\n` +
+      `• Termen de livrare: [ex: 3-5 zile lucrătoare]\n` +
+      `• Investiție: [preț] (include [nr] revizii)\n\n` +
+      `Cum lucrăm: după confirmare, ne apuci de treabă imediat și te ținem la curent pe tot parcursul. Plata se face pe bază de factură, prin transfer bancar.\n\n` +
+      `Dacă ai orice întrebare sau vrei să ajustăm ceva la ofertă, răspunde-mi la acest email — sunt aici.\n\n` +
+      `O zi excelentă,\n` +
+      `Echipa Sarami Media\n` +
+      `sarami.ro`
+    );
   }
 
   async function onSendReply(m: Message) {

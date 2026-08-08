@@ -122,36 +122,36 @@ export async function POST(req: Request) {
         from: process.env.RESEND_FROM || 'Sarami Media <onboarding@resend.dev>',
         to: [email],
         reply_to: process.env.CONTACT_TO || 'contact@sarami.ro',
-        subject: 'Am primit mesajul tău — Sarami Media',
+        subject: `${nume.split(' ')[0]}, am primit ${formular === 'Contact' ? 'mesajul' : 'brief-ul'} tău! 🎉 — Sarami Media`,
         text: [
-          `Bună, ${nume.split(' ')[0]}!`,
+          `Bună, ${nume.split(' ')[0]}! 👋`,
           '',
           formular === 'Contact'
-            ? 'Îți confirmăm că am primit mesajul tău.'
-            : `Îți confirmăm că am primit brief-ul tău pentru ${serviciu.toLowerCase()}.`,
-          'Îl analizăm și revenim cu un răspuns — de obicei în aceeași zi lucrătoare.',
+            ? 'Mesajul tău a ajuns cu bine la noi — mulțumim că ne-ai scris!'
+            : `Brief-ul tău pentru ${serviciu.toLowerCase()} a ajuns cu bine la noi — mulțumim pentru toate detaliile, ne ușurează mult treaba!`,
+          'Îl citim cu atenție și revenim cu răspunsul nostru de obicei în aceeași zi lucrătoare. Dacă ne-ai scris seara sau în weekend, ne auzim în prima zi lucrătoare, la prima oră. ☕',
           '',
-          'Dacă între timp vrei să adaugi ceva, răspunde direct la acest email.',
+          'Între timp, dacă îți mai vine ceva în minte — linkuri, materiale, idei — răspunde direct la acest email și ajunge la noi.',
           '',
-          'O zi bună,',
+          'Cu drag,',
           'Echipa Sarami Media',
           'sarami.ro • contact@sarami.ro',
         ].join('\n'),
         html: brandEmail({
-          heading: `Bună, ${nume.split(' ')[0]}! Am primit ${formular === 'Contact' ? 'mesajul' : 'brief-ul'} tău 🎉`,
-          preheader: 'Revenim cu un răspuns de obicei în aceeași zi lucrătoare.',
+          heading: `Bună, ${nume.split(' ')[0]}! 👋 ${formular === 'Contact' ? 'Mesajul' : 'Brief-ul'} tău a ajuns la noi`,
+          preheader: 'Mulțumim că ne-ai scris! Revenim de obicei în aceeași zi lucrătoare.',
           bodyHtml: `
             <p style="margin:0 0 14px;">${
               formular === 'Contact'
-                ? 'Îți confirmăm că mesajul tău a ajuns la noi.'
-                : `Îți confirmăm că brief-ul tău pentru <strong style="color:#16307a;">${serviciu.toLowerCase()}</strong> a ajuns la noi.`
+                ? 'Mesajul tău a ajuns cu bine la noi — <strong style="color:#16307a;">mulțumim că ne-ai scris!</strong>'
+                : `Brief-ul tău pentru <strong style="color:#16307a;">${serviciu.toLowerCase()}</strong> a ajuns cu bine la noi — mulțumim pentru toate detaliile, ne ușurează mult treaba!`
             }</p>
-            <p style="margin:0 0 14px;">Îl analizăm cu atenție și revenim cu un răspuns — <strong style="color:#16307a;">de obicei în aceeași zi lucrătoare</strong>.</p>
-            <p style="margin:0 0 20px;">Dacă între timp vrei să adaugi ceva, răspunde direct la acest email.</p>
+            <p style="margin:0 0 14px;">Îl citim cu atenție și revenim cu răspunsul nostru <strong style="color:#16307a;">de obicei în aceeași zi lucrătoare</strong>. Dacă ne-ai scris seara sau în weekend, ne auzim în prima zi lucrătoare, la prima oră. ☕</p>
+            <p style="margin:0 0 20px;">Între timp, dacă îți mai vine ceva în minte — linkuri, materiale, idei — răspunde direct la acest email și ajunge la noi.</p>
             <table cellpadding="0" cellspacing="0"><tr><td style="background:linear-gradient(135deg,#1d4ed8,#2563eb);background-color:#2563eb;border-radius:999px;">
-              <a href="https://sarami.ro/portofoliu/" style="display:inline-block;padding:11px 26px;color:#ffffff;font-weight:700;font-size:13.5px;text-decoration:none;">▶ Vezi portofoliul nostru</a>
+              <a href="https://sarami.ro/portofoliu/" style="display:inline-block;padding:11px 26px;color:#ffffff;font-weight:700;font-size:13.5px;text-decoration:none;">▶ Aruncă un ochi pe portofoliul nostru</a>
             </td></tr></table>
-            <p style="margin:20px 0 0;color:#43587f;">O zi bună,<br><strong style="color:#16307a;">Echipa Sarami Media</strong></p>
+            <p style="margin:20px 0 0;color:#43587f;">Cu drag,<br><strong style="color:#16307a;">Echipa Sarami Media</strong></p>
           `,
         }),
       }),

@@ -78,11 +78,19 @@ export default function BriefForm({
     return (
       <div className="center" style={{ padding: '40px 10px' }}>
         <div style={{ fontSize: '3rem', marginBottom: 12 }}>🎉</div>
-        <h3 className="h-md">Brief trimis cu succes!</h3>
-        <p style={{ color: 'var(--text-dim)', marginBottom: 20 }}>
-          Mulțumim pentru detalii — cu ele putem pregăti o ofertă precisă. Revenim de obicei în aceeași zi lucrătoare.
+        <h3 className="h-md">Brief-ul tău a plecat spre noi!</h3>
+        <p style={{ color: 'var(--text-dim)', marginBottom: 8, maxWidth: 480, marginInline: 'auto' }}>
+          Mulțumim pentru detalii — cu ele pregătim o ofertă pe măsura proiectului tău. Ce urmează:
         </p>
-        <button className="btn btn-ghost" onClick={() => setStatus('idle')}>Trimite alt brief</button>
+        <div style={{ textAlign: 'left', maxWidth: 420, margin: '16px auto 22px', color: 'var(--text-dim)', display: 'grid', gap: 8 }}>
+          <span>📬 Primești imediat un email de confirmare</span>
+          <span>👀 Citim brief-ul cu atenție și calculăm oferta</span>
+          <span>💌 Revenim cu oferta — de obicei în aceeași zi lucrătoare</span>
+        </div>
+        <div className="btn-row" style={{ justifyContent: 'center' }}>
+          <a href="/portofoliu/" className="btn btn-primary">▶ Vezi portofoliul între timp</a>
+          <button className="btn btn-ghost" onClick={() => setStatus('idle')}>Trimite alt brief</button>
+        </div>
       </div>
     );
   }

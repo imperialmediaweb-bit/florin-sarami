@@ -46,9 +46,12 @@ export default function ContactForm() {
     return (
       <div className="center" style={{ padding: '40px 10px' }}>
         <div style={{ fontSize: '3rem', marginBottom: 12 }}>🎉</div>
-        <h3 className="h-md">Mesaj trimis cu succes!</h3>
+        <h3 className="h-md">Mesajul tău a ajuns la noi!</h3>
+        <p style={{ color: 'var(--text-dim)', marginBottom: 8 }}>
+          Mulțumim că ne-ai scris — primești imediat și un email de confirmare.
+        </p>
         <p style={{ color: 'var(--text-dim)', marginBottom: 20 }}>
-          Am primit mesajul tău și revenim cu un răspuns cât mai curând — de obicei în aceeași zi lucrătoare.
+          Revenim cu răspunsul de obicei <strong style={{ color: 'var(--text-main)' }}>în aceeași zi lucrătoare</strong>. ☕
         </p>
         <button className="btn btn-ghost" onClick={() => setStatus('idle')}>Trimite alt mesaj</button>
       </div>
