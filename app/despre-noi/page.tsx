@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
 import MediaCard from '@/components/MediaCard';
-import Photo from '@/components/Photo';
 import { ArrowIcon } from '@/components/Visuals';
 
 export const metadata: Metadata = {
@@ -102,19 +101,19 @@ export default function DespreNoiPage() {
           <div className="card reveal" style={{ padding: 'clamp(28px, 4vw, 48px)' }}>
             <div className="split" style={{ gridTemplateColumns: 'auto 1fr', gap: 'clamp(24px, 4vw, 48px)' }}>
               <div style={{ width: 'min(220px, 40vw)' }}>
-                <Photo
-                  name="fondator"
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://res.cloudinary.com/kaz6teok/image/upload/c_fill,g_face,w_600,h_600,q_auto/v1786212217/Capture_akz4vu.png"
                   alt="Fondatorul Sarami Media"
-                  ratio="1 / 1"
-                  style={{ borderRadius: '50%' }}
-                  fallback={
-                    <div
-                      className="testi-avatar"
-                      style={{ width: 'min(180px, 36vw)', height: 'min(180px, 36vw)', fontSize: '3rem' }}
-                    >
-                      SM
-                    </div>
-                  }
+                  loading="lazy"
+                  style={{
+                    width: '100%',
+                    aspectRatio: '1 / 1',
+                    objectFit: 'cover',
+                    borderRadius: '50%',
+                    border: '4px solid #fff',
+                    boxShadow: '0 18px 44px -14px rgba(29, 78, 216, .45)',
+                  }}
                 />
               </div>
               <div>
