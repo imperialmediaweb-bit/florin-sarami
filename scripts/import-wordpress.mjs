@@ -14,6 +14,12 @@
  *       2. Copiază fișierul în folderul proiectului (poți să-l redenumești export.xml).
  *       3. Rulează:  npm run import:wp -- export.xml
  *
+ *  C) Din exportul bazei de date (merge chiar dacă NU poți intra în wp-admin):
+ *       1. cPanel → phpMyAdmin → alege baza de date a site-ului (cea cu tabele wp_...).
+ *       2. Tab-ul „Export" → Quick → format SQL → Go → se descarcă un fișier .sql.
+ *       3. Copiază fișierul în folderul proiectului ca export.sql.
+ *       4. Rulează:  npm run import:wp -- export.sql
+ *
  * Imagini pe Cloudinary (opțional, recomandat):
  *   Creează fișierul .env (vezi .env.example) cu cheile din Cloudinary → Dashboard.
  *   Cu .env completat, imaginile sunt urcate în Cloudinary (folderul sarami-blog/);
@@ -33,7 +39,8 @@ import path from 'path';
 
 const ARG = process.argv[2] || 'https://sarami.ro';
 const IS_XML = ARG.toLowerCase().endsWith('.xml');
-const BASE = IS_XML ? 'https://sarami.ro' : ARG.replace(/\/+$/, '');
+const IS_SQL = ARG.toLowerCase().endsWith('.sql');
+const BASE = IS_XML || IS_SQL ? 'https://sarami.ro' : ARG.replace(/\/+$/, '');
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'blog');
 const IMG_DIR = path.join(process.cwd(), 'public', 'blog');
 const HTACCESS = path.join(process.cwd(), 'public', '.htaccess');
@@ -289,10 +296,134 @@ function importFromXml(file) {
 }
 
 /* ============================================================
+   MOD C — import din exportul SQL al bazei de date (phpMyAdmin)
+   ============================================================ */
+
+/** Extrage rândurile din instrucțiunile INSERT pentru un tabel (parser cu ghilimele/escape-uri). */
+function parseSqlInserts(sql, tableName) {
+  const rows = [];
+  const rx = new RegExp('INSERT INTO `?' + tableName + '`?\\s*(?:\\([^)]*\\))?\\s*VALUES\\s*', 'gi');
+  let m;
+  while ((m = rx.exec(sql))) {
+    let i = rx.lastIndex;
+    while (i < sql.length) {
+      while (i < sql.length && (sql[i] === ' ' || sql[i] === '\n' || sql[i] === '\r' || sql[i] === '\t' || sql[i] === ',')) i++;
+      if (sql[i] !== '(') break;
+      i++;
+      const row = [];
+      let cur = '';
+      let inStr = false;
+      let wasStr = false;
+      let done = false;
+      while (i < sql.length && !done) {
+        const c = sql[i];
+        if (inStr) {
+          if (c === '\\') {
+            const n = sql[i + 1];
+            cur += n === 'n' ? '\n' : n === 'r' ? '\r' : n === 't' ? '\t' : n === '0' ? '\0' : n;
+            i += 2;
+            continue;
+          }
+          if (c === "'") {
+            if (sql[i + 1] === "'") { cur += "'"; i += 2; continue; }
+            inStr = false;
+            i++;
+            continue;
+          }
+          cur += c;
+          i++;
+          continue;
+        }
+        if (c === "'") { inStr = true; wasStr = true; i++; continue; }
+        if (c === ',') { row.push(wasStr ? cur : cur.trim()); cur = ''; wasStr = false; i++; continue; }
+        if (c === ')') { row.push(wasStr ? cur : cur.trim()); i++; done = true; continue; }
+        cur += c;
+        i++;
+      }
+      rows.push(row);
+      while (i < sql.length && /\s/.test(sql[i])) i++;
+      if (sql[i] === ';') { i++; break; }
+    }
+    rx.lastIndex = i;
+  }
+  return rows;
+}
+
+/** Ordinea coloanelor din CREATE TABLE (dacă există în dump). */
+function parseSqlColumns(sql, tableName) {
+  const m = sql.match(new RegExp('CREATE TABLE `?' + tableName + '`?\\s*\\(([\\s\\S]*?)\\)\\s*ENGINE', 'i'));
+  if (!m) return null;
+  return [...m[1].matchAll(/^\s*`(\w+)`/gm)].map(x => x[1]);
+}
+
+// ordinea standard a coloanelor wp_posts, folosită dacă dump-ul nu conține CREATE TABLE
+const WP_POSTS_COLUMNS = [
+  'ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title',
+  'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_password',
+  'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt',
+  'post_content_filtered', 'post_parent', 'guid', 'menu_order', 'post_type',
+  'post_mime_type', 'comment_count',
+];
+const WP_POSTMETA_COLUMNS = ['meta_id', 'post_id', 'meta_key', 'meta_value'];
+
+function importFromSql(file) {
+  console.log(`\nImport articole din exportul bazei de date ${file} ...`);
+  if (!fs.existsSync(file)) {
+    throw new Error(`Nu găsesc fișierul ${file}. Pune-l în folderul proiectului și rulează din nou.`);
+  }
+  const sql = fs.readFileSync(file, 'utf8');
+
+  // detectează prefixul tabelelor (de obicei wp_, dar poate diferi)
+  const prefixMatch = sql.match(/INSERT INTO `?(\w*?)posts`?/i);
+  if (!prefixMatch) {
+    throw new Error('Nu am găsit tabelul de articole (…posts) în fișierul SQL. Exportă toată baza de date, format SQL.');
+  }
+  const prefix = prefixMatch[1];
+  console.log(`Prefix tabele detectat: ${prefix}`);
+
+  const postCols = parseSqlColumns(sql, `${prefix}posts`) || WP_POSTS_COLUMNS;
+  const metaCols = parseSqlColumns(sql, `${prefix}postmeta`) || WP_POSTMETA_COLUMNS;
+  const toObj = (row, cols) => Object.fromEntries(cols.map((c, idx) => [c, row[idx]]));
+
+  const allPosts = parseSqlInserts(sql, `${prefix}posts`).map(r => toObj(r, postCols));
+  const allMeta = parseSqlInserts(sql, `${prefix}postmeta`).map(r => toObj(r, metaCols));
+
+  // atașamente: id → URL (coloana guid)
+  const attachments = new Map();
+  allPosts
+    .filter(p => p.post_type === 'attachment')
+    .forEach(p => attachments.set(String(p.ID), p.guid));
+
+  // imaginea reprezentativă: post_id → _thumbnail_id
+  const thumbByPost = new Map();
+  allMeta
+    .filter(m2 => m2.meta_key === '_thumbnail_id')
+    .forEach(m2 => thumbByPost.set(String(m2.post_id), String(m2.meta_value)));
+
+  const published = allPosts.filter(p => p.post_type === 'post' && p.post_status === 'publish');
+  console.log(`Găsite: ${published.length} articole publicate în baza de date.\n`);
+
+  return published.map(p => {
+    const slug = p.post_name || p.post_title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const thumbId = thumbByPost.get(String(p.ID));
+    return {
+      slug,
+      title: stripTags(p.post_title) || slug,
+      date: (p.post_date || '').replace(' ', 'T') || new Date().toISOString(),
+      category: undefined, // categoriile nu se extrag din dump — se pot adăuga manual în JSON
+      excerpt: stripTags(p.post_excerpt || p.post_content).slice(0, 220),
+      contentHtml: p.post_content,
+      featuredUrl: thumbId ? attachments.get(thumbId) || null : null,
+      oldLink: `${BASE}/${slug}/`, // permalink uzual /%postname%/
+    };
+  });
+}
+
+/* ============================================================
    Procesare comună: imagini, salvare JSON, redirecturi 301
    ============================================================ */
 
-const rawPosts = IS_XML ? importFromXml(ARG) : await importFromApi();
+const rawPosts = IS_XML ? importFromXml(ARG) : IS_SQL ? importFromSql(ARG) : await importFromApi();
 const redirects = [];
 
 for (const p of rawPosts) {
