@@ -78,10 +78,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
 .bg-scene {
   position: fixed; inset: 0; z-index: -2; overflow: hidden;
   background:
-    radial-gradient(ellipse 75% 55% at 80% -12%, rgba(56, 189, 248, .22), transparent 60%),
-    radial-gradient(ellipse 60% 45% at 5% 8%, rgba(37, 99, 235, .12), transparent 55%),
-    radial-gradient(ellipse 60% 45% at 50% 110%, rgba(125, 211, 252, .18), transparent 60%),
-    var(--bg);
+    radial-gradient(ellipse 75% 55% at 80% -12%, rgba(56, 189, 248, .38), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 5% 8%, rgba(37, 99, 235, .22), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 112%, rgba(125, 211, 252, .32), transparent 60%),
+    linear-gradient(165deg, #eef6ff 0%, #f5f9ff 45%, #e6f2fe 100%);
 }
 .bg-scene::before {
   content: ""; position: absolute; inset: -50%;
@@ -128,9 +128,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
 .logo-pill:hover { transform: translateY(-2px); }
 /* multiply face ca un PNG cu fundal alb/deschis să dispară pe fundalul deschis */
 .logo-pill img { mix-blend-mode: multiply; }
-.nav-logo img { height: 50px; width: auto; }
+.nav-logo img { height: 60px; width: auto; }
+@media (max-width: 640px) { .nav-logo img { height: 46px; } }
 .footer-brand .logo-pill { margin-bottom: 18px; }
-.footer-brand .logo-pill img { height: 48px; margin-bottom: 0; }
+.footer-brand .logo-pill img { height: 54px; margin-bottom: 0; }
 
 .nav-links { display: flex; align-items: center; gap: 6px; }
 .nav-links a {
@@ -432,12 +433,12 @@ main { padding-top: var(--nav-h); }
 .stat span { color: var(--text-faint); font-size: .9rem; }
 
 /* ============ Marquee ============ */
-.marquee { overflow: hidden; padding: 22px 0; border-block: 1px solid var(--line); position: relative; background: #fff; }
+.marquee { overflow: hidden; padding: 22px 0; border-block: 1px solid var(--line); position: relative; background: linear-gradient(90deg, #eaf3fe, #ffffff 30%, #ffffff 70%, #e0f2fe); }
 .marquee::before, .marquee::after {
   content: ""; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
 }
-.marquee::before { left: 0; background: linear-gradient(90deg, #fff, transparent); }
-.marquee::after { right: 0; background: linear-gradient(-90deg, #fff, transparent); }
+.marquee::before { left: 0; background: linear-gradient(90deg, #eaf3fe, transparent); }
+.marquee::after { right: 0; background: linear-gradient(-90deg, #e0f2fe, transparent); }
 .marquee-track { display: flex; gap: 44px; width: max-content; animation: marquee 30s linear infinite; }
 .marquee-track span {
   font-family: var(--font-head); font-size: 1.05rem; font-weight: 600; color: var(--text-faint);

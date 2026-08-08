@@ -10,8 +10,10 @@ import { useEffect, useState } from 'react';
  *   3. recrearea SVG (public/assets/logo.svg) — doar ca ultimă plasă de siguranță
  * Fundalul alb al PNG-ului se topește în pastila albă prin mix-blend-mode.
  */
+// e_trim taie marginile goale, e_make_transparent face fundalul alb transparent
+// (transformări făcute de Cloudinary direct din URL, imaginea originală rămâne neatinsă)
 const CLOUDINARY_LOGO =
-  'https://res.cloudinary.com/kaz6teok/image/upload/v1786184469/Screenshot_1049_mdo29q.png';
+  'https://res.cloudinary.com/kaz6teok/image/upload/e_trim:10/e_make_transparent:20/v1786184469/Screenshot_1049_mdo29q.png';
 
 const SOURCES = ['/assets/logo.png', CLOUDINARY_LOGO];
 
