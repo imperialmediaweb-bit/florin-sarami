@@ -23,6 +23,9 @@ export async function POST(req: Request) {
   const serviciu = String(data.serviciu || '').trim();
   const mesaj = String(data.mesaj || '').trim();
   const consent = Boolean(data.consent);
+  // formularele de brief trimit câmpuri suplimentare ca perechi etichetă → valoare
+  const formular = String(data.formular || 'Contact').trim();
+  const extra = (typeof data.extra === 'object' && data.extra !== null ? data.extra : {}) as Record<string, unknown>;
 
   if (!consent) {
     return NextResponse.json({ error: 'Bifează acordul pentru prelucrarea datelor personale.' }, { status: 400 });
@@ -45,16 +48,20 @@ export async function POST(req: Request) {
       from: process.env.RESEND_FROM || 'Sarami Media <onboarding@resend.dev>',
       to: [process.env.CONTACT_TO || 'contact@sarami.ro'],
       reply_to: email,
-      subject: `Mesaj nou de pe sarami.ro — ${serviciu || 'general'} — ${nume}`,
+      subject: `[${formular}] ${serviciu || 'general'} — ${nume}`,
       text: [
+        `Formular: ${formular}`,
         `Nume: ${nume}`,
         `Email: ${email}`,
         `Telefon: ${telefon || '—'}`,
         `Serviciu: ${serviciu || '—'}`,
+        ...Object.entries(extra)
+          .filter(([, v]) => String(v || '').trim())
+          .map(([k, v]) => `${k}: ${String(v).trim()}`),
         '',
         mesaj,
         '',
-        '— trimis din formularul de contact sarami.ro (consimțământ GDPR bifat)',
+        '— trimis de pe sarami.ro (consimțământ GDPR bifat)',
       ].join('\n'),
     }),
     });

@@ -87,7 +87,7 @@ export default function EditareVideoPage() {
               <h1 className="h-xl">Editare video care <span className="grad-text">oprește scroll-ul</span></h1>
               <p className="lead">Primele 3 secunde decid dacă cineva se uită la clipul tău sau trece mai departe. Noi facem ca acele secunde — și tot ce urmează după ele — să conteze.</p>
               <div className="btn-row mt-2">
-                <Link href="/contact" className="btn btn-primary">Cere o ofertă gratuită <ArrowIcon /></Link>
+                <Link href="/brief-video" className="btn btn-primary">Cere ofertă — brief 2 minute <ArrowIcon /></Link>
                 <Link href="/portofoliu" className="btn btn-ghost">▶ Vezi portofoliul</Link>
               </div>
               <div className="stats mt-3" style={{ gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>

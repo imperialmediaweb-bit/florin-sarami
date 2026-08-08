@@ -103,7 +103,7 @@ export default function RedactareContinutPage() {
               <h1 className="h-xl">Conținut scris de <span className="grad-text">oameni reali</span>, iubit de Google</h1>
               <p className="lead">Articole de blog, descrieri de produse, pagini de prezentare, comunicate și advertoriale — texte autentice, documentate, care aduc trafic organic și construiesc încredere.</p>
               <div className="btn-row mt-2">
-                <Link href="/contact" className="btn btn-primary">Cere o ofertă <ArrowIcon /></Link>
+                <Link href="/brief-continut" className="btn btn-primary">Cere ofertă — brief 2 minute <ArrowIcon /></Link>
                 <a href="#studii-de-caz" className="btn btn-ghost">Vezi rezultatele</a>
               </div>
             </div>

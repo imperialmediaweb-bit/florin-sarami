@@ -36,6 +36,10 @@ export default function ContactPage() {
           <span className="eyebrow">Hai să vorbim</span>
           <h1 className="h-xl">Ai un proiect? <span className="grad-text">Contactează-ne!</span></h1>
           <p className="lead">Suntem gata să transformăm materialele tale într-un conținut care face diferența. Scrie-ne și revenim cu un răspuns cât mai rapid.</p>
+          <div className="btn-row mt-2" style={{ justifyContent: 'center' }}>
+            <Link href="/brief-video" className="btn btn-ghost">🎬 Brief proiect video</Link>
+            <Link href="/brief-continut" className="btn btn-ghost">✍️ Brief conținut scris</Link>
+          </div>
         </div>
       </section>
 
