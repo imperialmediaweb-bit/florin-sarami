@@ -3,24 +3,44 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Logo-ul Sarami Media.
- *  1. public/assets/logo.png — logo-ul ORIGINAL complet (descărcat la build
- *     de pe Cloudinary sau urcat manual în repository) → folosit întreg.
- *  2. Dacă lipsește: ansamblu pasăre vectorială + text HTML.
+ * Logo-ul Sarami Media — ORIGINALUL, în această ordine:
+ *  1. public/assets/logo.png (fișier local, dacă există în repository)
+ *  2. logo-ul original de pe Cloudinary (încărcat direct în browser)
+ *  3. doar dacă ambele pică: ansamblul pasăre vectorială + text HTML
  */
+const CLOUDINARY_LOGO =
+  'https://res.cloudinary.com/kaz6teok/image/upload/v1786184469/Screenshot_1049_mdo29q.png';
+
 export default function Logo() {
-  const [hasPng, setHasPng] = useState(false);
+  const [src, setSrc] = useState<string | null>(null);
 
   useEffect(() => {
-    const img = new Image();
-    img.onload = () => setHasPng(true);
-    img.src = '/assets/logo.png';
+    let cancelled = false;
+    (async () => {
+      for (const candidate of ['/assets/logo.png', CLOUDINARY_LOGO]) {
+        const ok = await new Promise<boolean>(resolve => {
+          const img = new Image();
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = candidate;
+        });
+        if (cancelled) return;
+        if (ok) {
+          setSrc(candidate);
+          return;
+        }
+      }
+      setSrc(''); // nimic disponibil → fallback vectorial
+    })();
+    return () => { cancelled = true; };
   }, []);
 
-  if (hasPng) {
+  if (src === null) return <span style={{ display: 'inline-block', width: 220, height: 74 }} />;
+
+  if (src) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src="/assets/logo.png" alt="Sarami Media" className="logo-full" />
+      <img src={src} alt="Sarami Media" className="logo-full" />
     );
   }
 
