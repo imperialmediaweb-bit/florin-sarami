@@ -37,6 +37,30 @@ if (fs.existsSync(envPath)) {
 const PEXELS = process.env.PEXELS_API_KEY;
 const PIXABAY = process.env.PIXABAY_API_KEY;
 
+/* ---------- logo: descărcat la build din Cloudinary (nu cere cheie API) ----------
+   Întâi varianta cu fundal transparent + margini tăiate; dacă transformarea nu
+   e disponibilă, cade pe imaginea originală (multiply în CSS ascunde fundalul alb).
+   Dacă pui manual public/assets/logo.png, fișierul tău are prioritate și nu e atins. */
+const LOGO_DEST = path.join(process.cwd(), 'public', 'assets', 'logo.png');
+const LOGO_URLS = [
+  'https://res.cloudinary.com/kaz6teok/image/upload/e_trim:10/e_make_transparent:20/h_220,c_fit/v1786184469/Screenshot_1049_mdo29q.png',
+  'https://res.cloudinary.com/kaz6teok/image/upload/v1786184469/Screenshot_1049_mdo29q.png',
+];
+if (!fs.existsSync(LOGO_DEST)) {
+  for (const url of LOGO_URLS) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      fs.mkdirSync(path.dirname(LOGO_DEST), { recursive: true });
+      fs.writeFileSync(LOGO_DEST, Buffer.from(await res.arrayBuffer()));
+      console.log(`✔ assets/logo.png descărcat (${url.includes('e_trim') ? 'variantă transparentă' : 'original'})`);
+      break;
+    } catch (err) {
+      console.warn(`⚠ logo (${url.slice(0, 60)}...): ${err.message}`);
+    }
+  }
+}
+
 if (!PEXELS && !PIXABAY) {
   // fără chei nu oprim build-ul — site-ul funcționează și fără poze (are fallback-uri)
   console.warn('Nicio cheie API setată (PEXELS_API_KEY / PIXABAY_API_KEY) — sar peste descărcarea pozelor.');
