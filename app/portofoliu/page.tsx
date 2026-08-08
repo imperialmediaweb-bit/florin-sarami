@@ -40,8 +40,9 @@ export default function PortofoliuPage() {
 
       <CtaBand
         title="Vrei ca următorul proiect de aici să fie al tău?"
-        text="Trimite-ne filmările și ideea ta — noi ne ocupăm de restul."
-        label="Începe un proiect"
+        text="Completează brief-ul cu detaliile proiectului tău și primești oferta — de obicei în aceeași zi."
+        label="Completează brief-ul video"
+        href="/brief-video"
       />
     </>
   );

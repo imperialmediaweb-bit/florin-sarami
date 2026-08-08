@@ -148,7 +148,7 @@ export default function EditareVideoPage() {
                 <li><span className="tick">✓</span><span><strong>Orice alt material video</strong> — spune-ne ideea, găsim soluția</span></li>
               </ul>
               <div className="btn-row mt-3">
-                <Link href="/contact" className="btn btn-primary">Discută proiectul tău <ArrowIcon /></Link>
+                <Link href="/brief-video" className="btn btn-primary">Completează brief-ul — primești oferta <ArrowIcon /></Link>
               </div>
             </div>
             <div className="reveal-right hero-visual">
@@ -235,8 +235,9 @@ export default function EditareVideoPage() {
 
       <CtaBand
         title="Gata să dai viață filmărilor tale?"
-        text="Trimite-ne materialele și obiectivul tău. Primești o ofertă corectă, adaptată proiectului — de obicei în aceeași zi."
-        label="Cere ofertă gratuită"
+        text="Completează brief-ul în 2 minute și primești o ofertă corectă, adaptată proiectului — de obicei în aceeași zi."
+        label="Completează brief-ul video"
+        href="/brief-video"
       />
     </>
   );

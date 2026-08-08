@@ -242,8 +242,9 @@ export default function RedactareContinutPage() {
 
       <CtaBand
         title="Hai să scriem povestea brandului tău"
-        text="Spune-ne ce ai nevoie — articole, descrieri, pagini de site — și primești o ofertă corectă, adaptată proiectului."
-        label="Cere ofertă gratuită"
+        text="Completează brief-ul în 2 minute — articole, descrieri, pagini de site — și primești o ofertă corectă, adaptată proiectului."
+        label="Completează brief-ul de conținut"
+        href="/brief-continut"
       />
     </>
   );

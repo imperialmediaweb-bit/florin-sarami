@@ -65,7 +65,7 @@ export default function HeroSlider() {
             <p className="lead">Videoclipuri promoționale, podcasturi, interviuri, evenimente și clipuri de lungă durată — optimizate pentru fiecare platformă și pentru publicul tău.</p>
             <div className="btn-row mt-2">
               <Link href="/editare-video" className="btn btn-primary">Editare video <ArrowIcon /></Link>
-              <Link href="/contact" className="btn btn-ghost">Cere ofertă</Link>
+              <Link href="/brief-video" className="btn btn-ghost">Cere ofertă</Link>
             </div>
           </div>
           <div className="hero-visual">
@@ -85,7 +85,7 @@ export default function HeroSlider() {
             <p className="lead">Articole de blog, descrieri de produse, pagini de prezentare, comunicate și advertoriale — 100% Human Written, adaptate brandului tău.</p>
             <div className="btn-row mt-2">
               <Link href="/redactare-continut" className="btn btn-primary">Redactare conținut <ArrowIcon /></Link>
-              <Link href="/contact" className="btn btn-ghost">Hai să vorbim</Link>
+              <Link href="/brief-continut" className="btn btn-ghost">Cere ofertă</Link>
             </div>
           </div>
           <div className="hero-visual">
