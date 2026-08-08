@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
+import MediaCard from '@/components/MediaCard';
 import Photo from '@/components/Photo';
 import { ArrowIcon } from '@/components/Visuals';
 
@@ -59,7 +60,9 @@ export default function DespreNoiPage() {
       {/* Poza echipei (apare după `npm run fetch:photos`) */}
       <section className="section-tight" style={{ paddingTop: 0 }}>
         <div className="container">
-          <div className="reveal in"><Photo name="team" alt="Echipa Sarami Media la lucru" ratio="21 / 8" /></div>
+          <div className="reveal in">
+            <MediaCard photo="team" tag="Din 2020" title="Echipa Sarami Media, la lucru" ratio="21 / 8" />
+          </div>
         </div>
       </section>
 

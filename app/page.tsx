@@ -4,7 +4,7 @@ import Testimonials from '@/components/Testimonials';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
 import LatestPosts from '@/components/LatestPosts';
-import Photo from '@/components/Photo';
+import MediaCard from '@/components/MediaCard';
 import { ArrowIcon, MockDoc } from '@/components/Visuals';
 
 const VIDEO_SERVICES = [
@@ -192,13 +192,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* În culise (poze — apar după `npm run fetch:photos`) */}
-      <section className="section-tight">
+      {/* În culise — vitrine media cu titlu și etichetă */}
+      <section className="section">
         <div className="container">
-          <div className="cards-3">
-            <div className="reveal d1"><Photo name="video-editing" alt="Editare video profesională" /></div>
-            <div className="reveal d2"><Photo name="podcast" alt="Editare podcasturi" /></div>
-            <div className="reveal d3"><Photo name="social-media" alt="Clipuri pentru social media" /></div>
+          <div className="center reveal">
+            <span className="eyebrow">În culise</span>
+            <h2 className="h-lg">Unde prinde viață <span className="grad-text">conținutul tău</span></h2>
+          </div>
+          <div className="cards-3 mt-3">
+            <div className="reveal d1">
+              <MediaCard photo="video-editing" video="editare" tag="Post-producție" title="Montaj & efecte vizuale" />
+            </div>
+            <div className="reveal d2">
+              <MediaCard photo="podcast" tag="Audio & Video" title="Podcasturi & interviuri" />
+            </div>
+            <div className="reveal d3">
+              <MediaCard photo="social-media" tag="Social Media" title="Reels, TikTok & Shorts" />
+            </div>
           </div>
         </div>
       </section>

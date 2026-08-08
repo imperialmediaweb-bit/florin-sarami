@@ -3,7 +3,6 @@ import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
 import LatestPosts from '@/components/LatestPosts';
-import Photo from '@/components/Photo';
 import { ArrowIcon, MockDoc } from '@/components/Visuals';
 
 export const metadata: Metadata = {
@@ -109,7 +108,7 @@ export default function RedactareContinutPage() {
               </div>
             </div>
             <div className="hero-visual">
-              <Photo name="writing" alt="Redactare de conținut de către oameni reali" fallback={<MockDoc />} />
+              <MockDoc />
               <div className="float-chip p1">🔍 SEO optimizat</div>
               <div className="float-chip p2">🚫 Fără AI, la cerere</div>
             </div>

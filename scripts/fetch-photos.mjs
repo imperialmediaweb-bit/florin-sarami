@@ -36,32 +36,36 @@ if (!KEY) {
   process.exit(0);
 }
 
-/* nu re-descărcăm dacă pozele există deja (build-uri repetate rapide) */
-if (fs.existsSync(path.join(OUT, 'video-editing.jpg')) && fs.existsSync(path.join(process.cwd(), 'public', 'videos', 'editare.mp4'))) {
-  console.log('Pozele și clipurile există deja în public/photos și public/videos — sar peste descărcare.');
-  console.log('(șterge folderele dacă vrei poze noi și rulează din nou)');
+/* nu re-descărcăm dacă pozele există deja (build-uri repetate rapide);
+   `npm run fetch:photos -- --force` forțează descărcarea din nou */
+const FORCE = process.argv.includes('--force');
+if (!FORCE && fs.existsSync(path.join(OUT, 'video-editing.jpg')) && fs.existsSync(path.join(process.cwd(), 'public', 'videos', 'editare.mp4'))) {
+  console.log('Pozele și clipurile există deja — sar peste descărcare.');
+  console.log('(rulează `npm run fetch:photos -- --force` dacă vrei variante noi)');
   process.exit(0);
 }
 
-/* Pozele căutate — nume fix (folosit de site) + căutare Pexels */
+/* Pozele căutate — nume fix (folosit de site) + căutare Pexels.
+   Căutări specifice, ca rezultatele să fie relevante, nu aleatorii. */
 const PHOTOS = [
-  { name: 'video-editing', query: 'video editing timeline computer screen' },
-  { name: 'studio-camera', query: 'professional video camera studio' },
-  { name: 'podcast', query: 'podcast microphone studio' },
-  { name: 'social-media', query: 'filming smartphone video vertical' },
-  { name: 'writing', query: 'writing laptop desk coffee' },
-  { name: 'team', query: 'creative team office collaboration' },
+  { name: 'video-editing', query: 'video editor working editing software monitor timeline' },
+  { name: 'studio-camera', query: 'cinema camera film set videographer' },
+  { name: 'podcast', query: 'podcast host speaking microphone headphones studio' },
+  { name: 'social-media', query: 'content creator filming video ring light phone' },
+  { name: 'writing', query: 'copywriter typing laptop notebook workspace' },
+  { name: 'team', query: 'creative agency team meeting brainstorming office' },
 ];
 
 for (const p of PHOTOS) {
   try {
     const res = await fetch(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(p.query)}&per_page=1&orientation=landscape`,
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(p.query)}&per_page=5&orientation=landscape`,
       { headers: { Authorization: KEY } }
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    const photo = data.photos?.[0];
+    // preferăm cel mai mare rezultat dintre primele 5 (calitate mai bună)
+    const photo = (data.photos || []).sort((a, b) => (b.width * b.height) - (a.width * a.height))[0];
     if (!photo) throw new Error('niciun rezultat');
     const imgRes = await fetch(photo.src.large2x || photo.src.large);
     if (!imgRes.ok) throw new Error(`descărcare HTTP ${imgRes.status}`);

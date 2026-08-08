@@ -128,8 +128,8 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
 .logo-pill:hover { transform: translateY(-2px); }
 /* multiply face ca un PNG cu fundal alb/deschis să dispară pe fundalul deschis */
 .logo-pill img { mix-blend-mode: multiply; }
-.nav-logo img { height: 60px; width: auto; }
-@media (max-width: 640px) { .nav-logo img { height: 46px; } }
+.nav-logo img { height: 64px; width: auto; }
+@media (max-width: 640px) { .nav-logo img { height: 48px; } }
 .footer-brand .logo-pill { margin-bottom: 18px; }
 .footer-brand .logo-pill img { height: 54px; margin-bottom: 0; }
 
@@ -554,6 +554,38 @@ main { padding-top: var(--nav-h); }
 }
 .folio-filters button:hover { color: var(--blue-700); border-color: var(--ring); }
 .folio-filters button.active { background: var(--grad-brand); color: #fff; border-color: transparent; box-shadow: 0 10px 24px -10px rgba(37, 99, 235, .6); }
+
+/* ============ Media cards (poze/video cu descriere, stil vitrine) ============ */
+.media-card {
+  position: relative; border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--line); box-shadow: var(--shadow-soft);
+  transition: transform .45s cubic-bezier(.2, .7, .3, 1), box-shadow .45s;
+}
+.media-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: var(--shadow-glow); }
+.media-card img, .media-card video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .8s cubic-bezier(.2, .7, .3, 1);
+}
+.media-card:hover img, .media-card:hover video { transform: scale(1.06); }
+.media-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent 45%, rgba(8, 18, 39, .78) 100%);
+}
+.media-card .media-caption {
+  position: absolute; left: 22px; right: 22px; bottom: 18px; z-index: 2;
+  transition: transform .45s cubic-bezier(.2, .7, .3, 1);
+}
+.media-card:hover .media-caption { transform: translateY(-4px); }
+.media-card .media-tag {
+  display: inline-block; padding: 4px 12px; border-radius: 999px; margin-bottom: 8px;
+  font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  background: rgba(56, 189, 248, .25); color: #e0f2fe; border: 1px solid rgba(125, 211, 252, .4);
+  backdrop-filter: blur(6px);
+}
+.media-card .media-title {
+  color: #fff; font-family: var(--font-head); font-weight: 700;
+  font-size: clamp(1rem, 1.6vw, 1.2rem); text-shadow: 0 2px 12px rgba(8, 18, 39, .6);
+}
 
 /* ============ Testimoniale slider ============ */
 .testi-wrap { position: relative; max-width: 860px; margin-inline: auto; }

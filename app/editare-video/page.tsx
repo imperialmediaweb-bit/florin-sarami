@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
-import Photo from '@/components/Photo';
-import VideoClip from '@/components/VideoClip';
+import MediaCard from '@/components/MediaCard';
 import { ArrowIcon, MockPlayer } from '@/components/Visuals';
 
 export const metadata: Metadata = {
@@ -98,7 +97,7 @@ export default function EditareVideoPage() {
               </div>
             </div>
             <div className="hero-visual">
-              <VideoClip name="filmare" fallback={<MockPlayer />} />
+              <MockPlayer />
               <div className="float-chip p1">🎬 4K • Vertical • Horizontal</div>
               <div className="float-chip p2">⚡ Livrare în 48h</div>
             </div>
@@ -153,7 +152,14 @@ export default function EditareVideoPage() {
               </div>
             </div>
             <div className="reveal-right hero-visual">
-              <Photo name="studio-camera" alt="Studio de filmare profesional" ratio="4 / 3.4" />
+              <MediaCard
+                photo="studio-camera"
+                video="filmare"
+                tag="Behind the scenes"
+                title="Filmare & producție video"
+                ratio="4 / 3.4"
+                fallback={<MockPlayer delay=".6s" screenStyle={{ background: 'linear-gradient(135deg,#16307a,#0ea5e9 70%,#7dd3fc 140%)' }} />}
+              />
               <div className="float-chip p1">🎧 Audio &amp; muzică licențiată</div>
             </div>
           </div>
