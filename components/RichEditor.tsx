@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { uploadImageFile } from '@/lib/uploadClient';
 
 /**
  * Editor vizual simplu (fără dependențe): scrii ca într-un document Word,
@@ -41,12 +42,7 @@ export default function RichEditor({
   const addImage = async (file: File) => {
     setUploading(true);
     try {
-      const fd = new FormData();
-      fd.append('file', file);
-      const res = await fetch('/api/admin/upload/', { method: 'POST', body: fd });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Upload eșuat.');
-      exec('insertImage', data.url);
+      exec('insertImage', await uploadImageFile(file));
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Upload eșuat.');
     } finally {

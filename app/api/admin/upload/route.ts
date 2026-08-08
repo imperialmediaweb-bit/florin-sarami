@@ -29,8 +29,21 @@ export async function POST(req: Request) {
   if (file.size > 8 * 1024 * 1024) {
     return NextResponse.json({ error: 'Poza e prea mare (max 8 MB).' }, { status: 400 });
   }
-  if (!/^image\//.test(file.type)) {
-    return NextResponse.json({ error: 'Fișierul trebuie să fie o imagine.' }, { status: 400 });
+  // extensia derivă din tipul MIME real, nu din numele fișierului —
+  // formatele nesuportate (SVG, HEIC etc.) sunt refuzate clar, nu servite greșit
+  const MIME_EXT: Record<string, string> = {
+    'image/jpeg': '.jpg',
+    'image/png': '.png',
+    'image/gif': '.gif',
+    'image/webp': '.webp',
+    'image/avif': '.avif',
+  };
+  const ext = MIME_EXT[file.type];
+  if (!ext) {
+    return NextResponse.json(
+      { error: 'Format neacceptat — folosește JPG, PNG, GIF, WEBP sau AVIF.' },
+      { status: 400 }
+    );
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
@@ -38,8 +51,8 @@ export async function POST(req: Request) {
     .toLowerCase()
     .replace(/\.[^.]+$/, '')
     .replace(/[^a-z0-9-]+/g, '-')
-    .slice(0, 50);
-  const ext = (file.name.match(/\.(jpe?g|png|gif|webp|avif)$/i) || ['.jpg'])[0].toLowerCase();
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 50) || 'poza';
   const stamp = Date.now().toString(36);
 
   const cloud = process.env.CLOUDINARY_CLOUD_NAME;
@@ -68,11 +81,18 @@ export async function POST(req: Request) {
       const data = await res.json();
       return NextResponse.json({ url: data.secure_url });
     } catch (err) {
-      console.error('Upload Cloudinary eșuat, salvez local:', err);
+      // NU cădem silențios pe discul local (efemer pe Railway fără Volume) —
+      // adminul trebuie să afle că upload-ul spre Cloudinary a eșuat
+      console.error('Upload Cloudinary eșuat:', err);
+      return NextResponse.json(
+        { error: 'Upload-ul către Cloudinary a eșuat — încearcă din nou în câteva secunde.' },
+        { status: 502 }
+      );
     }
   }
 
-  // fallback local: salvează pe disc și servește prin /api/media/
+  // fallback local doar când Cloudinary nu e configurat:
+  // salvează pe disc și servește prin /api/media/
   const name = `${safeBase}-${stamp}${ext}`;
   fs.writeFileSync(path.join(dataDir('media'), name), buffer);
   return NextResponse.json({ url: `/api/media/${name}` });

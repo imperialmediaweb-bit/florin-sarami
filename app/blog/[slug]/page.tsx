@@ -37,6 +37,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     .filter(p => p.slug !== post.slug && (!post.category || p.category === post.category))
     .slice(0, 3);
 
+  // JSON-LD cere URL-uri absolute pentru imagini (pozele locale sunt relative)
+  const absImage = post.image
+    ? post.image.startsWith('http') ? post.image : `https://sarami.ro${post.image}`
+    : undefined;
+
   const articleLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -45,7 +50,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     datePublished: new Date(post.date).toISOString(),
     inLanguage: 'ro-RO',
     mainEntityOfPage: `https://sarami.ro/blog/${post.slug}/`,
-    ...(post.image ? { image: [post.image] } : {}),
+    ...(absImage ? { image: [absImage] } : {}),
     author: { '@type': 'Organization', name: 'Sarami Media', url: 'https://sarami.ro' },
     publisher: {
       '@type': 'Organization',

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { uploadImageFile } from '@/lib/uploadClient';
 
 /** Buton de upload imagine (către Cloudinary prin /api/admin/upload) cu previzualizare. */
 export default function UploadImage({
@@ -17,12 +18,7 @@ export default function UploadImage({
     setUploading(true);
     setError('');
     try {
-      const fd = new FormData();
-      fd.append('file', file);
-      const res = await fetch('/api/admin/upload/', { method: 'POST', body: fd });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Upload eșuat.');
-      onChange(data.url);
+      onChange(await uploadImageFile(file));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Upload eșuat.');
     } finally {

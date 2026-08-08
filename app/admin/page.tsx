@@ -415,7 +415,7 @@ export default function AdminPage() {
                   <b>{messages.filter(m => m.formular === 'Contact').length}</b><span>💬 Mesaje de contact</span>
                 </button>
                 <button className="stat" style={{ cursor: 'pointer', border: '1px solid var(--line)', font: 'inherit' }} onClick={() => go('portofoliu')}>
-                  <b>{folio.filter(f => f.videoId || f.link).length}</b><span>🎬 Lucrări în portofoliu</span>
+                  <b>{folio.filter(f => f.videoId || f.link || f.image).length}</b><span>🎬 Lucrări în portofoliu</span>
                 </button>
                 <button className="stat" style={{ cursor: 'pointer', border: '1px solid var(--line)', font: 'inherit' }} onClick={() => go('testimoniale')}>
                   <b>{testi.length}</b><span>⭐ Testimoniale</span>

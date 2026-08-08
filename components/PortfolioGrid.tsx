@@ -38,42 +38,36 @@ export default function PortfolioGrid({ items }: { items: FolioItem[] }) {
       </div>
 
       <div className="folio-grid">
-        {visible.map((item, i) => (
+        {visible.map((item, i) => {
+          // zona media: clip YouTube, imagine sau placeholder cu gradient;
+          // învelită în link extern când există (lucrările de redactare)
+          const media = item.videoId ? (
+            <div className="folio-media">
+              <iframe
+                src={`https://www.youtube.com/embed/${item.videoId}`}
+                title={item.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+              />
+            </div>
+          ) : item.image ? (
+            <div className="blog-media">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={item.image} alt={item.title} loading="lazy" />
+            </div>
+          ) : (
+            <div className="folio-media placeholder" style={{ background: GRADIENTS[i % GRADIENTS.length] }}>
+              {item.link ? <span style={{ fontSize: '2.6rem' }}>📝</span> : <div className="mock-play"></div>}
+            </div>
+          );
+
+          return (
           <article className="folio-item reveal in" key={item.id}>
-            {item.videoId ? (
-              <div className="folio-media">
-                <iframe
-                  src={`https://www.youtube.com/embed/${item.videoId}`}
-                  title={item.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  loading="lazy"
-                />
-              </div>
-            ) : item.image ? (
-              item.link ? (
-                <a href={item.link} target="_blank" rel="noopener noreferrer">
-                  <div className="blog-media">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                  </div>
-                </a>
-              ) : (
-                <div className="blog-media">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.image} alt={item.title} loading="lazy" />
-                </div>
-              )
-            ) : item.link ? (
-              <a href={item.link} target="_blank" rel="noopener noreferrer">
-                <div className="folio-media placeholder" style={{ background: GRADIENTS[i % GRADIENTS.length] }}>
-                  <span style={{ fontSize: '2.6rem' }}>📝</span>
-                </div>
-              </a>
+            {item.link && !item.videoId ? (
+              <a href={item.link} target="_blank" rel="noopener noreferrer">{media}</a>
             ) : (
-              <div className="folio-media placeholder" style={{ background: GRADIENTS[i % GRADIENTS.length] }}>
-                <div className="mock-play"></div>
-              </div>
+              media
             )}
             <div className="folio-body">
               <span className="folio-tag">{CATS.find(c => c.key === item.cat)?.label || item.cat}</span>
@@ -81,7 +75,8 @@ export default function PortfolioGrid({ items }: { items: FolioItem[] }) {
               <span>{item.desc}</span>
             </div>
           </article>
-        ))}
+          );
+        })}
         {visible.length === 0 && (
           <p style={{ color: 'var(--text-faint)', gridColumn: '1 / -1', textAlign: 'center' }}>
             Niciun clip în această categorie încă.
