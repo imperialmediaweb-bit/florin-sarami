@@ -2,12 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
 import PortfolioGrid from '@/components/PortfolioGrid';
+import { getPortfolio } from '@/lib/portfolio';
 
 export const metadata: Metadata = {
   title: 'Portofoliu',
   description:
     'Portofoliu Sarami Media: clipuri social media, videoclipuri promoționale, podcasturi, evenimente și interviuri editate profesional.',
 };
+
+// clipurile adăugate din /admin apar instant
+export const dynamic = 'force-dynamic';
 
 export default function PortofoliuPage() {
   return (
@@ -27,11 +31,8 @@ export default function PortofoliuPage() {
 
       <section className="section-tight">
         <div className="container">
-          {/*
-            Clipurile se adaugă în components/PortfolioGrid.tsx — completezi
-            `videoId` cu ID-ul de pe YouTube pentru fiecare element din ITEMS.
-          */}
-          <PortfolioGrid />
+          {/* clipurile se administrează din /admin → Portofoliu */}
+          <PortfolioGrid items={getPortfolio()} />
           <p className="center mt-3" style={{ color: 'var(--text-faint)', fontSize: '.92rem' }}>
             🎬 Galeria se actualizează constant cu cele mai noi proiecte.
           </p>

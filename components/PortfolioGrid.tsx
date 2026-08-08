@@ -1,32 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import type { FolioItem } from '@/lib/portfolio';
 
-type Category = 'social' | 'promo' | 'podcast' | 'eveniment';
-
-type FolioItem = {
-  cat: Category;
-  tag: string;
-  title: string;
-  desc: string;
-  gradient?: string;
-  /**
-   * ID-ul clipului de pe YouTube (ex: pentru youtube.com/watch?v=abc123XYZ
-   * pune videoId: 'abc123XYZ'). Cât timp lipsește, se afișează un placeholder.
-   */
-  videoId?: string;
-};
-
-const ITEMS: FolioItem[] = [
-  { cat: 'social', tag: 'Social Media', title: 'Campanie Reels — brand fashion', desc: 'Clipuri verticale cu subtitrări dinamice și hook-uri puternice' },
-  { cat: 'promo', tag: 'Promoțional', title: 'Video prezentare firmă', desc: 'Spot de brand cu motion graphics și voce profesională', gradient: 'linear-gradient(135deg,#1d4ed8,#0ea5e9)' },
-  { cat: 'podcast', tag: 'Podcast', title: 'Podcast business — episod complet', desc: 'Montaj multi-cameră, curățare audio, clipuri de promovare', gradient: 'linear-gradient(135deg,#0f2050,#2563eb)' },
-  { cat: 'eveniment', tag: 'Eveniment', title: 'Aftermovie conferință', desc: 'Highlight-uri cinematic cu color grading premium', gradient: 'linear-gradient(135deg,#16307a,#38bdf8)' },
-  { cat: 'social', tag: 'Social Media', title: 'Serie TikTok — produs cosmetic', desc: 'Clipuri scurte optimizate pentru conversie', gradient: 'linear-gradient(135deg,#2563eb,#7dd3fc)' },
-  { cat: 'promo', tag: 'Promoțional', title: 'Lansare produs — e-commerce', desc: 'Video de produs cu efecte vizuale și call-to-action', gradient: 'linear-gradient(135deg,#10245a,#0ea5e9)' },
-];
-
-const FILTERS: { key: 'toate' | Category; label: string }[] = [
+const CATS: { key: 'toate' | FolioItem['cat']; label: string }[] = [
   { key: 'toate', label: 'Toate' },
   { key: 'social', label: 'Social Media' },
   { key: 'promo', label: 'Promoționale' },
@@ -34,14 +11,25 @@ const FILTERS: { key: 'toate' | Category; label: string }[] = [
   { key: 'eveniment', label: 'Evenimente' },
 ];
 
-export default function PortfolioGrid() {
-  const [filter, setFilter] = useState<'toate' | Category>('toate');
-  const visible = ITEMS.filter(i => filter === 'toate' || i.cat === filter);
+const GRADIENTS = [
+  'linear-gradient(135deg,#10245a,#1d4ed8)',
+  'linear-gradient(135deg,#1d4ed8,#0ea5e9)',
+  'linear-gradient(135deg,#0f2050,#2563eb)',
+  'linear-gradient(135deg,#16307a,#38bdf8)',
+  'linear-gradient(135deg,#2563eb,#7dd3fc)',
+  'linear-gradient(135deg,#10245a,#0ea5e9)',
+];
+
+/** Grila de portofoliu — clipurile se administrează din /admin → Portofoliu. */
+export default function PortfolioGrid({ items }: { items: FolioItem[] }) {
+  const [filter, setFilter] = useState<'toate' | FolioItem['cat']>('toate');
+  const visible = items.filter(i => filter === 'toate' || i.cat === filter);
+  const activeCats = CATS.filter(c => c.key === 'toate' || items.some(i => i.cat === c.key));
 
   return (
     <>
       <div className="folio-filters reveal in">
-        {FILTERS.map(f => (
+        {activeCats.map(f => (
           <button key={f.key} className={filter === f.key ? 'active' : ''} onClick={() => setFilter(f.key)}>
             {f.label}
           </button>
@@ -49,8 +37,8 @@ export default function PortfolioGrid() {
       </div>
 
       <div className="folio-grid">
-        {visible.map(item => (
-          <article className="folio-item reveal in" key={item.title}>
+        {visible.map((item, i) => (
+          <article className="folio-item reveal in" key={item.id}>
             {item.videoId ? (
               <div className="folio-media">
                 <iframe
@@ -62,17 +50,22 @@ export default function PortfolioGrid() {
                 />
               </div>
             ) : (
-              <div className="folio-media placeholder" style={item.gradient ? { background: item.gradient } : undefined}>
+              <div className="folio-media placeholder" style={{ background: GRADIENTS[i % GRADIENTS.length] }}>
                 <div className="mock-play"></div>
               </div>
             )}
             <div className="folio-body">
-              <span className="folio-tag">{item.tag}</span>
+              <span className="folio-tag">{CATS.find(c => c.key === item.cat)?.label || item.cat}</span>
               <h3>{item.title}</h3>
               <span>{item.desc}</span>
             </div>
           </article>
         ))}
+        {visible.length === 0 && (
+          <p style={{ color: 'var(--text-faint)', gridColumn: '1 / -1', textAlign: 'center' }}>
+            Niciun clip în această categorie încă.
+          </p>
+        )}
       </div>
     </>
   );

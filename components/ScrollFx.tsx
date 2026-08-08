@@ -53,10 +53,16 @@ export default function ScrollFx() {
     counters.forEach(el => cio.observe(el));
 
     // 3D tilt + spotlight: cardurile se înclină subtil după cursor
+    // (calculul rulează o singură dată pe cadru — requestAnimationFrame — ca să nu sacadeze)
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const TILT_SELECTOR = '.card, .media-card, .folio-item, .step, .value-pill, .stat';
+    let rafId = 0;
+    let lastEvent: PointerEvent | null = null;
 
-    const onMove = (e: PointerEvent) => {
+    const applyMove = () => {
+      rafId = 0;
+      const e = lastEvent;
+      if (!e) return;
       const target = e.target as Element | null;
       const card = target?.closest?.('.card') as HTMLElement | null;
       if (card) {
@@ -74,6 +80,11 @@ export default function ScrollFx() {
         `perspective(900px) rotateX(${(-py * 7).toFixed(2)}deg) rotateY(${(px * 9).toFixed(2)}deg) translateY(-6px)`;
     };
 
+    const onMove = (e: PointerEvent) => {
+      lastEvent = e;
+      if (!rafId) rafId = requestAnimationFrame(applyMove);
+    };
+
     const onOut = (e: PointerEvent) => {
       const tiltEl = (e.target as Element | null)?.closest?.(TILT_SELECTOR) as HTMLElement | null;
       if (!tiltEl) return;
@@ -88,6 +99,7 @@ export default function ScrollFx() {
     return () => {
       io.disconnect();
       cio.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
       document.removeEventListener('pointermove', onMove);
       document.removeEventListener('pointerout', onOut);
     };
