@@ -42,7 +42,7 @@
   --shadow-glow: 0 20px 60px -18px rgba(29, 78, 216, .38);
   --font-head: "Sora", "Segoe UI", sans-serif;
   --font-body: "Inter", "Segoe UI", sans-serif;
-  --nav-h: 88px;
+  --nav-h: 96px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -139,10 +139,12 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
 .logo-pill:hover { transform: translateY(-2px); }
 /* multiply face ca un PNG cu fundal alb/deschis să dispară pe fundalul deschis */
 .logo-pill img { mix-blend-mode: multiply; }
-.nav-logo img { height: 76px; width: auto; }
-@media (max-width: 640px) { .nav-logo img { height: 54px; } }
+/* logo mare; scale compensează spațiul alb din jurul graficii din PNG */
+.nav-logo img { height: 84px; width: auto; transform-origin: left center; transform: scale(1.22); }
+.logo-pill:hover .nav-logo img, .nav-logo:hover img { transform: scale(1.26); }
+@media (max-width: 640px) { .nav-logo img { height: 56px; } }
 .footer-brand .logo-pill { margin-bottom: 18px; }
-.footer-brand .logo-pill img { height: 64px; margin-bottom: 0; }
+.footer-brand .logo-pill img { height: 74px; margin-bottom: 0; transform-origin: left center; transform: scale(1.15); }
 
 .nav-links { display: flex; align-items: center; gap: 6px; }
 .nav-links a {
