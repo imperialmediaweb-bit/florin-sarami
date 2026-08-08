@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { dataDir } from './storage';
+import { cloudPut } from './cloudstore';
 
 export type FolioItem = {
   id: string;
@@ -52,5 +53,7 @@ export function getPortfolio(): FolioItem[] {
 }
 
 export function savePortfolio(items: FolioItem[]) {
-  fs.writeFileSync(fileFor(), JSON.stringify(items, null, 2) + '\n');
+  const json = JSON.stringify(items, null, 2) + '\n';
+  fs.writeFileSync(fileFor(), json);
+  void cloudPut('portofoliu', 'items.json', json);
 }

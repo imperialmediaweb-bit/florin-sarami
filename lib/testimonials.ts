@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { dataDir } from './storage';
+import { cloudPut } from './cloudstore';
 
 export type Testimonial = {
   id: string;
@@ -53,5 +54,7 @@ export function getTestimonials(): Testimonial[] {
 }
 
 export function saveTestimonials(items: Testimonial[]) {
-  fs.writeFileSync(fileFor(), JSON.stringify(items, null, 2) + '\n');
+  const json = JSON.stringify(items, null, 2) + '\n';
+  fs.writeFileSync(fileFor(), json);
+  void cloudPut('testimoniale', 'items.json', json);
 }

@@ -3,6 +3,7 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 import { isAuthorized } from '@/lib/admin';
 import { getBlogDir } from '@/lib/blog';
+import { cloudDelete, markBlogDeleted } from '@/lib/cloudstore';
 
 export async function POST(req: Request) {
   if (!isAuthorized(req)) {
@@ -27,6 +28,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Articolul nu există.' }, { status: 404 });
     }
     fs.unlinkSync(file);
+    await cloudDelete('blog', `${slug}.json`);
+    markBlogDeleted(slug);
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : 'Ștergerea a eșuat.' },

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { dataDir } from './storage';
+import { cloudPut } from './cloudstore';
 
 export type SiteSettings = {
   telefon: string;
@@ -43,5 +44,7 @@ export function getSettings(): SiteSettings {
 }
 
 export function saveSettings(s: SiteSettings) {
-  fs.writeFileSync(fileFor(), JSON.stringify(s, null, 2) + '\n');
+  const json = JSON.stringify(s, null, 2) + '\n';
+  fs.writeFileSync(fileFor(), json);
+  void cloudPut('setari', 'site.json', json);
 }

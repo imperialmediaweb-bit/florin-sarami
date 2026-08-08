@@ -3,6 +3,7 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 import { isAuthorized } from '@/lib/admin';
 import { dataDir } from '@/lib/storage';
+import { cloudDelete } from '@/lib/cloudstore';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,5 +37,6 @@ export async function POST(req: Request) {
   }
   const file = path.join(dataDir('mesaje'), `${id}.json`);
   if (fs.existsSync(file)) fs.unlinkSync(file);
+  await cloudDelete('mesaje', `${id}.json`);
   return NextResponse.json({ ok: true });
 }

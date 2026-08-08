@@ -3,6 +3,7 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 import { isAuthorized } from '@/lib/admin';
 import { getBlogDir } from '@/lib/blog';
+import { cloudPut, unmarkBlogDeleted } from '@/lib/cloudstore';
 
 export async function POST(req: Request) {
   if (!isAuthorized(req)) {
@@ -52,7 +53,10 @@ export async function POST(req: Request) {
   };
 
   try {
-    fs.writeFileSync(path.join(getBlogDir(), `${slug}.json`), JSON.stringify(post, null, 2) + '\n');
+    const json = JSON.stringify(post, null, 2) + '\n';
+    fs.writeFileSync(path.join(getBlogDir(), `${slug}.json`), json);
+    await cloudPut('blog', `${slug}.json`, json);
+    unmarkBlogDeleted(slug);
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : 'Salvarea a eșuat.' },

@@ -3,6 +3,7 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 import { brandEmail, fieldsTable, nl2br } from '@/lib/email';
 import { dataDir } from '@/lib/storage';
+import { cloudPut } from '@/lib/cloudstore';
 
 /**
  * Trimite mesajele din formularul de contact prin Resend (https://resend.com).
@@ -42,14 +43,14 @@ export async function POST(req: Request) {
   // indiferent dacă emailul prin Resend reușește sau nu
   const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   try {
-    fs.writeFileSync(
-      path.join(dataDir('mesaje'), `${id}.json`),
-      JSON.stringify(
-        { id, date: new Date().toISOString(), formular, serviciu, nume, email, telefon, mesaj, extra },
-        null,
-        2
-      )
+    const json = JSON.stringify(
+      { id, date: new Date().toISOString(), formular, serviciu, nume, email, telefon, mesaj, extra },
+      null,
+      2
     );
+    fs.writeFileSync(path.join(dataDir('mesaje'), `${id}.json`), json);
+    // și în seiful Cloudinary — briefurile supraviețuiesc redeploy-urilor
+    await cloudPut('mesaje', `${id}.json`, json);
   } catch (err) {
     console.error('Nu am putut salva mesajul pe disc:', err);
   }
