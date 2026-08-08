@@ -2,25 +2,27 @@
 /**
  * Import articole din WordPress în content/blog/ (fișiere JSON).
  *
- * Folosire (de pe calculatorul tău, cu acces la site):
- *   npm run import:wp                          → importă de pe https://sarami.ro
- *   npm run import:wp -- https://alt-site.ro   → importă de pe alt site WordPress
+ * Două moduri de folosire:
+ *
+ *  A) Prin API-ul WordPress (site-ul trebuie să fie funcțional):
+ *       npm run import:wp                          → importă de pe https://sarami.ro
+ *       npm run import:wp -- https://alt-site.ro   → alt site WordPress
+ *
+ *  B) Din fișierul XML de export WordPress (merge chiar dacă API-ul e stricat):
+ *       1. Intră în wp-admin → Instrumente (Tools) → Export → „Tot conținutul"
+ *          → Descarcă fișierul de export (un .xml).
+ *       2. Copiază fișierul în folderul proiectului (poți să-l redenumești export.xml).
+ *       3. Rulează:  npm run import:wp -- export.xml
  *
  * Imagini pe Cloudinary (opțional, recomandat):
- *   Setează variabila de mediu CLOUDINARY_URL înainte de rulare — o găsești în
- *   Cloudinary → Dashboard → "API environment variable", are forma:
- *     cloudinary://API_KEY:API_SECRET@NUME_CLOUD
- *   Exemplu:
- *     CLOUDINARY_URL="cloudinary://123:abc@sarami" npm run import:wp
- *   Cu variabila setată, imaginile sunt urcate în Cloudinary (folderul
- *   sarami-blog/) și articolele folosesc link-urile de acolo. Fără ea,
- *   imaginile se descarcă local în public/blog/.
+ *   Creează fișierul .env (vezi .env.example) cu cheile din Cloudinary → Dashboard.
+ *   Cu .env completat, imaginile sunt urcate în Cloudinary (folderul sarami-blog/);
+ *   fără el, se descarcă local în public/blog/.
  *
  * Protecție SEO (automat):
- *   Scriptul reține URL-ul vechi al fiecărui articol (ex: sarami.ro/titlu-articol/)
- *   și scrie redirect-uri 301 în public/.htaccess către noile adrese
- *   (sarami.ro/blog/titlu-articol/). Astfel Google nu găsește pagini lipsă (404),
- *   ci urmează redirectul și transferă autoritatea vechilor pagini către cele noi.
+ *   Scriptul reține URL-ul vechi al fiecărui articol și scrie redirect-uri 301
+ *   în public/.htaccess către noile adrese (/blog/slug/), ca Google să nu
+ *   găsească pagini lipsă (404) după mutare.
  *
  * După import: npm run build (articolele apar automat pe /blog).
  */
@@ -29,7 +31,9 @@ import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 
-const BASE = (process.argv[2] || 'https://sarami.ro').replace(/\/+$/, '');
+const ARG = process.argv[2] || 'https://sarami.ro';
+const IS_XML = ARG.toLowerCase().endsWith('.xml');
+const BASE = IS_XML ? 'https://sarami.ro' : ARG.replace(/\/+$/, '');
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'blog');
 const IMG_DIR = path.join(process.cwd(), 'public', 'blog');
 const HTACCESS = path.join(process.cwd(), 'public', '.htaccess');
@@ -49,7 +53,6 @@ if (fs.existsSync(envPath)) {
 /* ---------- Cloudinary (opțional) ---------- */
 let cloudinary = null;
 {
-  // acceptă fie CLOUDINARY_URL, fie cele 3 variabile separate din dashboard
   const cldMatch = (process.env.CLOUDINARY_URL || '').match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/);
   if (cldMatch) {
     cloudinary = { key: cldMatch[1], secret: cldMatch[2], cloud: cldMatch[3] };
@@ -86,8 +89,7 @@ async function uploadToCloudinary(url, slugHint) {
     body,
   });
   if (!res.ok) throw new Error(`Cloudinary HTTP ${res.status}: ${await res.text()}`);
-  const data = await res.json();
-  return data.secure_url;
+  return (await res.json()).secure_url;
 }
 
 async function downloadLocally(url, slugHint) {
@@ -108,16 +110,20 @@ async function processImage(url, slugHint) {
   }
 }
 
-/* ---------- Import articole ---------- */
 const stripTags = html =>
   html.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 
-/**
- * Unele instalări WordPress (mai vechi sau cu pluginuri stricate) dau eroare 500
- * la parametrul _embed sau la pagini mari. Încercăm pe rând variante tot mai
- * conservatoare până când una funcționează.
- */
-async function fetchAllPosts() {
+/* ============================================================
+   MOD A — import prin API-ul WordPress
+   ============================================================ */
+
+async function fetchAllPostsFromApi() {
+  // Unele instalări dau 500 la _embed, la pagini mari sau chiar pe /wp-json.
+  // Încercăm variante tot mai conservatoare, inclusiv ruta ?rest_route=.
+  const roots = [
+    q => `${BASE}/wp-json/wp/v2/${q.endpoint}?${q.params}`,
+    q => `${BASE}/?rest_route=/wp/v2/${q.endpoint}&${q.params}`,
+  ];
   const variants = [
     { perPage: 100, embed: true },
     { perPage: 20, embed: true },
@@ -125,39 +131,45 @@ async function fetchAllPosts() {
     { perPage: 5, embed: false },
   ];
   let lastError = null;
-  for (const v of variants) {
-    try {
-      const posts = [];
-      for (let page = 1; ; page++) {
-        const url = `${BASE}/wp-json/wp/v2/posts?per_page=${v.perPage}&page=${page}${v.embed ? '&_embed' : ''}`;
-        const res = await fetch(url);
-        if (res.status === 400) break; // pagină inexistentă → am terminat
-        if (!res.ok) throw new Error(`HTTP ${res.status} la ${url}`);
-        const batch = await res.json();
-        posts.push(...batch);
-        const totalPages = parseInt(res.headers.get('x-wp-totalpages') || '1', 10);
-        if (page >= totalPages) break;
+  for (const root of roots) {
+    for (const v of variants) {
+      try {
+        const posts = [];
+        for (let page = 1; ; page++) {
+          const url = root({
+            endpoint: 'posts',
+            params: `per_page=${v.perPage}&page=${page}${v.embed ? '&_embed' : ''}`,
+          });
+          const res = await fetch(url);
+          if (res.status === 400) break; // pagină inexistentă → am terminat
+          if (!res.ok) throw new Error(`HTTP ${res.status} la ${url}`);
+          const batch = await res.json();
+          posts.push(...batch);
+          const totalPages = parseInt(res.headers.get('x-wp-totalpages') || '1', 10);
+          if (page >= totalPages) break;
+        }
+        return { posts, embedded: v.embed, root };
+      } catch (err) {
+        lastError = err;
+        console.warn(`  ⚠ variantă eșuată (${err.message}) — încerc altfel...`);
       }
-      return { posts, embedded: v.embed };
-    } catch (err) {
-      lastError = err;
-      console.warn(`  ⚠ varianta per_page=${v.perPage}${v.embed ? ' + _embed' : ''} a eșuat (${err.message}) — încerc altfel...`);
     }
   }
   throw new Error(
-    `Nu am putut citi articolele din ${BASE}.\n` +
-    `Ultima eroare: ${lastError?.message}\n` +
-    `Verifică în browser dacă ${BASE}/wp-json/wp/v2/posts se deschide și afișează date JSON.\n` +
-    `Dacă dă eroare, API-ul REST al WordPress-ului e stricat sau blocat de un plugin de securitate.`
+    `Nu am putut citi articolele din ${BASE} prin API.\n` +
+    `Ultima eroare: ${lastError?.message}\n\n` +
+    `SOLUȚIE SIGURĂ — importă din fișierul de export WordPress:\n` +
+    `  1. Intră pe ${BASE}/wp-admin → Instrumente (Tools) → Export → „Tot conținutul" → Descarcă.\n` +
+    `  2. Copiază fișierul .xml descărcat în folderul proiectului (redenumește-l export.xml).\n` +
+    `  3. Rulează:  npm run import:wp -- export.xml`
   );
 }
 
-/** Categoriile, luate separat când _embed nu funcționează. */
-async function fetchCategoryMap() {
+async function fetchCategoryMap(root) {
   const map = new Map();
   try {
     for (let page = 1; ; page++) {
-      const res = await fetch(`${BASE}/wp-json/wp/v2/categories?per_page=100&page=${page}`);
+      const res = await fetch(root({ endpoint: 'categories', params: `per_page=100&page=${page}` }));
       if (!res.ok) break;
       const batch = await res.json();
       batch.forEach(c => map.set(c.id, c.name));
@@ -168,10 +180,9 @@ async function fetchCategoryMap() {
   return map;
 }
 
-/** Imaginea reprezentativă, luată separat când _embed nu funcționează. */
-async function fetchFeaturedMediaUrl(mediaId) {
+async function fetchFeaturedMediaUrl(root, mediaId) {
   try {
-    const res = await fetch(`${BASE}/wp-json/wp/v2/media/${mediaId}`);
+    const res = await fetch(root({ endpoint: `media/${mediaId}`, params: '' }));
     if (!res.ok) return null;
     return (await res.json()).source_url || null;
   } catch {
@@ -179,63 +190,154 @@ async function fetchFeaturedMediaUrl(mediaId) {
   }
 }
 
-console.log(`\nImport articole din ${BASE} ...`);
-const { posts, embedded } = await fetchAllPosts();
-console.log(`Găsite: ${posts.length} articole publicate.\n`);
-const categoryMap = embedded ? null : await fetchCategoryMap();
+async function importFromApi() {
+  console.log(`\nImport articole din ${BASE} (prin API) ...`);
+  const { posts, embedded, root } = await fetchAllPostsFromApi();
+  console.log(`Găsite: ${posts.length} articole publicate.\n`);
+  const categoryMap = embedded ? null : await fetchCategoryMap(root);
 
-const redirects = [];
+  const normalized = [];
+  for (const p of posts) {
+    let category;
+    if (embedded) {
+      const terms = p._embedded?.['wp:term']?.flat() || [];
+      category = terms.find(t => t.taxonomy === 'category' && t.name !== 'Uncategorized')?.name;
+    } else {
+      category = (p.categories || []).map(id => categoryMap.get(id)).find(n => n && n !== 'Uncategorized');
+    }
+    const featuredUrl = embedded
+      ? p._embedded?.['wp:featuredmedia']?.[0]?.source_url
+      : p.featured_media ? await fetchFeaturedMediaUrl(root, p.featured_media) : null;
 
-for (const p of posts) {
-  const slug = p.slug;
-  console.log(`→ ${slug}`);
+    normalized.push({
+      slug: p.slug,
+      title: stripTags(p.title?.rendered || p.slug),
+      date: p.date,
+      category,
+      excerpt: stripTags(p.excerpt?.rendered || '').slice(0, 220),
+      contentHtml: p.content?.rendered || '',
+      featuredUrl: featuredUrl || null,
+      oldLink: p.link || null,
+    });
+  }
+  return normalized;
+}
 
-  // categoria principală
-  let category;
-  if (embedded) {
-    const terms = p._embedded?.['wp:term']?.flat() || [];
-    category = terms.find(t => t.taxonomy === 'category' && t.name !== 'Uncategorized')?.name;
-  } else {
-    category = (p.categories || []).map(id => categoryMap.get(id)).find(n => n && n !== 'Uncategorized');
+/* ============================================================
+   MOD B — import din fișierul XML de export WordPress (WXR)
+   ============================================================ */
+
+const unCdata = v => {
+  const m = v.match(/^\s*<!\[CDATA\[([\s\S]*)\]\]>\s*$/);
+  return m ? m[1] : v;
+};
+const decodeEntities = s =>
+  s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
+   .replace(/&#0?39;/g, "'").replace(/&#8217;/g, '’').replace(/&amp;/g, '&');
+const xmlTag = (tag, xml) => {
+  const m = xml.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`));
+  return m ? unCdata(m[1]).trim() : '';
+};
+
+function importFromXml(file) {
+  console.log(`\nImport articole din fișierul ${file} ...`);
+  if (!fs.existsSync(file)) {
+    throw new Error(`Nu găsesc fișierul ${file}. Pune-l în folderul proiectului și rulează din nou.`);
+  }
+  const xml = fs.readFileSync(file, 'utf8');
+  const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(m => m[1]);
+
+  // atașamentele (imaginile) din export: id → URL
+  const attachments = new Map();
+  for (const item of items) {
+    if (xmlTag('wp:post_type', item) === 'attachment') {
+      const id = xmlTag('wp:post_id', item);
+      const url = xmlTag('wp:attachment_url', item);
+      if (id && url) attachments.set(id, url);
+    }
   }
 
-  // imaginea reprezentativă
+  const normalized = [];
+  for (const item of items) {
+    if (xmlTag('wp:post_type', item) !== 'post') continue;
+    if (xmlTag('wp:status', item) !== 'publish') continue;
+
+    const slug = xmlTag('wp:post_name', item) || xmlTag('title', item).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const catMatch = [...item.matchAll(/<category domain="category"[^>]*>([\s\S]*?)<\/category>/g)]
+      .map(m => unCdata(m[1]).trim())
+      .find(n => n && n !== 'Uncategorized');
+
+    // imaginea reprezentativă: postmeta _thumbnail_id → attachment URL
+    let featuredUrl = null;
+    const thumbMeta = item.match(/<wp:meta_key>(?:<!\[CDATA\[)?_thumbnail_id(?:\]\]>)?<\/wp:meta_key>\s*<wp:meta_value>(?:<!\[CDATA\[)?(\d+)(?:\]\]>)?<\/wp:meta_value>/);
+    if (thumbMeta) featuredUrl = attachments.get(thumbMeta[1]) || null;
+
+    const rawDate = xmlTag('wp:post_date', item); // "2023-05-10 09:00:00"
+    normalized.push({
+      slug,
+      title: decodeEntities(xmlTag('title', item)) || slug,
+      date: rawDate ? rawDate.replace(' ', 'T') : new Date().toISOString(),
+      category: catMatch,
+      excerpt: stripTags(decodeEntities(xmlTag('excerpt:encoded', item) || xmlTag('content:encoded', item))).slice(0, 220),
+      contentHtml: xmlTag('content:encoded', item),
+      featuredUrl,
+      oldLink: xmlTag('link', item) || null,
+    });
+  }
+  console.log(`Găsite: ${normalized.length} articole publicate în export.\n`);
+  return normalized;
+}
+
+/* ============================================================
+   Procesare comună: imagini, salvare JSON, redirecturi 301
+   ============================================================ */
+
+const rawPosts = IS_XML ? importFromXml(ARG) : await importFromApi();
+const redirects = [];
+
+for (const p of rawPosts) {
+  console.log(`→ ${p.slug}`);
+
   let image;
-  const media = embedded
-    ? p._embedded?.['wp:featuredmedia']?.[0]?.source_url
-    : p.featured_media ? await fetchFeaturedMediaUrl(p.featured_media) : null;
-  if (media) image = (await processImage(media, slug)) || undefined;
+  if (p.featuredUrl) image = (await processImage(p.featuredUrl, p.slug)) || undefined;
 
   // imaginile din conținut
-  let contentHtml = p.content?.rendered || '';
+  let contentHtml = p.contentHtml;
   const imgUrls = [...contentHtml.matchAll(/<img[^>]+src="([^"]+)"/g)]
     .map(m => m[1])
     .filter(u => u.startsWith(BASE) || u.includes('/wp-content/'));
   for (const u of new Set(imgUrls)) {
-    const newUrl = await processImage(u, slug);
+    const newUrl = await processImage(u, p.slug);
     if (newUrl) contentHtml = contentHtml.split(u).join(newUrl);
   }
 
   // redirect 301: vechiul URL WordPress → noul URL /blog/slug/
-  try {
-    const oldPath = new URL(p.link).pathname;
-    const newPath = `/blog/${slug}/`;
-    if (oldPath !== newPath && oldPath !== '/') redirects.push({ from: oldPath, to: newPath });
-  } catch { /* link invalid — sărim */ }
+  if (p.oldLink) {
+    try {
+      const oldPath = new URL(p.oldLink).pathname;
+      const newPath = `/blog/${p.slug}/`;
+      if (oldPath !== newPath && oldPath !== '/') redirects.push({ from: oldPath, to: newPath });
+    } catch { /* link invalid — sărim */ }
+  }
 
-  const post = {
-    slug,
-    title: stripTags(p.title?.rendered || slug),
-    date: p.date,
-    category,
-    excerpt: stripTags(p.excerpt?.rendered || '').slice(0, 220),
-    contentHtml,
-    image,
-  };
-  fs.writeFileSync(path.join(CONTENT_DIR, `${slug}.json`), JSON.stringify(post, null, 2));
+  fs.writeFileSync(
+    path.join(CONTENT_DIR, `${p.slug}.json`),
+    JSON.stringify(
+      {
+        slug: p.slug,
+        title: p.title,
+        date: p.date,
+        category: p.category,
+        excerpt: p.excerpt,
+        contentHtml,
+        image,
+      },
+      null,
+      2
+    )
+  );
 }
 
-/* ---------- Scrie redirecturile 301 (.htaccess) ---------- */
 if (redirects.length) {
   const lines = [
     '# ============================================================',
@@ -251,5 +353,5 @@ if (redirects.length) {
   console.log('  (fișierul ajunge automat în out/ la build și e citit de serverul Apache/cPanel)');
 }
 
-console.log(`\n✔ Gata! ${posts.length} articole salvate în content/blog/.`);
+console.log(`\n✔ Gata! ${rawPosts.length} articole salvate în content/blog/.`);
 console.log('Rulează acum `npm run build` — articolele apar pe pagina /blog.');
