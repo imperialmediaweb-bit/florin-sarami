@@ -2,13 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
+import JsonLd, { faqSchema, serviceSchema } from '@/components/JsonLd';
 import MediaCard from '@/components/MediaCard';
 import { ArrowIcon, MockPlayer } from '@/components/Visuals';
 
 export const metadata: Metadata = {
-  title: 'Editare Video Profesională',
+  title: 'Servicii Editare Video & Montaj Video Profesional',
   description:
-    'Servicii profesionale de editare video: montaj, subtitrări, tranziții, corecții de culoare și efecte vizuale. Clipuri pentru Facebook, Instagram, TikTok, YouTube, podcasturi și evenimente.',
+    'Editare video profesională: montaj video, subtitrări dinamice, tranziții, corecții de culoare și efecte vizuale. Clipuri pentru Facebook, Instagram Reels, TikTok, YouTube, podcasturi și evenimente. Livrare în 48h, revizii incluse.',
+  keywords: ['editare video', 'montaj video', 'servicii editare video', 'editor video', 'clipuri TikTok', 'editare Reels', 'editare podcast', 'video evenimente', 'subtitrari video', 'color grading'],
+  alternates: { canonical: '/editare-video/' },
 };
 
 const INCLUDES = [
@@ -78,6 +81,18 @@ const FOLIO_TEASER = [
 export default function EditareVideoPage() {
   return (
     <>
+      <JsonLd data={serviceSchema(
+        'Editare video profesională',
+        'Montaj video, subtitrări dinamice, tranziții, corecții de culoare, efecte vizuale și optimizare pentru Facebook, Instagram, TikTok și YouTube. Livrare medie 48 de ore, revizii incluse.',
+        '/editare-video/'
+      )} />
+      <JsonLd data={faqSchema([
+        { q: 'Ce program folosiți pentru editare?', a: 'Lucrăm cu software profesional de post-producție (Adobe Premiere Pro, After Effects, DaVinci Resolve). Clientul primește direct fișierele finale, fără să aibă nevoie de cunoștințe tehnice.' },
+        { q: 'Filmările mele sunt de pe telefon. Se poate face ceva cu ele?', a: 'Da. Prin montaj, corecții de culoare și sunet curat, un material filmat cu telefonul poate arăta profesionist — majoritatea clipurilor virale de pe TikTok și Reels sunt filmate cu telefonul.' },
+        { q: 'Puneți voi muzică pe clipuri?', a: 'Da, folosim muzică licențiată aleasă potrivit cu tonul și ritmul clipului.' },
+        { q: 'Câte revizii sunt incluse?', a: 'Fiecare proiect include revizii, stabilite în ofertă în funcție de complexitate, până când clientul este mulțumit de rezultat.' },
+        { q: 'În cât timp primesc videoclipul finalizat?', a: 'Pentru proiectele standard, timpul mediu de livrare este de 48 de ore. Proiectele complexe pot dura 3-7 zile lucrătoare.' },
+      ])} />
       {/* Hero */}
       <section className="hero" style={{ minHeight: 'auto' }}>
         <div className="hero-slide active" style={{ padding: '80px 0 70px' }}>

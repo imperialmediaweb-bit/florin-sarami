@@ -5,6 +5,7 @@ import PortfolioGrid from '@/components/PortfolioGrid';
 import { getPortfolio } from '@/lib/portfolio';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/portofoliu/' },
   title: 'Portofoliu',
   description:
     'Portofoliu Sarami Media: clipuri social media, videoclipuri promoționale, podcasturi, evenimente și interviuri editate profesional.',

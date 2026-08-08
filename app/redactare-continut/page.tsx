@@ -2,13 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
+import JsonLd, { faqSchema, serviceSchema } from '@/components/JsonLd';
 import LatestPosts from '@/components/LatestPosts';
 import { ArrowIcon, MockDoc } from '@/components/Visuals';
 
 export const metadata: Metadata = {
-  title: 'Redactare Conținut — Articole Blog, Descrieri Produse',
+  title: 'Servicii Redactare Conținut & Content Writing — Articole SEO',
   description:
-    'Redactare de conținut 100% Human Written: articole de blog SEO, descrieri de produse, pagini de prezentare, comunicate și advertoriale. Conținut scris de oameni reali, apreciat de Google.',
+    'Redactare conținut 100% Human Written: articole de blog optimizate SEO, descrieri de produse, pagini de prezentare, comunicate de presă și advertoriale. Conținut scris de redactori reali, apreciat de Google. Cere ofertă!',
+  keywords: ['redactare continut', 'content writing', 'articole SEO', 'redactare articole', 'descrieri produse', 'advertoriale', 'copywriting Romania', 'content writer', 'articole blog', 'redactor articole'],
+  alternates: { canonical: '/redactare-continut/' },
 };
 
 const SERVICES = [
@@ -94,6 +97,17 @@ const FAQ_ITEMS = [
 export default function RedactareContinutPage() {
   return (
     <>
+      <JsonLd data={serviceSchema(
+        'Redactare conținut 100% Human Written',
+        'Articole de blog optimizate SEO, descrieri de produse, pagini de prezentare, comunicate de presă și advertoriale — scrise integral de redactori umani, verificate la plagiat.',
+        '/redactare-continut/'
+      )} />
+      <JsonLd data={faqSchema([
+        { q: 'Chiar scrieți totul manual, fără AI?', a: 'Da — la cerere, toate materialele sunt scrise integral de redactori umani, de la documentare până la ultima virgulă. Este opțiunea recomandată pentru conținutul care trebuie să performeze pe termen lung în Google.' },
+        { q: 'De ce contează pentru Google cine a scris textul?', a: 'Google evaluează calitatea prin originalitate, profunzime, experiență demonstrată (E-E-A-T) și comportamentul cititorilor pe pagină. Conținutul autentic scris de oameni care cunosc domeniul obține poziții mai bune.' },
+        { q: 'În ce domenii scrieți?', a: 'E-commerce, servicii B2B, medical, juridic, construcții, turism, HoReCa, tehnologie și multe altele — documentarea temeinică face parte din proces.' },
+        { q: 'Textele sunt verificate la plagiat?', a: 'Da, fiecare material este verificat înainte de livrare. Clientul primește conținut 100% original.' },
+      ])} />
       {/* Hero */}
       <section className="hero" style={{ minHeight: 'auto' }}>
         <div className="hero-slide active" style={{ padding: '80px 0 70px' }}>

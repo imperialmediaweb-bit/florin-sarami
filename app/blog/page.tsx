@@ -4,6 +4,7 @@ import CtaBand from '@/components/CtaBand';
 import { formatDate, getAllPosts } from '@/lib/blog';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/blog/' },
   title: 'Blog',
   description: 'Articole despre editare video, content marketing și creare de conținut, scrise de echipa Sarami Media.',
 };

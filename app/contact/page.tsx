@@ -5,6 +5,7 @@ import Faq from '@/components/Faq';
 import { getSettings } from '@/lib/settings';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/contact/' },
   title: 'Contact',
   description:
     'Contactează Sarami Media pentru editare video și redactare de conținut. Trimite-ne un mesaj și primești rapid o ofertă personalizată.',

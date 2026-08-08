@@ -7,9 +7,18 @@ import LatestPosts from '@/components/LatestPosts';
 import MediaCard from '@/components/MediaCard';
 import { ArrowIcon, MockDoc } from '@/components/Visuals';
 import { getTestimonials } from '@/lib/testimonials';
+import type { Metadata } from 'next';
 
 // testimonialele și articolele administrate din /admin apar instant
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Sarami Media — Servicii Editare Video & Redactare Conținut SEO',
+  description:
+    'Servicii profesionale de editare video (montaj video, subtitrări, clipuri TikTok, Reels, YouTube) și redactare conținut 100% Human Written: articole SEO, descrieri produse, advertoriale. Din 2020, prețuri corecte.',
+  keywords: ['editare video', 'montaj video', 'servicii editare video', 'redactare continut', 'content writing', 'articole SEO', 'descrieri produse', 'clipuri TikTok', 'editare Reels', 'agentie continut'],
+  alternates: { canonical: '/' },
+};
 
 const VIDEO_SERVICES = [
   {

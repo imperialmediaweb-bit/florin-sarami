@@ -6,6 +6,7 @@ import Photo from '@/components/Photo';
 import { ArrowIcon } from '@/components/Visuals';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/despre-noi/' },
   title: 'Despre noi',
   description:
     'Sarami Media — din 2020 în domeniul creării de conținut. Editare video profesională și redactare de conținut pentru branduri care vor să iasă în evidență.',

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CtaBand from '@/components/CtaBand';
+import JsonLd, { breadcrumbSchema } from '@/components/JsonLd';
 import { formatDate, getAllPosts, getPost } from '@/lib/blog';
 
 // randare la fiecare cerere — articolele salvate din /admin apar instant
@@ -11,7 +12,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
-  return { title: post.title, description: post.excerpt };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}/` },
+    openGraph: {
+      type: 'article',
+      title: post.title,
+      description: post.excerpt,
+      url: `/blog/${post.slug}/`,
+      publishedTime: new Date(post.date).toISOString(),
+      ...(post.image ? { images: [{ url: post.image, alt: post.title }] } : {}),
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -19,20 +32,51 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const post = getPost(slug);
   if (!post) notFound();
 
+  // articole similare (aceeași categorie) — interlinking bun pentru SEO
+  const related = getAllPosts()
+    .filter(p => p.slug !== post.slug && (!post.category || p.category === post.category))
+    .slice(0, 3);
+
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: new Date(post.date).toISOString(),
+    inLanguage: 'ro-RO',
+    mainEntityOfPage: `https://sarami.ro/blog/${post.slug}/`,
+    ...(post.image ? { image: [post.image] } : {}),
+    author: { '@type': 'Organization', name: 'Sarami Media', url: 'https://sarami.ro' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Sarami Media',
+      logo: { '@type': 'ImageObject', url: 'https://sarami.ro/assets/logo.png' },
+    },
+  };
+
   return (
     <>
+      <JsonLd data={articleLd} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Blog', url: '/blog/' },
+          { name: post.title, url: `/blog/${post.slug}/` },
+        ])}
+      />
+
       <section className="section" style={{ paddingTop: 70 }}>
         <div className="container">
-          <div className="article">
+          <article className="article">
             <Link href="/blog" className="article-back">← Înapoi la blog</Link>
-            <div className="article-head">
+            <header className="article-head">
               {post.category && <span className="folio-tag">{post.category}</span>}
               <h1 className="h-lg" style={{ marginTop: 14 }}>{post.title}</h1>
               <div className="article-meta">
                 <span>📅 {formatDate(post.date)}</span>
                 <span>✍️ Sarami Media</span>
               </div>
-            </div>
+            </header>
             {post.image && (
               <div className="article-cover">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -40,14 +84,37 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             )}
             <div className="article-body" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
-          </div>
+          </article>
+
+          {related.length > 0 && (
+            <div style={{ maxWidth: 800, margin: '60px auto 0' }}>
+              <h2 className="h-md" style={{ marginBottom: 20 }}>Articole similare</h2>
+              <div style={{ display: 'grid', gap: 12 }}>
+                {related.map(r => (
+                  <Link
+                    key={r.slug}
+                    href={`/blog/${r.slug}`}
+                    className="admin-row"
+                    style={{ display: 'flex' }}
+                  >
+                    <div style={{ minWidth: 0 }}>
+                      <b style={{ display: 'block', fontSize: '.96rem', color: 'var(--text-main)' }}>{r.title}</b>
+                      <span style={{ color: 'var(--text-faint)', fontSize: '.82rem' }}>{formatDate(r.date)}</span>
+                    </div>
+                    <span style={{ color: 'var(--blue-600)', fontWeight: 700 }}>→</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
       <CtaBand
         title="Ai nevoie de conținut pentru afacerea ta?"
         text="Articole, descrieri de produse, texte de site — scrise de oameni reali, optimizate pentru Google."
-        label="Hai să vorbim"
+        label="Completează brief-ul de conținut"
+        href="/brief-continut"
       />
     </>
   );

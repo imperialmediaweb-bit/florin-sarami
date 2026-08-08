@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollFx from '@/components/ScrollFx';
+import JsonLd, { ORGANIZATION, WEBSITE } from '@/components/JsonLd';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sarami.ro'),
@@ -15,6 +16,15 @@ export const metadata: Metadata = {
   description:
     'Transformăm filmările tale în videoclipuri care atrag atenția! Editare video profesională pentru Facebook, Instagram, TikTok și YouTube + redactare de conținut scrisă de oameni reali.',
   icons: { icon: '/assets/favicon.svg' },
+  openGraph: {
+    type: 'website',
+    locale: 'ro_RO',
+    siteName: 'Sarami Media',
+    url: 'https://sarami.ro',
+    images: [{ url: '/assets/logo.png', width: 800, height: 300, alt: 'Sarami Media' }],
+  },
+  twitter: { card: 'summary_large_image' },
+  alternates: { canonical: './' },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -29,6 +39,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
+        <JsonLd data={ORGANIZATION} />
+        <JsonLd data={WEBSITE} />
         <div className="bg-scene"></div>
         <div className="bg-grid"></div>
         <Header />
