@@ -112,7 +112,18 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
   border-bottom: 1px solid var(--line);
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: min(1180px, 92%); margin-inline: auto; }
-.nav-logo img { height: 44px; width: auto; }
+
+/* Logo pe „pastilă" albă, ca pe materialele de brand */
+.logo-pill {
+  display: inline-flex; align-items: center;
+  background: #fff; border-radius: 999px; padding: 8px 20px 8px 12px;
+  box-shadow: 0 8px 26px -8px rgba(5, 11, 29, .7), 0 0 0 1px rgba(125, 211, 252, .25);
+  transition: transform .25s, box-shadow .25s;
+}
+.logo-pill:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -8px rgba(37, 99, 235, .5), 0 0 0 1px rgba(125, 211, 252, .45); }
+.nav-logo img { height: 40px; width: auto; }
+.footer-brand .logo-pill { margin-bottom: 18px; }
+.footer-brand .logo-pill img { height: 42px; margin-bottom: 0; }
 .nav-links { display: flex; align-items: center; gap: 6px; }
 .nav-links a {
   padding: 9px 15px; border-radius: 12px; font-size: .95rem; font-weight: 500;
@@ -616,6 +627,36 @@ main { padding-top: var(--nav-h); }
 .contact-line b { display: block; font-family: var(--font-head); font-size: .98rem; }
 .contact-line span, .contact-line a { color: var(--text-dim); font-size: .95rem; }
 .contact-line a:hover { color: var(--sky-300); }
+
+/* ============ Blog ============ */
+.blog-media { aspect-ratio: 16 / 9; background: linear-gradient(135deg, #10245a, #2563eb); overflow: hidden; display: grid; place-items: center; }
+.blog-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.folio-item:hover .blog-media img { transform: scale(1.05); }
+.blog-media .blog-fallback { font-size: 2.6rem; opacity: .8; }
+.blog-date { color: var(--text-faint); font-size: .84rem; display: block; margin-bottom: 8px; }
+
+.article { max-width: 800px; margin-inline: auto; }
+.article-head { text-align: center; margin-bottom: 20px; }
+.article-meta { display: flex; gap: 16px; align-items: center; justify-content: center; color: var(--text-faint); font-size: .92rem; margin-top: 14px; flex-wrap: wrap; }
+.article-cover { border-radius: var(--radius-lg); overflow: hidden; margin: 36px 0; border: 1px solid var(--line); }
+.article-cover img { width: 100%; }
+.article-body { color: var(--text-dim); font-size: 1.04rem; }
+.article-body h2 { font-family: var(--font-head); color: var(--sky-200); font-size: 1.45rem; margin: 36px 0 14px; }
+.article-body h3 { font-family: var(--font-head); color: var(--text-main); font-size: 1.15rem; margin: 28px 0 10px; }
+.article-body p { margin-bottom: 16px; }
+.article-body a { color: var(--sky-300); text-decoration: underline; }
+.article-body img { border-radius: var(--radius); margin: 26px auto; border: 1px solid var(--line); }
+.article-body ul, .article-body ol { padding-left: 24px; margin-bottom: 16px; }
+.article-body ul { list-style: disc; }
+.article-body li { margin-bottom: 8px; }
+.article-body blockquote {
+  border-left: 3px solid var(--sky-400); padding: 4px 0 4px 20px; margin: 22px 0;
+  color: var(--text-main); font-style: italic;
+}
+.article-body strong { color: var(--text-main); }
+.article-back { display: inline-flex; align-items: center; gap: 8px; color: var(--sky-300); font-weight: 600; margin-bottom: 26px; }
+.article-back:hover { gap: 12px; }
+.article-back { transition: gap .3s; }
 
 /* ============ Pagini legale ============ */
 .legal { max-width: 820px; margin-inline: auto; }
