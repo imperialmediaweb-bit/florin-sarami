@@ -92,11 +92,50 @@ export default function DespreNoiPage() {
         </div>
       </section>
 
+      {/* Fondatorul */}
+      <section className="section-tight">
+        <div className="container">
+          <div className="card reveal" style={{ padding: 'clamp(28px, 4vw, 48px)' }}>
+            <div className="split" style={{ gridTemplateColumns: 'auto 1fr', gap: 'clamp(24px, 4vw, 48px)' }}>
+              <div style={{ width: 'min(220px, 40vw)' }}>
+                <Photo
+                  name="fondator"
+                  alt="Fondatorul Sarami Media"
+                  ratio="1 / 1"
+                  style={{ borderRadius: '50%' }}
+                  fallback={
+                    <div
+                      className="testi-avatar"
+                      style={{ width: 'min(180px, 36vw)', height: 'min(180px, 36vw)', fontSize: '3rem' }}
+                    >
+                      SM
+                    </div>
+                  }
+                />
+              </div>
+              <div>
+                <span className="eyebrow">Omul din spatele Sarami Media</span>
+                <h2 className="h-md">Experiență, nu promisiuni</h2>
+                <p style={{ color: 'var(--text-dim)', marginBottom: 12 }}>
+                  În spatele Sarami Media stă o experiență de <strong style={{ color: 'var(--text-main)' }}>peste 17 ani în copywriting</strong> și
+                  ani buni de <strong style={{ color: 'var(--text-main)' }}>editare video</strong> — mii de articole scrise, sute de clipuri montate
+                  și o pasiune care nu s-a stins din prima zi.
+                </p>
+                <p style={{ color: 'var(--text-dim)' }}>
+                  Fiecare proiect care iese pe ușa noastră trece prin ochii cuiva care face meseria asta de aproape două decenii.
+                  De aceea ne permitem să punem calitatea pe primul loc — la fel ca originalitatea fiecărui material.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Statistici */}
       <section className="section-tight">
         <div className="container">
           <div className="stats reveal">
-            <div className="stat"><b data-count="5" data-suffix="+">0</b><span>Ani de experiență</span></div>
+            <div className="stat"><b data-count="17" data-suffix="+">0</b><span>Ani de experiență în copywriting</span></div>
             <div className="stat"><b data-count="500" data-suffix="+">0</b><span>Proiecte livrate</span></div>
             <div className="stat"><b data-count="100" data-suffix="+">0</b><span>Clienți mulțumiți</span></div>
             <div className="stat"><b data-count="10" data-suffix="+">0</b><span>Domenii acoperite</span></div>
