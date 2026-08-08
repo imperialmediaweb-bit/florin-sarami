@@ -123,6 +123,17 @@ async function processImage(url, slugHint) {
 const stripTags = html =>
   html.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 
+/**
+ * Elimină shortcode-urile WordPress ([vc_row], [vc_cta ...], [caption] etc.) —
+ * pe vechiul site erau transformate în design de pluginuri (WPBakery);
+ * fără pluginuri ar apărea ca text brut în articole. Conținutul dintre
+ * shortcode-uri (textul propriu-zis) este păstrat.
+ */
+const stripShortcodes = html =>
+  html
+    .replace(/\[\/?[a-zA-Z][a-zA-Z0-9_-]*(?:\s[^\]]*)?\]/g, '')
+    .replace(/(\s*\n){3,}/g, '\n\n');
+
 /* ============================================================
    MOD A — import prin API-ul WordPress
    ============================================================ */
@@ -224,7 +235,7 @@ async function importFromApi() {
       title: stripTags(p.title?.rendered || p.slug),
       date: p.date,
       category,
-      excerpt: stripTags(p.excerpt?.rendered || '').slice(0, 220),
+      excerpt: stripTags(stripShortcodes(p.excerpt?.rendered || '')).slice(0, 220),
       contentHtml: p.content?.rendered || '',
       featuredUrl: featuredUrl || null,
       oldLink: p.link || null,
@@ -288,7 +299,7 @@ function importFromXml(file) {
       title: decodeEntities(xmlTag('title', item)) || slug,
       date: rawDate ? rawDate.replace(' ', 'T') : new Date().toISOString(),
       category: catMatch,
-      excerpt: stripTags(decodeEntities(xmlTag('excerpt:encoded', item) || xmlTag('content:encoded', item))).slice(0, 220),
+      excerpt: stripTags(stripShortcodes(decodeEntities(xmlTag('excerpt:encoded', item) || xmlTag('content:encoded', item)))).slice(0, 220),
       contentHtml: xmlTag('content:encoded', item),
       featuredUrl,
       oldLink: xmlTag('link', item) || null,
@@ -414,7 +425,7 @@ function importFromSql(file) {
       title: stripTags(p.post_title) || slug,
       date: (p.post_date || '').replace(' ', 'T') || new Date().toISOString(),
       category: undefined, // categoriile nu se extrag din dump — se pot adăuga manual în JSON
-      excerpt: stripTags(p.post_excerpt || p.post_content).slice(0, 220),
+      excerpt: stripTags(stripShortcodes(p.post_excerpt || p.post_content)).slice(0, 220),
       contentHtml: p.post_content,
       featuredUrl: thumbId ? attachments.get(thumbId) || null : null,
       oldLink: `${BASE}/${slug}/`, // permalink uzual /%postname%/
@@ -436,7 +447,7 @@ for (const p of rawPosts) {
   if (p.featuredUrl) image = (await processImage(p.featuredUrl, p.slug)) || undefined;
 
   // imaginile din conținut
-  let contentHtml = p.contentHtml;
+  let contentHtml = stripShortcodes(p.contentHtml);
   const imgUrls = [...contentHtml.matchAll(/<img[^>]+src="([^"]+)"/g)]
     .map(m => m[1])
     .filter(u => u.startsWith(BASE) || u.includes('/wp-content/'));
