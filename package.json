@@ -5,15 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "node scripts/fetch-photos.mjs && next build",
-    "start": "serve out -l tcp://0.0.0.0:${PORT:-3000}",
+    "start": "next start",
     "import:wp": "node scripts/import-wordpress.mjs",
     "fetch:photos": "node scripts/fetch-photos.mjs"
   },
   "dependencies": {
     "next": "^15.4.6",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "serve": "^14.2.4"
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

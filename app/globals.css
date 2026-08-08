@@ -139,8 +139,12 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
 .logo-pill:hover { transform: translateY(-2px); }
 /* multiply face ca un PNG cu fundal alb/deschis să dispară pe fundalul deschis */
 .logo-pill img { mix-blend-mode: multiply; }
-/* logo mare; scale compensează spațiul alb din jurul graficii din PNG */
-.nav-logo img { height: 96px; width: auto; transform-origin: left center; transform: scale(1.35); }
+/* logo mare; scale compensează spațiul alb din jurul graficii din PNG;
+   halou alb ca textul albastru închis să se citească pe fundalul colorat */
+.nav-logo img {
+  height: 96px; width: auto; transform-origin: left center; transform: scale(1.35);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, .95)) drop-shadow(0 0 26px rgba(255, 255, 255, .8));
+}
 .logo-pill:hover .nav-logo img, .nav-logo:hover img { transform: scale(1.4); }
 @media (max-width: 640px) { .nav-logo img { height: 62px; transform: scale(1.2); } }
 .footer-brand .logo-pill { margin-bottom: 18px; }
