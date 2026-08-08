@@ -47,18 +47,15 @@ Scriptul citește articolele publicate prin API-ul WordPress (`/wp-json/wp/v2/po
 
 ### Imagini pe Cloudinary (opțional, recomandat)
 
-Dacă setezi variabila `CLOUDINARY_URL` înainte de import, imaginile sunt urcate în contul tău Cloudinary (folderul `sarami-blog/`) și articolele folosesc link-urile de acolo. Valoarea o găsești în Cloudinary → Dashboard → „API environment variable":
+Copiază `.env.example` cu numele `.env` (în folderul proiectului) și completează valorile din Cloudinary → Dashboard:
 
-```bash
-# Windows (cmd):
-set CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@NUME_CLOUD
-npm run import:wp
-
-# Mac/Linux:
-CLOUDINARY_URL="cloudinary://API_KEY:API_SECRET@NUME_CLOUD" npm run import:wp
+```
+CLOUDINARY_CLOUD_NAME="numele-cloud"
+CLOUDINARY_API_KEY="cheia-api"
+CLOUDINARY_API_SECRET="secretul-api"
 ```
 
-Fără variabilă, imaginile se descarcă local în `public/blog/` — funcționează la fel de bine.
+Scriptul de import citește automat fișierul `.env`. **Important:** `.env` este în `.gitignore` și nu se urcă niciodată pe GitHub — repository-ul este public, iar cheile ar fi furate de boți în câteva minute. Cu `.env` completat, imaginile sunt urcate în Cloudinary (folderul `sarami-blog/`) și articolele folosesc link-urile de acolo. Fără `.env`, imaginile se descarcă local în `public/blog/` — funcționează la fel de bine.
 
 ### Protecție SEO — vechile URL-uri nu se pierd
 

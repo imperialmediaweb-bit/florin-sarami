@@ -37,15 +37,34 @@ const HTACCESS = path.join(process.cwd(), 'public', '.htaccess');
 fs.mkdirSync(CONTENT_DIR, { recursive: true });
 fs.mkdirSync(IMG_DIR, { recursive: true });
 
+/* ---------- Încarcă .env din rădăcina proiectului (fără dependențe) ---------- */
+const envPath = path.join(process.cwd(), '.env');
+if (fs.existsSync(envPath)) {
+  for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
+    const m = line.match(/^\s*([A-Za-z0-9_]+)\s*=\s*"?([^"\r\n]*)"?\s*$/);
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].trim();
+  }
+}
+
 /* ---------- Cloudinary (opțional) ---------- */
 let cloudinary = null;
-const cldUrl = process.env.CLOUDINARY_URL || '';
-const cldMatch = cldUrl.match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/);
-if (cldMatch) {
-  cloudinary = { key: cldMatch[1], secret: cldMatch[2], cloud: cldMatch[3] };
+{
+  // acceptă fie CLOUDINARY_URL, fie cele 3 variabile separate din dashboard
+  const cldMatch = (process.env.CLOUDINARY_URL || '').match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/);
+  if (cldMatch) {
+    cloudinary = { key: cldMatch[1], secret: cldMatch[2], cloud: cldMatch[3] };
+  } else if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+    cloudinary = {
+      key: process.env.CLOUDINARY_API_KEY,
+      secret: process.env.CLOUDINARY_API_SECRET,
+      cloud: process.env.CLOUDINARY_CLOUD_NAME,
+    };
+  }
+}
+if (cloudinary) {
   console.log(`Cloudinary activ (cloud: ${cloudinary.cloud}) — imaginile se urcă acolo.`);
 } else {
-  console.log('CLOUDINARY_URL nu este setat — imaginile se descarcă local în public/blog/.');
+  console.log('Cloudinary neconfigurat — imaginile se descarcă local în public/blog/.');
 }
 
 async function uploadToCloudinary(url, slugHint) {
