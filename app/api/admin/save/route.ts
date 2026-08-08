@@ -1,5 +1,8 @@
+import fs from 'fs';
+import path from 'path';
 import { NextResponse } from 'next/server';
-import { isAuthorized, saveFileToGitHub } from '@/lib/admin';
+import { isAuthorized } from '@/lib/admin';
+import { getBlogDir } from '@/lib/blog';
 
 export async function POST(req: Request) {
   if (!isAuthorized(req)) {
@@ -49,15 +52,11 @@ export async function POST(req: Request) {
   };
 
   try {
-    await saveFileToGitHub(
-      `content/blog/${slug}.json`,
-      JSON.stringify(post, null, 2) + '\n',
-      `Admin: salvare articol "${title}"`
-    );
+    fs.writeFileSync(path.join(getBlogDir(), `${slug}.json`), JSON.stringify(post, null, 2) + '\n');
   } catch (err) {
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Salvarea în GitHub a eșuat.' },
-      { status: 502 }
+      { error: err instanceof Error ? err.message : 'Salvarea a eșuat.' },
+      { status: 500 }
     );
   }
 

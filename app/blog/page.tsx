@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   description: 'Articole despre editare video, content marketing și creare de conținut, scrise de echipa Sarami Media.',
 };
 
+// randare la fiecare cerere — articolele salvate din /admin apar instant
+export const dynamic = 'force-dynamic';
+
 export default function BlogPage() {
   const posts = getAllPosts();
 

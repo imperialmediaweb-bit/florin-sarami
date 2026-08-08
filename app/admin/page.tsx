@@ -13,6 +13,18 @@ type Post = {
   image?: string;
 };
 
+type Message = {
+  id: string;
+  date: string;
+  formular: string;
+  serviciu: string;
+  nume: string;
+  email: string;
+  telefon: string;
+  mesaj: string;
+  extra: Record<string, string>;
+};
+
 const EMPTY: Post = { slug: '', title: '', date: '', category: '', excerpt: '', contentHtml: '', image: '' };
 
 const slugify = (s: string) =>
@@ -25,6 +37,7 @@ const slugify = (s: string) =>
 
 export default function AdminPage() {
   const [stage, setStage] = useState<'login' | 'list' | 'edit'>('login');
+  const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [posts, setPosts] = useState<Post[]>([]);
   const [search, setSearch] = useState('');
@@ -33,6 +46,8 @@ export default function AdminPage() {
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
+  const [tab, setTab] = useState<'articole' | 'mesaje'>('articole');
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const loadPosts = useCallback(async () => {
     const res = await fetch('/api/admin/posts/');
@@ -42,7 +57,57 @@ export default function AdminPage() {
     setStage('list');
   }, []);
 
+  const loadMessages = useCallback(async () => {
+    const res = await fetch('/api/admin/messages/');
+    if (res.status === 401) { setStage('login'); return; }
+    const data = await res.json();
+    setMessages(data.messages || []);
+  }, []);
+
   useEffect(() => { loadPosts().catch(() => setStage('login')); }, [loadPosts]);
+  useEffect(() => { if (stage === 'list' && tab === 'mesaje') loadMessages().catch(() => {}); }, [stage, tab, loadMessages]);
+
+  async function onDeleteMessage(id: string) {
+    if (!confirm('Ștergi acest mesaj?')) return;
+    await fetch('/api/admin/messages/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    });
+    setMessages(ms => ms.filter(m => m.id !== id));
+  }
+
+  const [replyFor, setReplyFor] = useState<string | null>(null);
+  const [replySubject, setReplySubject] = useState('');
+  const [replyText, setReplyText] = useState('');
+  const [replyStatus, setReplyStatus] = useState('');
+
+  function startReply(m: Message) {
+    setReplyFor(m.id);
+    setReplySubject(`Oferta Sarami Media — ${m.serviciu || 'proiectul tău'}`);
+    setReplyText(`Bună, ${m.nume.split(' ')[0]}!\n\nMulțumim pentru mesaj. `);
+    setReplyStatus('');
+  }
+
+  async function onSendReply(m: Message) {
+    setBusy(true);
+    setReplyStatus('');
+    try {
+      const res = await fetch('/api/admin/reply/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: m.email, subject: replySubject, text: replyText }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Trimiterea a eșuat.');
+      setReplyStatus('✅ Oferta a plecat către ' + m.email);
+      setReplyFor(null);
+    } catch (err) {
+      setReplyStatus('⚠ ' + (err instanceof Error ? err.message : 'Trimiterea a eșuat.'));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function onLogin(e: FormEvent) {
     e.preventDefault();
@@ -52,11 +117,12 @@ export default function AdminPage() {
       const res = await fetch('/api/admin/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ user, password }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Autentificare eșuată.');
       setPassword('');
+      setUser('');
       await loadPosts();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Autentificare eșuată.');
@@ -93,7 +159,7 @@ export default function AdminPage() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Salvarea a eșuat.');
-      setNotice('✅ Salvat în GitHub! Site-ul se actualizează automat în ~2-3 minute (redeploy Railway).');
+      setNotice('✅ Salvat! Articolul e live pe site chiar acum.');
       setStage('list');
       loadPosts();
     } catch (err) {
@@ -115,7 +181,7 @@ export default function AdminPage() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Ștergerea a eșuat.');
-      setNotice('🗑️ Șters! Site-ul se actualizează automat în ~2-3 minute.');
+      setNotice('🗑️ Șters! Modificarea e live pe site chiar acum.');
       setPosts(ps => ps.filter(p => p.slug !== slug));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ștergerea a eșuat.');
@@ -136,6 +202,18 @@ export default function AdminPage() {
           <div className="form-card">
             <h1 className="h-md mb-2">🔐 Panou administrare</h1>
             <form onSubmit={onLogin}>
+              <div className="form-field" style={{ marginBottom: 14 }}>
+                <label htmlFor="admin-user">Utilizator</label>
+                <input
+                  id="admin-user"
+                  type="text"
+                  value={user}
+                  onChange={e => setUser(e.target.value)}
+                  required
+                  autoFocus
+                  autoComplete="username"
+                />
+              </div>
               <div className="form-field">
                 <label htmlFor="admin-pass">Parola</label>
                 <input
@@ -144,7 +222,7 @@ export default function AdminPage() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
-                  autoFocus
+                  autoComplete="current-password"
                 />
               </div>
               {error && <p style={{ color: '#dc2626', fontSize: '.9rem', marginTop: 10 }}>⚠ {error}</p>}
@@ -247,13 +325,82 @@ export default function AdminPage() {
     );
   }
 
-  /* ---------- LISTĂ ---------- */
+  /* ---------- LISTĂ (Articole | Mesaje) ---------- */
+  if (tab === 'mesaje') {
+    return (
+      <section className="section-tight">
+        <div className="container" style={{ maxWidth: 1000 }}>
+          <div className="form-card">
+            <div style={{ display: 'flex', gap: 10, marginBottom: 22, flexWrap: 'wrap' }}>
+              <button className="btn btn-ghost" onClick={() => setTab('articole')}>📚 Articole</button>
+              <button className="btn btn-primary" onClick={() => loadMessages()}>✉️ Mesaje & Briefuri ({messages.length})</button>
+            </div>
+            {messages.length === 0 && (
+              <p style={{ color: 'var(--text-faint)' }}>Niciun mesaj încă. Mesajele din formularele de contact și briefurile completate de clienți apar aici automat (și pe emailul contact@sarami.ro).</p>
+            )}
+            <div style={{ display: 'grid', gap: 12 }}>
+              {messages.map(m => (
+                <details key={m.id} style={{ background: 'var(--bg)', border: '1px solid var(--line)', borderRadius: 13, padding: '14px 18px' }}>
+                  <summary style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', listStyle: 'none' }}>
+                    <span>
+                      <b>{m.formular === 'Contact' ? '💬' : '📋'} {m.formular}</b> — {m.nume}
+                      <span style={{ color: 'var(--text-faint)', fontSize: '.82rem' }}> • {m.serviciu || 'general'} • {new Date(m.date).toLocaleString('ro-RO')}</span>
+                    </span>
+                    <span style={{ color: 'var(--blue-600)', fontSize: '.85rem', fontWeight: 600 }}>deschide ▾</span>
+                  </summary>
+                  <div style={{ marginTop: 14, fontSize: '.93rem', color: 'var(--text-dim)', display: 'grid', gap: 6 }}>
+                    <div><b>Email:</b> <a href={`mailto:${m.email}`} style={{ color: 'var(--blue-600)' }}>{m.email}</a></div>
+                    {m.telefon && <div><b>Telefon:</b> <a href={`tel:${m.telefon}`} style={{ color: 'var(--blue-600)' }}>{m.telefon}</a></div>}
+                    {Object.entries(m.extra || {}).filter(([, v]) => String(v || '').trim()).map(([k, v]) => (
+                      <div key={k}><b>{k}:</b> {String(v)}</div>
+                    ))}
+                    <div style={{ marginTop: 6, padding: '12px 14px', background: '#fff', borderRadius: 10, border: '1px solid var(--line)', whiteSpace: 'pre-wrap' }}>{m.mesaj}</div>
+
+                    {replyFor === m.id ? (
+                      <div style={{ marginTop: 10, display: 'grid', gap: 10, padding: '14px', background: '#fff', borderRadius: 10, border: '1px solid var(--ring)' }}>
+                        <b style={{ color: 'var(--text-main)' }}>✉️ Răspunde cu oferta către {m.email}</b>
+                        <div className="form-field">
+                          <label>Subiect</label>
+                          <input value={replySubject} onChange={e => setReplySubject(e.target.value)} />
+                        </div>
+                        <div className="form-field">
+                          <label>Mesajul tău (oferta)</label>
+                          <textarea style={{ minHeight: 160 }} value={replyText} onChange={e => setReplyText(e.target.value)} />
+                        </div>
+                        <div className="btn-row">
+                          <button className="btn btn-primary" style={{ padding: '10px 22px', fontSize: '.9rem' }} disabled={busy} onClick={() => onSendReply(m)}>
+                            {busy ? 'Se trimite...' : 'Trimite oferta'}
+                          </button>
+                          <button className="btn btn-ghost" style={{ padding: '10px 22px', fontSize: '.9rem' }} onClick={() => setReplyFor(null)}>Renunță</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div style={{ marginTop: 8, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        <button className="btn btn-primary" style={{ padding: '7px 16px', fontSize: '.85rem' }} onClick={() => startReply(m)}>✉️ Răspunde cu ofertă</button>
+                        <button className="btn btn-ghost" style={{ padding: '7px 14px', fontSize: '.82rem', color: '#dc2626', borderColor: 'rgba(220,38,38,.4)' }} onClick={() => onDeleteMessage(m.id)}>Șterge</button>
+                      </div>
+                    )}
+                    {replyStatus && replyFor !== m.id && <p style={{ fontWeight: 600, fontSize: '.88rem' }}>{replyStatus}</p>}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="section-tight">
       <div className="container" style={{ maxWidth: 1000 }}>
         <div className="form-card">
+          <div style={{ display: 'flex', gap: 10, marginBottom: 22, flexWrap: 'wrap' }}>
+            <button className="btn btn-primary" onClick={() => loadPosts()}>📚 Articole ({posts.length})</button>
+            <button className="btn btn-ghost" onClick={() => setTab('mesaje')}>✉️ Mesaje & Briefuri</button>
+          </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14, marginBottom: 18 }}>
-            <h1 className="h-md" style={{ margin: 0 }}>📚 Articole ({posts.length})</h1>
+            <h1 className="h-md" style={{ margin: 0 }}>Articolele site-ului</h1>
             <button className="btn btn-primary" onClick={startNew}>+ Articol nou</button>
           </div>
           {notice && <p style={{ color: '#059669', fontSize: '.92rem', marginBottom: 14, fontWeight: 600 }}>{notice}</p>}

@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { getAllPosts } from '@/lib/blog';
 
-export const dynamic = 'force-static';
+// generat la cerere, ca articolele noi din /admin să apară imediat
+export const dynamic = 'force-dynamic';
 
 const BASE = 'https://sarami.ro';
 

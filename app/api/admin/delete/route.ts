@@ -1,5 +1,8 @@
+import fs from 'fs';
+import path from 'path';
 import { NextResponse } from 'next/server';
-import { deleteFileFromGitHub, isAuthorized } from '@/lib/admin';
+import { isAuthorized } from '@/lib/admin';
+import { getBlogDir } from '@/lib/blog';
 
 export async function POST(req: Request) {
   if (!isAuthorized(req)) {
@@ -19,11 +22,15 @@ export async function POST(req: Request) {
   }
 
   try {
-    await deleteFileFromGitHub(`content/blog/${slug}.json`, `Admin: ștergere articol "${slug}"`);
+    const file = path.join(getBlogDir(), `${slug}.json`);
+    if (!fs.existsSync(file)) {
+      return NextResponse.json({ error: 'Articolul nu există.' }, { status: 404 });
+    }
+    fs.unlinkSync(file);
   } catch (err) {
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Ștergerea din GitHub a eșuat.' },
-      { status: 502 }
+      { error: err instanceof Error ? err.message : 'Ștergerea a eșuat.' },
+      { status: 500 }
     );
   }
 

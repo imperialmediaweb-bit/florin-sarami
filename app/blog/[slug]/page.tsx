@@ -4,11 +4,8 @@ import { notFound } from 'next/navigation';
 import CtaBand from '@/components/CtaBand';
 import { formatDate, getAllPosts, getPost } from '@/lib/blog';
 
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return getAllPosts().map(p => ({ slug: p.slug }));
-}
+// randare la fiecare cerere — articolele salvate din /admin apar instant
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;

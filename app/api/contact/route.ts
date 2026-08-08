@@ -1,4 +1,7 @@
+import fs from 'fs';
+import path from 'path';
 import { NextResponse } from 'next/server';
+import { dataDir } from '@/lib/storage';
 
 /**
  * Trimite mesajele din formularul de contact prin Resend (https://resend.com).
@@ -34,9 +37,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Completează numele, emailul și mesajul.' }, { status: 400 });
   }
 
+  // salvează mesajul pe disc — apare în panoul de admin (tab-ul Mesaje),
+  // indiferent dacă emailul prin Resend reușește sau nu
+  const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  try {
+    fs.writeFileSync(
+      path.join(dataDir('mesaje'), `${id}.json`),
+      JSON.stringify(
+        { id, date: new Date().toISOString(), formular, serviciu, nume, email, telefon, mesaj, extra },
+        null,
+        2
+      )
+    );
+  } catch (err) {
+    console.error('Nu am putut salva mesajul pe disc:', err);
+  }
+
   const key = process.env.RESEND_API_KEY;
   if (!key) {
-    return NextResponse.json({ error: 'Serverul de email nu este configurat (RESEND_API_KEY lipsă).' }, { status: 500 });
+    // fără cheie Resend mesajul rămâne disponibil în panoul de admin
+    return NextResponse.json({ ok: true, emailSent: false });
   }
 
   let res: Response;
@@ -67,19 +87,14 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error('Conexiunea către Resend a eșuat:', err);
-    return NextResponse.json(
-      { error: 'Trimiterea a eșuat. Încearcă din nou sau scrie-ne direct la contact@sarami.ro.' },
-      { status: 502 }
-    );
+    // mesajul e salvat în panou — nu îl considerăm pierdut
+    return NextResponse.json({ ok: true, emailSent: false });
   }
 
   if (!res.ok) {
     console.error('Resend a răspuns cu', res.status, await res.text());
-    return NextResponse.json(
-      { error: 'Trimiterea a eșuat. Încearcă din nou sau scrie-ne direct la contact@sarami.ro.' },
-      { status: 502 }
-    );
+    return NextResponse.json({ ok: true, emailSent: false });
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, emailSent: true });
 }

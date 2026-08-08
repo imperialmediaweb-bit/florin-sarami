@@ -16,8 +16,10 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-  if (body.password !== expected) {
-    return NextResponse.json({ error: 'Parolă greșită.' }, { status: 401 });
+  const expectedUser = process.env.ADMIN_USER || 'admin';
+  const givenUser = String((body as Record<string, unknown>).user || '').trim();
+  if (givenUser !== expectedUser || body.password !== expected) {
+    return NextResponse.json({ error: 'Utilizator sau parolă greșite.' }, { status: 401 });
   }
 
   const res = NextResponse.json({ ok: true });
