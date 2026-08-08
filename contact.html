@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Sarami Media</title>
+  <meta name="description" content="Contactează Sarami Media pentru editare video și redactare de conținut. Trimite-ne un mesaj și primești rapid o ofertă personalizată.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="bg-scene"></div>
+  <div class="bg-grid"></div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Sarami Media — Acasă">
+        <img src="assets/logo-white.svg" alt="Sarami Media">
+      </a>
+      <button class="nav-burger" aria-label="Meniu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="despre-noi.html">Despre noi</a>
+        <div class="nav-drop">
+          <a href="editare-video.html">Editare video</a>
+          <div class="nav-drop-menu">
+            <a href="editare-video.html">Servicii editare video</a>
+            <a href="portofoliu.html">Portofoliu</a>
+          </div>
+        </div>
+        <a href="redactare-continut.html">Redactare conținut</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="contact.html" class="nav-cta">Cere ofertă</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumbs reveal in"><a href="index.html">Home</a><span>Contact</span></div>
+        <span class="eyebrow">Hai să vorbim</span>
+        <h1 class="h-xl">Ai un proiect? <span class="grad-text">Contactează-ne!</span></h1>
+        <p class="lead">Suntem gata să transformăm materialele tale într-un conținut care face diferența. Scrie-ne și revenim cu un răspuns cât mai rapid.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="split" style="align-items:start">
+          <!-- Formular -->
+          <div class="form-card reveal-left">
+            <h2 class="h-md mb-2">Trimite-ne un mesaj</h2>
+            <!--
+              Formularul trimite mesajele către contact@sarami.ro prin FormSubmit.
+              IMPORTANT: la primul mesaj trimis, FormSubmit va trimite un email de
+              confirmare pe adresa contact@sarami.ro — apasă linkul de activare din el.
+              Din acel moment toate mesajele din formular vor ajunge în inbox.
+            -->
+            <form id="contact-form" action="https://formsubmit.co/contact@sarami.ro" method="POST">
+              <input type="hidden" name="_subject" value="Mesaj nou de pe sarami.ro">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_captcha" value="true">
+              <input type="hidden" name="_next" value="https://sarami.ro/multumim.html">
+              <input type="text" name="_honey" style="display:none">
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="f-nume">Nume complet *</label>
+                  <input type="text" id="f-nume" name="Nume" required placeholder="Numele tău">
+                </div>
+                <div class="form-field">
+                  <label for="f-email">Email *</label>
+                  <input type="email" id="f-email" name="Email" required placeholder="adresa@email.ro">
+                </div>
+                <div class="form-field">
+                  <label for="f-telefon">Telefon</label>
+                  <input type="tel" id="f-telefon" name="Telefon" placeholder="07xx xxx xxx">
+                </div>
+                <div class="form-field">
+                  <label for="f-serviciu">Serviciul dorit *</label>
+                  <select id="f-serviciu" name="Serviciu" required>
+                    <option value="" disabled selected>Alege serviciul</option>
+                    <option>Editare video</option>
+                    <option>Redactare conținut</option>
+                    <option>Editare video + Redactare conținut</option>
+                    <option>Altceva</option>
+                  </select>
+                </div>
+                <div class="form-field full">
+                  <label for="f-mesaj">Mesajul tău *</label>
+                  <textarea id="f-mesaj" name="Mesaj" required placeholder="Povestește-ne despre proiectul tău: ce materiale ai, ce vrei să obții, pentru ce platformă..."></textarea>
+                </div>
+                <div class="form-field full">
+                  <label class="form-consent">
+                    <input type="checkbox" id="gdpr-consent" required>
+                    <span>Sunt de acord cu prelucrarea datelor mele personale conform <a href="politica-confidentialitate.html">Politicii de confidențialitate</a>. *</span>
+                  </label>
+                </div>
+                <div class="form-field full">
+                  <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Trimite mesajul
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                  </button>
+                </div>
+              </div>
+              <p class="form-note">* câmpuri obligatorii. Răspundem de obicei în aceeași zi lucrătoare.</p>
+            </form>
+          </div>
+
+          <!-- Date de contact -->
+          <div class="reveal-right">
+            <div class="contact-info">
+              <div class="card" style="padding:28px">
+                <div class="contact-line">
+                  <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+                  </div>
+                  <div>
+                    <b>Email</b>
+                    <a href="mailto:contact@sarami.ro">contact@sarami.ro</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="padding:28px">
+                <div class="contact-line">
+                  <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <b>Telefon</b>
+                    <!-- Înlocuiește cu numărul real de telefon -->
+                    <a href="tel:+40700000000">+40 7xx xxx xxx</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="padding:28px">
+                <div class="contact-line">
+                  <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>
+                  </div>
+                  <div>
+                    <b>Date firmă</b>
+                    <!-- Înlocuiește cu datele reale ale firmei -->
+                    <span>SARAMI MEDIA S.R.L.<br>
+                    CUI: ROxxxxxxxx<br>
+                    Reg. Com.: Jxx/xxxx/20xx<br>
+                    Sediu: Str. Exemplu nr. 1, Oraș, România</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="padding:28px">
+                <div class="contact-line">
+                  <div class="card-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  </div>
+                  <div>
+                    <b>Program</b>
+                    <span>Luni – Vineri: 09:00 – 18:00<br>Răspundem rapid și în weekend la mesaje.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ scurt ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="center reveal">
+          <span class="eyebrow">Înainte să ne scrii</span>
+          <h2 class="h-lg">Bine de <span class="grad-text">știut</span></h2>
+        </div>
+        <div class="faq mt-3 reveal">
+          <details>
+            <summary>Ce să includ în mesaj ca să primesc o ofertă rapidă?</summary>
+            <div class="faq-body">Spune-ne pe scurt: ce tip de proiect ai (video sau conținut scris), ce materiale existente ai (durata filmărilor brute, subiectele articolelor), pentru ce platformă și care e termenul dorit. Cu aceste detalii, îți putem trimite o ofertă precisă din primul răspuns.</div>
+          </details>
+          <details>
+            <summary>Cât de repede răspundeți?</summary>
+            <div class="faq-body">De obicei în aceeași zi lucrătoare, de multe ori în câteva ore. Mesajele trimise în weekend primesc răspuns cel târziu luni dimineața.</div>
+          </details>
+          <details>
+            <summary>Cum plătesc?</summary>
+            <div class="faq-body">Emitem factură și acceptăm plata prin transfer bancar. Pentru proiecte mari, se poate lucra cu avans și rest la livrare — detaliile le stabilim împreună în ofertă.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/logo-white.svg" alt="Sarami Media">
+          <p>Transformăm filmările tale în videoclipuri care atrag atenția, iar ideile tale în conținut care face diferența.</p>
+        </div>
+        <div>
+          <h4>Navigare</h4>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="despre-noi.html">Despre noi</a>
+            <a href="editare-video.html">Editare video</a>
+            <a href="portofoliu.html">Portofoliu</a>
+            <a href="redactare-continut.html">Redactare conținut</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <div class="footer-links">
+            <a href="termeni-si-conditii.html">Termeni și condiții</a>
+            <a href="politica-confidentialitate.html">Politica de confidențialitate</a>
+            <a href="politica-cookies.html">Politica de cookies</a>
+          </div>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <div class="footer-links">
+            <a href="mailto:contact@sarami.ro">contact@sarami.ro</a>
+            <a href="contact.html">Formular de contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Sarami Media. Toate drepturile rezervate.</span>
+        <span>Creat cu ♥ în România</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" role="dialog" aria-label="Consimțământ cookies">
+    <p>🍪 Folosim cookies pentru a-ți oferi cea mai bună experiență pe site. Poți afla mai multe în <a href="politica-cookies.html">Politica de cookies</a>.</p>
+    <div class="cookie-actions">
+      <button class="btn btn-primary" data-consent="accepted">Accept</button>
+      <button class="btn btn-ghost" data-consent="rejected">Refuz</button>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

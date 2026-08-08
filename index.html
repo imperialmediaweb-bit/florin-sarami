@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sarami Media — Editare Video & Redactare Conținut</title>
+  <meta name="description" content="Transformăm filmările tale în videoclipuri care atrag atenția! Editare video profesională pentru Facebook, Instagram, TikTok și YouTube + redactare de conținut scrisă de oameni reali.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="bg-scene"></div>
+  <div class="bg-grid"></div>
+
+  <!-- ===== NAVIGAȚIE ===== -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Sarami Media — Acasă">
+        <img src="assets/logo-white.svg" alt="Sarami Media">
+      </a>
+      <button class="nav-burger" aria-label="Meniu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="despre-noi.html">Despre noi</a>
+        <div class="nav-drop">
+          <a href="editare-video.html">Editare video</a>
+          <div class="nav-drop-menu">
+            <a href="editare-video.html">Servicii editare video</a>
+            <a href="portofoliu.html">Portofoliu</a>
+          </div>
+        </div>
+        <a href="redactare-continut.html">Redactare conținut</a>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html" class="nav-cta">Cere ofertă</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HERO SLIDER ===== -->
+    <section class="hero" aria-label="Prezentare servicii">
+
+      <!-- Slide 1 — Editare video (mesaj principal) -->
+      <div class="hero-slide active">
+        <div class="container">
+          <div>
+            <span class="eyebrow">Editare video profesională</span>
+            <h1 class="h-xl">Transformăm filmările tale în <span class="grad-text">videoclipuri</span> care atrag atenția!</h1>
+            <p class="lead">Montaj, subtitrări, tranziții, corecții de culoare, efecte vizuale și optimizarea conținutului pentru rezultate profesionale — pe orice platformă.</p>
+            <div class="btn-row mt-2">
+              <a href="editare-video.html" class="btn btn-primary">Descoperă serviciile
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="portofoliu.html" class="btn btn-ghost">Vezi portofoliul</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="mock-player">
+              <div class="mock-screen"><div class="mock-play"></div></div>
+              <div class="mock-timeline">
+                <div class="mock-track"><div class="mock-clip c1"></div><div class="mock-clip c2"></div><div class="mock-clip c3"></div></div>
+                <div class="mock-track"><div class="mock-clip c5"></div><div class="mock-clip c4"></div><div class="mock-clip c6"></div></div>
+              </div>
+              <div class="mock-cursor"></div>
+            </div>
+            <div class="float-chip p1">🎬 Montaj &amp; efecte vizuale</div>
+            <div class="float-chip p2">✨ Corecții de culoare</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 — Editare video (social media) -->
+      <div class="hero-slide">
+        <div class="container">
+          <div>
+            <span class="eyebrow">Social Media Video</span>
+            <h1 class="h-xl">Clipuri pentru <span class="grad-text">Facebook, Instagram, TikTok</span> și YouTube</h1>
+            <p class="lead">Videoclipuri promoționale, podcasturi, interviuri, evenimente și clipuri de lungă durată — optimizate pentru fiecare platformă și pentru publicul tău.</p>
+            <div class="btn-row mt-2">
+              <a href="editare-video.html" class="btn btn-primary">Editare video
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="contact.html" class="btn btn-ghost">Cere ofertă</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="mock-player" style="animation-delay:.5s">
+              <div class="mock-screen" style="background:linear-gradient(135deg,#0ea5e9 0%,#2563eb 60%,#16307a 130%)"><div class="mock-play"></div></div>
+              <div class="mock-timeline">
+                <div class="mock-track"><div class="mock-clip c2"></div><div class="mock-clip c3"></div><div class="mock-clip c4"></div></div>
+                <div class="mock-track"><div class="mock-clip c6"></div><div class="mock-clip c1"></div></div>
+              </div>
+              <div class="mock-cursor"></div>
+            </div>
+            <div class="float-chip p1">📱 Reels &amp; TikTok</div>
+            <div class="float-chip p2">🎙️ Podcasturi &amp; interviuri</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 — Redactare conținut -->
+      <div class="hero-slide">
+        <div class="container">
+          <div>
+            <span class="eyebrow">Redactare conținut</span>
+            <h1 class="h-xl">Conținut scris de <span class="grad-text">oameni reali</span>, pentru oameni reali</h1>
+            <p class="lead">Articole de blog, descrieri de produse, pagini de prezentare, comunicate și advertoriale — 100% Human Written, adaptate brandului tău.</p>
+            <div class="btn-row mt-2">
+              <a href="redactare-continut.html" class="btn btn-primary">Redactare conținut
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="contact.html" class="btn btn-ghost">Hai să vorbim</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="mock-doc">
+              <div class="doc-title"></div>
+              <div class="doc-line"></div>
+              <div class="doc-line mid"></div>
+              <div class="doc-line"></div>
+              <div class="doc-line short"></div>
+              <div class="doc-line mid"></div>
+              <div class="doc-line short"></div>
+              <span class="doc-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                100% Human Written
+              </span>
+            </div>
+            <div class="float-chip p1">✍️ Articole de blog</div>
+            <div class="float-chip p2">🛍️ Descrieri de produse</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-arrows">
+        <button class="hero-prev" aria-label="Slide anterior">‹</button>
+        <button class="hero-next" aria-label="Slide următor">›</button>
+      </div>
+      <div class="hero-dots" role="tablist" aria-label="Selectează slide"></div>
+    </section>
+
+    <!-- ===== MARQUEE SERVICII ===== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Montaj video</span><span>Subtitrări</span><span>Tranziții</span><span>Corecții de culoare</span><span>Efecte vizuale</span><span>Reels &amp; TikTok</span><span>Podcasturi</span><span>Articole de blog</span><span>Descrieri de produse</span><span>Advertoriale</span>
+        <span>Montaj video</span><span>Subtitrări</span><span>Tranziții</span><span>Corecții de culoare</span><span>Efecte vizuale</span><span>Reels &amp; TikTok</span><span>Podcasturi</span><span>Articole de blog</span><span>Descrieri de produse</span><span>Advertoriale</span>
+      </div>
+    </div>
+
+    <!-- ===== SERVICII EDITARE VIDEO ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="center reveal">
+          <span class="eyebrow">Ce facem cel mai bine</span>
+          <h2 class="h-lg">Servicii de <span class="grad-text">editare video</span></h2>
+          <p class="lead">De la filmări brute la videoclipuri finisate, gata de publicat. Ne ocupăm de tot procesul de post-producție.</p>
+        </div>
+
+        <div class="cards-3 mt-3">
+          <article class="card reveal d1">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="m22 8-6 4 6 4V8Z"/></svg>
+            </div>
+            <h3 class="h-md">Clipuri pentru Social Media</h3>
+            <p>Clipuri scurte și dinamice pentru Facebook, Instagram, TikTok și YouTube — formate verticale sau orizontale, cu subtitrări și hook-uri care opresc scroll-ul.</p>
+            <a href="editare-video.html" class="card-link">Află mai mult →</a>
+          </article>
+
+          <article class="card reveal d2">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="m3 11 18-8-8 18-2-8-8-2Z"/></svg>
+            </div>
+            <h3 class="h-md">Videoclipuri promoționale</h3>
+            <p>Video-uri de prezentare pentru afacerea, produsul sau serviciul tău. Mesaj clar, ritm alert și imagine care vinde.</p>
+            <a href="editare-video.html" class="card-link">Află mai mult →</a>
+          </article>
+
+          <article class="card reveal d3">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+            </div>
+            <h3 class="h-md">Podcasturi</h3>
+            <p>Editare completă pentru podcasturi video și audio: curățare sunet, montaj multi-cameră, clipuri scurte pentru promovare.</p>
+            <a href="editare-video.html" class="card-link">Află mai mult →</a>
+          </article>
+
+          <article class="card reveal d1">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8h20M2 16h20M6 4v16M18 4v16"/></svg>
+            </div>
+            <h3 class="h-md">Clipuri de lungă durată</h3>
+            <p>Documentare, vloguri, cursuri și materiale ample — structurate și editate ca să mențină atenția de la început până la final.</p>
+            <a href="editare-video.html" class="card-link">Află mai mult →</a>
+          </article>
+
+          <article class="card reveal d2">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="h-md">Interviuri &amp; evenimente</h3>
+            <p>Montaj pentru interviuri, conferințe, nunți și evenimente corporate — surprindem esența și emoția fiecărui moment.</p>
+            <a href="editare-video.html" class="card-link">Află mai mult →</a>
+          </article>
+
+          <article class="card reveal d3">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+            </div>
+            <h3 class="h-md">Color grading &amp; efecte</h3>
+            <p>Corecții de culoare cinematice, efecte vizuale, motion graphics și titluri animate care dau un aer premium fiecărui cadru.</p>
+            <a href="editare-video.html" class="card-link">Află mai mult →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STATISTICI ===== -->
+    <section class="section-tight">
+      <div class="container">
+        <div class="stats reveal">
+          <div class="stat"><b data-count="2020">0</b><span>Pe piață din</span></div>
+          <div class="stat"><b data-count="500" data-suffix="+">0</b><span>Proiecte finalizate</span></div>
+          <div class="stat"><b data-count="100" data-suffix="+">0</b><span>Clienți mulțumiți</span></div>
+          <div class="stat"><b data-count="48" data-suffix="h">0</b><span>Timp mediu de livrare</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROCES ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="center reveal">
+          <span class="eyebrow">Simplu și transparent</span>
+          <h2 class="h-lg">Cum <span class="grad-text">lucrăm</span></h2>
+          <p class="lead">Un proces clar, fără bătăi de cap, de la prima discuție până la livrare.</p>
+        </div>
+        <div class="steps mt-3">
+          <div class="step reveal d1">
+            <h3>Ne trimiți materialele</h3>
+            <p>Filmările brute, ideile și obiectivele tale. Stabilim împreună direcția și stilul.</p>
+          </div>
+          <div class="step reveal d2">
+            <h3>Primești oferta</h3>
+            <p>Prețuri corecte, adaptate fiecărui proiect. Fără costuri ascunse, fără surprize.</p>
+          </div>
+          <div class="step reveal d3">
+            <h3>Lucrăm la proiect</h3>
+            <p>Montaj, subtitrări, culoare, efecte — și te ținem la curent pe tot parcursul.</p>
+          </div>
+          <div class="step reveal d4">
+            <h3>Livrare &amp; revizii</h3>
+            <p>Primești materialul final optimizat pentru platforma dorită, cu revizii incluse.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== REDACTARE CONȚINUT ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="split">
+          <div class="reveal-left">
+            <span class="eyebrow">Redactare conținut</span>
+            <h2 class="h-lg">Cuvinte care <span class="grad-text">vând</span>, scrise de oameni reali</h2>
+            <p class="lead mb-2">Pe lângă video, echipa noastră creează conținut scris care aduce trafic, construiește încredere și convinge. La cerere, totul 100% Human Written — fără AI.</p>
+            <ul class="check-list">
+              <li><span class="tick">✓</span><span><strong>Articole de blog</strong> — optimizate SEO, documentate temeinic</span></li>
+              <li><span class="tick">✓</span><span><strong>Descrieri de produse</strong> — care transformă vizitatori în clienți</span></li>
+              <li><span class="tick">✓</span><span><strong>Pagini de prezentare</strong> — texte clare pentru site-ul tău</span></li>
+              <li><span class="tick">✓</span><span><strong>Comunicate &amp; advertoriale</strong> — mesaje care ajung la public</span></li>
+            </ul>
+            <div class="btn-row mt-3">
+              <a href="redactare-continut.html" class="btn btn-primary">Vezi serviciile de redactare
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="reveal-right hero-visual">
+            <div class="mock-doc">
+              <div class="doc-title"></div>
+              <div class="doc-line"></div>
+              <div class="doc-line mid"></div>
+              <div class="doc-line short"></div>
+              <div class="doc-line"></div>
+              <div class="doc-line mid"></div>
+              <div class="doc-line short"></div>
+              <span class="doc-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                100% Human Written
+              </span>
+            </div>
+            <div class="float-chip p1">📝 SEO friendly</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DE CE NOI ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="center reveal">
+          <span class="eyebrow">De ce Sarami Media</span>
+          <h2 class="h-lg">Parteneri, nu doar <span class="grad-text">furnizori</span></h2>
+        </div>
+        <div class="cards-4 mt-3">
+          <div class="card reveal d1">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3 class="h-md">Livrare rapidă</h3>
+            <p>Respectăm termenele. Timp mediu de livrare: 48 de ore pentru proiectele standard.</p>
+          </div>
+          <div class="card reveal d2">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3 class="h-md">Prețuri corecte</h3>
+            <p>Adaptate fiecărui proiect. Plătești exact pentru ce ai nevoie, nimic în plus.</p>
+          </div>
+          <div class="card reveal d3">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            </div>
+            <h3 class="h-md">Revizii incluse</h3>
+            <p>Lucrăm până ești mulțumit. Feedback-ul tău face parte din proces.</p>
+          </div>
+          <div class="card reveal d4">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="h-md">Experiență din 2020</h3>
+            <p>Peste 5 ani în crearea de conținut pentru branduri din toate domeniile.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TESTIMONIALE ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="center reveal">
+          <span class="eyebrow">Testimoniale</span>
+          <h2 class="h-lg">Ce spun <span class="grad-text">clienții noștri</span></h2>
+        </div>
+        <div class="testi-wrap mt-3 reveal">
+          <button class="testi-arrow prev" aria-label="Testimonial anterior">‹</button>
+          <button class="testi-arrow next" aria-label="Testimonial următor">›</button>
+          <div class="testi-viewport">
+            <div class="testi-track">
+              <div class="testi-card">
+                <div class="testi-stars">★★★★★</div>
+                <blockquote>Am colaborat cu Sarami Media pentru clipurile de promovare ale magazinului nostru online. Rezultatul a depășit așteptările — vânzările din reclamele video au crescut vizibil din prima lună.</blockquote>
+                <div class="testi-author">
+                  <div class="testi-avatar">AM</div>
+                  <div><b>Andreea M.</b><span>Magazin online fashion</span></div>
+                </div>
+              </div>
+              <div class="testi-card">
+                <div class="testi-stars">★★★★★</div>
+                <blockquote>Editează podcastul nostru săptămânal de peste un an. Livrare mereu la timp, calitate constantă și clipuri scurte excelente pentru promovare pe TikTok și Reels.</blockquote>
+                <div class="testi-author">
+                  <div class="testi-avatar">CV</div>
+                  <div><b>Cristian V.</b><span>Podcast de business</span></div>
+                </div>
+              </div>
+              <div class="testi-card">
+                <div class="testi-stars">★★★★★</div>
+                <blockquote>Articolele de blog scrise de echipa lor ne-au adus pe prima pagină în Google pentru mai multe căutări importante. Se simte că sunt scrise de oameni care înțeleg domeniul.</blockquote>
+                <div class="testi-author">
+                  <div class="testi-avatar">RD</div>
+                  <div><b>Radu D.</b><span>Companie de servicii B2B</span></div>
+                </div>
+              </div>
+              <div class="testi-card">
+                <div class="testi-stars">★★★★★</div>
+                <blockquote>Filmul de la evenimentul nostru corporate a fost impecabil — montaj dinamic, culori superbe și livrare în doar câteva zile. Recomand cu toată încrederea!</blockquote>
+                <div class="testi-author">
+                  <div class="testi-avatar">IE</div>
+                  <div><b>Ioana E.</b><span>Agenție de evenimente</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testi-nav" role="tablist" aria-label="Selectează testimonial"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ÎNTREBĂRI FRECVENTE ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="center reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2 class="h-lg">Întrebări <span class="grad-text">frecvente</span></h2>
+        </div>
+        <div class="faq mt-3 reveal">
+          <details>
+            <summary>Cât costă editarea unui videoclip?</summary>
+            <div class="faq-body">Prețul depinde de durata materialului brut, complexitatea montajului și termenul de livrare. Fiecare proiect primește o ofertă personalizată — prețuri corecte, adaptate fiecărui proiect. Trimite-ne detaliile prin <a href="contact.html" style="color:var(--sky-300)">formularul de contact</a> și revenim rapid cu o estimare.</div>
+          </details>
+          <details>
+            <summary>În cât timp primesc videoclipul finalizat?</summary>
+            <div class="faq-body">Pentru proiectele standard (clipuri social media, promo-uri scurte), timpul mediu de livrare este de 48 de ore. Proiectele complexe — podcasturi lungi, filme de eveniment — pot dura 3–7 zile lucrătoare. Stabilim termenul exact înainte de a începe.</div>
+          </details>
+          <details>
+            <summary>Cum vă trimit filmările?</summary>
+            <div class="faq-body">Simplu: prin WeTransfer, Google Drive, Dropbox sau orice altă platformă de transfer preferi. După ce ne contactezi, îți trimitem toate instrucțiunile pas cu pas.</div>
+          </details>
+          <details>
+            <summary>Pot cere modificări după livrare?</summary>
+            <div class="faq-body">Da! Fiecare proiect include revizii, pentru că vrem să fii 100% mulțumit de rezultat. Feedback-ul tău face parte din procesul nostru de lucru.</div>
+          </details>
+          <details>
+            <summary>Faceți și conținut scris, nu doar video?</summary>
+            <div class="faq-body">Da — redactăm articole de blog, descrieri de produse, pagini de prezentare, comunicate și advertoriale. La cerere, toate materialele sunt scrise integral de oameni reali (100% Human Written), fără AI. Detalii pe pagina <a href="redactare-continut.html" style="color:var(--sky-300)">Redactare conținut</a>.</div>
+          </details>
+          <details>
+            <summary>Pentru ce platforme optimizați clipurile?</summary>
+            <div class="faq-body">Facebook, Instagram (Reels, Stories, feed), TikTok, YouTube (video lung și Shorts) — livrăm în formatul și rezoluția ideală pentru fiecare platformă, cu subtitrări și thumbnail-uri la cerere.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-band reveal">
+          <h2 class="h-lg">Ai un proiect? Contactează-ne!</h2>
+          <p>Suntem gata să transformăm materialele tale într-un conținut care face diferența. Prețuri corecte, adaptate fiecărui proiect.</p>
+          <a href="contact.html" class="btn">Hai să vorbim
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/logo-white.svg" alt="Sarami Media">
+          <p>Transformăm filmările tale în videoclipuri care atrag atenția, iar ideile tale în conținut care face diferența.</p>
+        </div>
+        <div>
+          <h4>Navigare</h4>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="despre-noi.html">Despre noi</a>
+            <a href="editare-video.html">Editare video</a>
+            <a href="portofoliu.html">Portofoliu</a>
+            <a href="redactare-continut.html">Redactare conținut</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <div class="footer-links">
+            <a href="termeni-si-conditii.html">Termeni și condiții</a>
+            <a href="politica-confidentialitate.html">Politica de confidențialitate</a>
+            <a href="politica-cookies.html">Politica de cookies</a>
+          </div>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <div class="footer-links">
+            <a href="mailto:contact@sarami.ro">contact@sarami.ro</a>
+            <a href="contact.html">Formular de contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Sarami Media. Toate drepturile rezervate.</span>
+        <span>Creat cu ♥ în România</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== COOKIE BANNER ===== -->
+  <div class="cookie-banner" role="dialog" aria-label="Consimțământ cookies">
+    <p>🍪 Folosim cookies pentru a-ți oferi cea mai bună experiență pe site. Poți afla mai multe în <a href="politica-cookies.html">Politica de cookies</a>.</p>
+    <div class="cookie-actions">
+      <button class="btn btn-primary" data-consent="accepted">Accept</button>
+      <button class="btn btn-ghost" data-consent="rejected">Refuz</button>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
