@@ -3,26 +3,31 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Logo-ul Sarami Media, ca ansamblu de calitate:
- *  - pasărea = grafica reală, decupată automat din logo la build
- *    (public/assets/logo-bird.png; fallback: pasărea SVG din favicon)
- *  - textul „Sarami Media" = HTML cu fontul site-ului → perfect clar
- *    la orice dimensiune, pe orice ecran
- * Dacă vrei altă decupare a păsării, înlocuiește public/assets/logo-bird.png.
+ * Logo-ul Sarami Media.
+ *  1. public/assets/logo.png — logo-ul ORIGINAL complet (descărcat la build
+ *     de pe Cloudinary sau urcat manual în repository) → folosit întreg.
+ *  2. Dacă lipsește: ansamblu pasăre vectorială + text HTML.
  */
 export default function Logo() {
-  const [src, setSrc] = useState('/assets/favicon.svg');
+  const [hasPng, setHasPng] = useState(false);
 
   useEffect(() => {
     const img = new Image();
-    img.onload = () => setSrc('/assets/logo-bird.png');
-    img.src = '/assets/logo-bird.png';
+    img.onload = () => setHasPng(true);
+    img.src = '/assets/logo.png';
   }, []);
+
+  if (hasPng) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src="/assets/logo.png" alt="Sarami Media" className="logo-full" />
+    );
+  }
 
   return (
     <span className="logo-lockup">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt="" aria-hidden="true" />
+      <img src="/assets/favicon.svg" alt="" aria-hidden="true" />
       <span className="logo-word">
         Sarami <b>Media</b>
       </span>

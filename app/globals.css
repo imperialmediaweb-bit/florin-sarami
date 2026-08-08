@@ -135,6 +135,13 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
 /* Logo: pasărea reală + wordmark HTML — clar la orice dimensiune */
 .logo-pill { display: inline-flex; align-items: center; transition: transform .25s; }
 .logo-pill:hover { transform: translateY(-2px); }
+/* logo-ul original complet (PNG) — afișat la rezoluție naturală, pe navbar alb */
+.logo-full {
+  height: 74px; width: auto;
+  mix-blend-mode: multiply; /* fundalul alb al PNG-ului dispare pe navbar-ul alb */
+}
+@media (max-width: 640px) { .logo-full { height: 52px; } }
+.footer-brand .logo-full { height: 58px; }
 .logo-lockup { display: inline-flex; align-items: center; gap: 12px; }
 .logo-lockup img {
   height: 62px; width: auto;
