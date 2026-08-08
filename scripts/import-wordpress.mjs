@@ -112,24 +112,77 @@ async function processImage(url, slugHint) {
 const stripTags = html =>
   html.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 
+/**
+ * Unele instalări WordPress (mai vechi sau cu pluginuri stricate) dau eroare 500
+ * la parametrul _embed sau la pagini mari. Încercăm pe rând variante tot mai
+ * conservatoare până când una funcționează.
+ */
 async function fetchAllPosts() {
-  const posts = [];
-  for (let page = 1; ; page++) {
-    const url = `${BASE}/wp-json/wp/v2/posts?per_page=100&page=${page}&_embed&status=publish`;
-    const res = await fetch(url);
-    if (res.status === 400) break; // pagină inexistentă → am terminat
-    if (!res.ok) throw new Error(`Eroare API (${res.status}) la ${url}`);
-    const batch = await res.json();
-    posts.push(...batch);
-    const totalPages = parseInt(res.headers.get('x-wp-totalpages') || '1', 10);
-    if (page >= totalPages) break;
+  const variants = [
+    { perPage: 100, embed: true },
+    { perPage: 20, embed: true },
+    { perPage: 20, embed: false },
+    { perPage: 5, embed: false },
+  ];
+  let lastError = null;
+  for (const v of variants) {
+    try {
+      const posts = [];
+      for (let page = 1; ; page++) {
+        const url = `${BASE}/wp-json/wp/v2/posts?per_page=${v.perPage}&page=${page}${v.embed ? '&_embed' : ''}`;
+        const res = await fetch(url);
+        if (res.status === 400) break; // pagină inexistentă → am terminat
+        if (!res.ok) throw new Error(`HTTP ${res.status} la ${url}`);
+        const batch = await res.json();
+        posts.push(...batch);
+        const totalPages = parseInt(res.headers.get('x-wp-totalpages') || '1', 10);
+        if (page >= totalPages) break;
+      }
+      return { posts, embedded: v.embed };
+    } catch (err) {
+      lastError = err;
+      console.warn(`  ⚠ varianta per_page=${v.perPage}${v.embed ? ' + _embed' : ''} a eșuat (${err.message}) — încerc altfel...`);
+    }
   }
-  return posts;
+  throw new Error(
+    `Nu am putut citi articolele din ${BASE}.\n` +
+    `Ultima eroare: ${lastError?.message}\n` +
+    `Verifică în browser dacă ${BASE}/wp-json/wp/v2/posts se deschide și afișează date JSON.\n` +
+    `Dacă dă eroare, API-ul REST al WordPress-ului e stricat sau blocat de un plugin de securitate.`
+  );
+}
+
+/** Categoriile, luate separat când _embed nu funcționează. */
+async function fetchCategoryMap() {
+  const map = new Map();
+  try {
+    for (let page = 1; ; page++) {
+      const res = await fetch(`${BASE}/wp-json/wp/v2/categories?per_page=100&page=${page}`);
+      if (!res.ok) break;
+      const batch = await res.json();
+      batch.forEach(c => map.set(c.id, c.name));
+      const totalPages = parseInt(res.headers.get('x-wp-totalpages') || '1', 10);
+      if (page >= totalPages) break;
+    }
+  } catch { /* fără categorii — nu blocăm importul */ }
+  return map;
+}
+
+/** Imaginea reprezentativă, luată separat când _embed nu funcționează. */
+async function fetchFeaturedMediaUrl(mediaId) {
+  try {
+    const res = await fetch(`${BASE}/wp-json/wp/v2/media/${mediaId}`);
+    if (!res.ok) return null;
+    return (await res.json()).source_url || null;
+  } catch {
+    return null;
+  }
 }
 
 console.log(`\nImport articole din ${BASE} ...`);
-const posts = await fetchAllPosts();
+const { posts, embedded } = await fetchAllPosts();
 console.log(`Găsite: ${posts.length} articole publicate.\n`);
+const categoryMap = embedded ? null : await fetchCategoryMap();
 
 const redirects = [];
 
@@ -138,12 +191,19 @@ for (const p of posts) {
   console.log(`→ ${slug}`);
 
   // categoria principală
-  const terms = p._embedded?.['wp:term']?.flat() || [];
-  const category = terms.find(t => t.taxonomy === 'category' && t.name !== 'Uncategorized')?.name;
+  let category;
+  if (embedded) {
+    const terms = p._embedded?.['wp:term']?.flat() || [];
+    category = terms.find(t => t.taxonomy === 'category' && t.name !== 'Uncategorized')?.name;
+  } else {
+    category = (p.categories || []).map(id => categoryMap.get(id)).find(n => n && n !== 'Uncategorized');
+  }
 
   // imaginea reprezentativă
   let image;
-  const media = p._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+  const media = embedded
+    ? p._embedded?.['wp:featuredmedia']?.[0]?.source_url
+    : p.featured_media ? await fetchFeaturedMediaUrl(p.featured_media) : null;
   if (media) image = (await processImage(media, slug)) || undefined;
 
   // imaginile din conținut
