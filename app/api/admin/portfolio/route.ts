@@ -41,6 +41,10 @@ export async function POST(req: Request) {
     if (link && !/^https?:\/\//.test(link)) {
       return NextResponse.json({ error: `Linkul de la „${title}" trebuie să înceapă cu https://` }, { status: 400 });
     }
+    const image = String(raw.image || '').trim();
+    if (image && !/^(https?:\/\/|\/api\/media\/)/.test(image)) {
+      return NextResponse.json({ error: `Imagine invalidă la „${title}".` }, { status: 400 });
+    }
     items.push({
       id: String(raw.id || '').trim() || `item-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
       cat: cat as FolioItem['cat'],
@@ -48,6 +52,7 @@ export async function POST(req: Request) {
       desc: String(raw.desc || '').trim(),
       videoId: videoId || undefined,
       link: link || undefined,
+      image: image || undefined,
     });
   }
 

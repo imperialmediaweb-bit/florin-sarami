@@ -11,6 +11,8 @@ export type FolioItem = {
   videoId?: string;
   /** Link extern (ex: articolul publicat) — folosit la lucrările de redactare. */
   link?: string;
+  /** Imagine de copertă (thumbnail) — afișată când nu există clip YouTube. */
+  image?: string;
 };
 
 export const FOLIO_CATS: { key: FolioItem['cat']; label: string }[] = [

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Editor vizual simplu (fără dependențe): scrii ca într-un document Word,
@@ -15,6 +15,8 @@ export default function RichEditor({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const initialised = useRef(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (!initialised.current && ref.current) {
@@ -36,6 +38,22 @@ export default function RichEditor({
     if (url) exec('createLink', url);
   };
 
+  const addImage = async (file: File) => {
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/admin/upload/', { method: 'POST', body: fd });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Upload eșuat.');
+      exec('insertImage', data.url);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Upload eșuat.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const TOOLS: { label: string; title: string; action: () => void }[] = [
     { label: 'B', title: 'Îngroșat', action: () => exec('bold') },
     { label: 'I', title: 'Italic', action: () => exec('italic') },
@@ -45,6 +63,7 @@ export default function RichEditor({
     { label: '• Listă', title: 'Listă cu puncte', action: () => exec('insertUnorderedList') },
     { label: '1. Listă', title: 'Listă numerotată', action: () => exec('insertOrderedList') },
     { label: '🔗 Link', title: 'Adaugă link', action: addLink },
+    { label: uploading ? '⏳ Poză...' : '📷 Poză', title: 'Inserează poză în articol', action: () => fileRef.current?.click() },
     { label: '⌫ Format', title: 'Curăță formatarea', action: () => exec('removeFormat') },
   ];
 
@@ -69,6 +88,17 @@ export default function RichEditor({
         contentEditable
         suppressContentEditableWarning
         onInput={() => onChange(ref.current?.innerHTML || '')}
+      />
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={e => {
+          const file = e.target.files?.[0];
+          if (file) addImage(file);
+          e.target.value = '';
+        }}
       />
     </div>
   );

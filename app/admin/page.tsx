@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import RichEditor from '@/components/RichEditor';
+import UploadImage from '@/components/UploadImage';
 
 type Post = {
   slug: string;
@@ -33,6 +34,7 @@ type FolioItem = {
   desc: string;
   videoId?: string;
   link?: string;
+  image?: string;
 };
 
 const FOLIO_CATS = [
@@ -501,8 +503,8 @@ export default function AdminPage() {
                       <input type="datetime-local" value={editing.date} onChange={e => setEditing(ed => ({ ...ed, date: e.target.value }))} />
                     </div>
                     <div className="form-field">
-                      <label>Imagine de copertă (link poză, ex. din Cloudinary)</label>
-                      <input value={editing.image || ''} onChange={e => setEditing(ed => ({ ...ed, image: e.target.value }))} placeholder="https://res.cloudinary.com/..." />
+                      <label>Imagine de copertă (thumbnail)</label>
+                      <UploadImage value={editing.image} onChange={url => setEditing(ed => ({ ...ed, image: url }))} />
                     </div>
                     <div className="form-field full">
                       <label>Conținutul articolului * (scrii ca în Word — folosește butoanele pentru titluri, liste, linkuri)</label>
@@ -556,6 +558,10 @@ export default function AdminPage() {
                       <div className="form-field full">
                         <label>Descriere scurtă</label>
                         <input value={folioEdit.desc} onChange={e => setFolioEdit(f => f && { ...f, desc: e.target.value })} placeholder="ex: Montaj multi-cameră cu subtitrări dinamice" />
+                      </div>
+                      <div className="form-field full">
+                        <label>Imagine de copertă (opțional — afișată când nu e clip YouTube)</label>
+                        <UploadImage value={folioEdit.image} onChange={url => setFolioEdit(f => f && { ...f, image: url })} />
                       </div>
                     </div>
                     {error && <p style={{ color: '#dc2626', fontSize: '.9rem', marginTop: 12 }}>⚠ {error}</p>}

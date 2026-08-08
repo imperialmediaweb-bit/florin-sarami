@@ -867,7 +867,7 @@ body:has(.admin-root) main { padding-top: 0; }
 .rich-toolbar {
   display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 10px;
   background: var(--bg); border-bottom: 1px solid var(--line);
-  position: sticky; top: var(--nav-h); z-index: 5;
+  position: sticky; top: 0; z-index: 5;
 }
 .rich-toolbar button {
   padding: 7px 12px; border-radius: 8px; border: 1px solid var(--line);

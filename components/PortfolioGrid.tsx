@@ -50,6 +50,20 @@ export default function PortfolioGrid({ items }: { items: FolioItem[] }) {
                   loading="lazy"
                 />
               </div>
+            ) : item.image ? (
+              item.link ? (
+                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  <div className="blog-media">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={item.image} alt={item.title} loading="lazy" />
+                  </div>
+                </a>
+              ) : (
+                <div className="blog-media">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={item.image} alt={item.title} loading="lazy" />
+                </div>
+              )
             ) : item.link ? (
               <a href={item.link} target="_blank" rel="noopener noreferrer">
                 <div className="folio-media placeholder" style={{ background: GRADIENTS[i % GRADIENTS.length] }}>
