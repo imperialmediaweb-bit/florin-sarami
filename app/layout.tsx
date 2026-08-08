@@ -7,6 +7,7 @@ import CookieBanner from '@/components/CookieBanner';
 import ScrollFx from '@/components/ScrollFx';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://sarami.ro'),
   title: {
     default: 'Sarami Media — Editare Video & Redactare Conținut',
     template: '%s — Sarami Media',

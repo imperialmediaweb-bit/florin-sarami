@@ -41,9 +41,30 @@ npm run import:wp                          # importă de pe https://sarami.ro
 npm run import:wp -- https://alt-site.ro   # sau de pe alt site WordPress
 ```
 
-Scriptul citește articolele publicate prin API-ul WordPress (`/wp-json/wp/v2/posts`), descarcă imaginile (copertă + cele din articole) în `public/blog/` și salvează fiecare articol ca `content/blog/<slug>.json`. Apoi rulezi `npm run build` și articolele apar pe `/blog`. Comanda trebuie rulată de pe un calculator care poate accesa site-ul (al tău e suficient).
+Scriptul citește articolele publicate prin API-ul WordPress (`/wp-json/wp/v2/posts`), preia imaginile (copertă + cele din articole) și salvează fiecare articol ca `content/blog/<slug>.json`. Apoi rulezi `npm run build` și articolele apar pe `/blog`. Comanda trebuie rulată de pe un calculator care poate accesa site-ul (al tău e suficient).
 
 În `content/blog/` există două articole demonstrative — le poți șterge după import.
+
+### Imagini pe Cloudinary (opțional, recomandat)
+
+Dacă setezi variabila `CLOUDINARY_URL` înainte de import, imaginile sunt urcate în contul tău Cloudinary (folderul `sarami-blog/`) și articolele folosesc link-urile de acolo. Valoarea o găsești în Cloudinary → Dashboard → „API environment variable":
+
+```bash
+# Windows (cmd):
+set CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@NUME_CLOUD
+npm run import:wp
+
+# Mac/Linux:
+CLOUDINARY_URL="cloudinary://API_KEY:API_SECRET@NUME_CLOUD" npm run import:wp
+```
+
+Fără variabilă, imaginile se descarcă local în `public/blog/` — funcționează la fel de bine.
+
+### Protecție SEO — vechile URL-uri nu se pierd
+
+Scriptul de import reține URL-ul vechi al fiecărui articol de pe WordPress și scrie automat **redirect-uri 301** în `public/.htaccess` (ex: `sarami.ro/titlu-articol/` → `sarami.ro/blog/titlu-articol/`). Fișierul ajunge în `out/` la build și este citit de serverele Apache/cPanel. Google urmează redirecturile și transferă autoritatea vechilor pagini către cele noi — fără erori 404, fără penalizări.
+
+Site-ul generează automat și `sitemap.xml` + `robots.txt` (la build). După lansare, trimite `https://sarami.ro/sitemap.xml` în [Google Search Console](https://search.google.com/search-console) ca reindexarea să fie cât mai rapidă.
 
 ## De completat înainte de lansare
 
