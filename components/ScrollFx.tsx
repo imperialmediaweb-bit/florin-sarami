@@ -52,19 +52,44 @@ export default function ScrollFx() {
     );
     counters.forEach(el => cio.observe(el));
 
+    // 3D tilt + spotlight: cardurile se înclină subtil după cursor
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const TILT_SELECTOR = '.card, .media-card, .folio-item, .step, .value-pill, .stat';
+
     const onMove = (e: PointerEvent) => {
-      const card = (e.target as Element | null)?.closest?.('.card') as HTMLElement | null;
-      if (!card) return;
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-      card.style.setProperty('--my', `${e.clientY - r.top}px`);
+      const target = e.target as Element | null;
+      const card = target?.closest?.('.card') as HTMLElement | null;
+      if (card) {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        card.style.setProperty('--my', `${e.clientY - r.top}px`);
+      }
+      if (reducedMotion) return;
+      const tiltEl = target?.closest?.(TILT_SELECTOR) as HTMLElement | null;
+      if (!tiltEl) return;
+      const r = tiltEl.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      tiltEl.style.transform =
+        `perspective(900px) rotateX(${(-py * 7).toFixed(2)}deg) rotateY(${(px * 9).toFixed(2)}deg) translateY(-6px)`;
     };
+
+    const onOut = (e: PointerEvent) => {
+      const tiltEl = (e.target as Element | null)?.closest?.(TILT_SELECTOR) as HTMLElement | null;
+      if (!tiltEl) return;
+      const to = e.relatedTarget as Element | null;
+      if (to && tiltEl.contains(to)) return; // încă în interiorul cardului
+      tiltEl.style.transform = '';
+    };
+
     document.addEventListener('pointermove', onMove, { passive: true });
+    document.addEventListener('pointerout', onOut, { passive: true });
 
     return () => {
       io.disconnect();
       cio.disconnect();
       document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerout', onOut);
     };
   }, [pathname]);
 

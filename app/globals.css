@@ -42,7 +42,7 @@
   --shadow-glow: 0 20px 60px -18px rgba(29, 78, 216, .38);
   --font-head: "Sora", "Segoe UI", sans-serif;
   --font-body: "Inter", "Segoe UI", sans-serif;
-  --nav-h: 78px;
+  --nav-h: 88px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -90,6 +90,17 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
     radial-gradient(circle 280px at 75% 65%, rgba(37, 99, 235, .10), transparent 70%);
   animation: drift 26s ease-in-out infinite alternate;
 }
+/* inel de gradient rotativ — dă adâncime fundalului */
+.bg-scene::after {
+  content: ""; position: absolute; width: 65vmax; height: 65vmax; right: -22vmax; top: -28vmax;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    rgba(56, 189, 248, .22), rgba(37, 99, 235, .06),
+    rgba(125, 211, 252, .18), rgba(29, 78, 216, .08), rgba(56, 189, 248, .22));
+  filter: blur(70px);
+  animation: spinSlow 45s linear infinite;
+}
+@keyframes spinSlow { to { transform: rotate(360deg); } }
 @keyframes drift {
   from { transform: translate(-2%, -2%) rotate(0deg); }
   to   { transform: translate(3%, 3%) rotate(4deg); }
@@ -128,10 +139,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
 .logo-pill:hover { transform: translateY(-2px); }
 /* multiply face ca un PNG cu fundal alb/deschis să dispară pe fundalul deschis */
 .logo-pill img { mix-blend-mode: multiply; }
-.nav-logo img { height: 64px; width: auto; }
-@media (max-width: 640px) { .nav-logo img { height: 48px; } }
+.nav-logo img { height: 76px; width: auto; }
+@media (max-width: 640px) { .nav-logo img { height: 54px; } }
 .footer-brand .logo-pill { margin-bottom: 18px; }
-.footer-brand .logo-pill img { height: 54px; margin-bottom: 0; }
+.footer-brand .logo-pill img { height: 64px; margin-bottom: 0; }
 
 .nav-links { display: flex; align-items: center; gap: 6px; }
 .nav-links a {
@@ -251,9 +262,12 @@ main { padding-top: var(--nav-h); }
 .center { text-align: center; }
 .center .lead { margin-inline: auto; }
 
-/* Reveal la scroll */
-.reveal { opacity: 0; transform: translateY(34px); transition: opacity .8s cubic-bezier(.2, .7, .3, 1), transform .8s cubic-bezier(.2, .7, .3, 1); }
-.reveal.in { opacity: 1; transform: none; }
+/* Reveal la scroll — intrare cu adâncime: blur + scale + ridicare */
+.reveal {
+  opacity: 0; transform: translateY(34px) scale(.96); filter: blur(8px);
+  transition: opacity .8s cubic-bezier(.2, .7, .3, 1), transform .8s cubic-bezier(.2, .7, .3, 1), filter .8s ease;
+}
+.reveal.in { opacity: 1; transform: none; filter: none; }
 .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity .8s ease, transform .8s ease; }
 .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity .8s ease, transform .8s ease; }
 .reveal-left.in, .reveal-right.in { opacity: 1; transform: none; }
@@ -390,6 +404,7 @@ main { padding-top: var(--nav-h); }
   padding: 34px 30px; position: relative; overflow: hidden;
   box-shadow: 0 10px 34px -22px rgba(29, 78, 216, .3);
   transition: transform .35s cubic-bezier(.2, .7, .3, 1), border-color .35s, box-shadow .35s;
+  transform-style: preserve-3d; will-change: transform;
 }
 .card::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
