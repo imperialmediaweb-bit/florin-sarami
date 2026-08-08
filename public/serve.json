@@ -1,0 +1,1245 @@
+{
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/importanta-unui-blog-activ-pentru-magazinul-tau-online",
+      "destination": "/blog/importanta-unui-blog-activ-pentru-magazinul-tau-online/",
+      "type": 301
+    },
+    {
+      "source": "/importanta-unui-blog-activ-pentru-magazinul-tau-online/",
+      "destination": "/blog/importanta-unui-blog-activ-pentru-magazinul-tau-online/",
+      "type": 301
+    },
+    {
+      "source": "/mentine-ti-site-ul-activ-prin-publicarea-de-articole-noi",
+      "destination": "/blog/mentine-ti-site-ul-activ-prin-publicarea-de-articole-noi/",
+      "type": 301
+    },
+    {
+      "source": "/mentine-ti-site-ul-activ-prin-publicarea-de-articole-noi/",
+      "destination": "/blog/mentine-ti-site-ul-activ-prin-publicarea-de-articole-noi/",
+      "type": 301
+    },
+    {
+      "source": "/continutul-si-optimizarea-seo-importanta-beneficii-riscuri",
+      "destination": "/blog/continutul-si-optimizarea-seo-importanta-beneficii-riscuri/",
+      "type": 301
+    },
+    {
+      "source": "/continutul-si-optimizarea-seo-importanta-beneficii-riscuri/",
+      "destination": "/blog/continutul-si-optimizarea-seo-importanta-beneficii-riscuri/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-si-necesitatea-unui-blog",
+      "destination": "/blog/content-writing-si-necesitatea-unui-blog/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-si-necesitatea-unui-blog/",
+      "destination": "/blog/content-writing-si-necesitatea-unui-blog/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-ul-in-romania",
+      "destination": "/blog/content-writing-ul-in-romania/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-ul-in-romania/",
+      "destination": "/blog/content-writing-ul-in-romania/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-si-seo",
+      "destination": "/blog/content-writing-si-seo/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-si-seo/",
+      "destination": "/blog/content-writing-si-seo/",
+      "type": 301
+    },
+    {
+      "source": "/serviciile-de-content-writing-si-importanta-lor",
+      "destination": "/blog/serviciile-de-content-writing-si-importanta-lor/",
+      "type": 301
+    },
+    {
+      "source": "/serviciile-de-content-writing-si-importanta-lor/",
+      "destination": "/blog/serviciile-de-content-writing-si-importanta-lor/",
+      "type": 301
+    },
+    {
+      "source": "/intrebari-si-raspunsuri-despre-content-writing",
+      "destination": "/blog/intrebari-si-raspunsuri-despre-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/intrebari-si-raspunsuri-despre-content-writing/",
+      "destination": "/blog/intrebari-si-raspunsuri-despre-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-profesionale-de-content-writing",
+      "destination": "/blog/servicii-profesionale-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-profesionale-de-content-writing/",
+      "destination": "/blog/servicii-profesionale-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-un-content-writer-iti-influenteaza-afacerea",
+      "destination": "/blog/de-ce-un-content-writer-iti-influenteaza-afacerea/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-un-content-writer-iti-influenteaza-afacerea/",
+      "destination": "/blog/de-ce-un-content-writer-iti-influenteaza-afacerea/",
+      "type": 301
+    },
+    {
+      "source": "/redactare-de-articole-seo-profesionale",
+      "destination": "/blog/redactare-de-articole-seo-profesionale/",
+      "type": 301
+    },
+    {
+      "source": "/redactare-de-articole-seo-profesionale/",
+      "destination": "/blog/redactare-de-articole-seo-profesionale/",
+      "type": 301
+    },
+    {
+      "source": "/ce-trebuie-sa-stii-despre-content-writing-si-copywriting",
+      "destination": "/blog/ce-trebuie-sa-stii-despre-content-writing-si-copywriting/",
+      "type": 301
+    },
+    {
+      "source": "/ce-trebuie-sa-stii-despre-content-writing-si-copywriting/",
+      "destination": "/blog/ce-trebuie-sa-stii-despre-content-writing-si-copywriting/",
+      "type": 301
+    },
+    {
+      "source": "/ce-ofera-un-redactor-de-articole-online",
+      "destination": "/blog/ce-ofera-un-redactor-de-articole-online/",
+      "type": 301
+    },
+    {
+      "source": "/ce-ofera-un-redactor-de-articole-online/",
+      "destination": "/blog/ce-ofera-un-redactor-de-articole-online/",
+      "type": 301
+    },
+    {
+      "source": "/cum-sa-atragi-clientii-prin-serviciile-de-redactare-articole-seo",
+      "destination": "/blog/cum-sa-atragi-clientii-prin-serviciile-de-redactare-articole-seo/",
+      "type": 301
+    },
+    {
+      "source": "/cum-sa-atragi-clientii-prin-serviciile-de-redactare-articole-seo/",
+      "destination": "/blog/cum-sa-atragi-clientii-prin-serviciile-de-redactare-articole-seo/",
+      "type": 301
+    },
+    {
+      "source": "/ce-ofera-o-agentie-de-content-writing",
+      "destination": "/blog/ce-ofera-o-agentie-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/ce-ofera-o-agentie-de-content-writing/",
+      "destination": "/blog/ce-ofera-o-agentie-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-de-redactare-articole-seo-profesionale",
+      "destination": "/blog/servicii-de-redactare-articole-seo-profesionale/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-de-redactare-articole-seo-profesionale/",
+      "destination": "/blog/servicii-de-redactare-articole-seo-profesionale/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-caut-content-writer-pentru-afacerea-mea-cat-de-important-este-continutul-in-mediul-de-afaceri",
+      "destination": "/blog/de-ce-sa-caut-content-writer-pentru-afacerea-mea-cat-de-important-este-continutul-in-mediul-de-afaceri/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-caut-content-writer-pentru-afacerea-mea-cat-de-important-este-continutul-in-mediul-de-afaceri/",
+      "destination": "/blog/de-ce-sa-caut-content-writer-pentru-afacerea-mea-cat-de-important-este-continutul-in-mediul-de-afaceri/",
+      "type": 301
+    },
+    {
+      "source": "/agentie-profesionala-de-redactare-articole",
+      "destination": "/blog/agentie-profesionala-de-redactare-articole/",
+      "type": 301
+    },
+    {
+      "source": "/agentie-profesionala-de-redactare-articole/",
+      "destination": "/blog/agentie-profesionala-de-redactare-articole/",
+      "type": 301
+    },
+    {
+      "source": "/ce-sunt-cuvintele-cheie-atunci-cand-vine-vorba-despre-seo",
+      "destination": "/blog/ce-sunt-cuvintele-cheie-atunci-cand-vine-vorba-despre-seo/",
+      "type": 301
+    },
+    {
+      "source": "/ce-sunt-cuvintele-cheie-atunci-cand-vine-vorba-despre-seo/",
+      "destination": "/blog/ce-sunt-cuvintele-cheie-atunci-cand-vine-vorba-despre-seo/",
+      "type": 301
+    },
+    {
+      "source": "/colaborarea-cu-o-firma-de-redactare-articole",
+      "destination": "/blog/colaborarea-cu-o-firma-de-redactare-articole/",
+      "type": 301
+    },
+    {
+      "source": "/colaborarea-cu-o-firma-de-redactare-articole/",
+      "destination": "/blog/colaborarea-cu-o-firma-de-redactare-articole/",
+      "type": 301
+    },
+    {
+      "source": "/copywriting-servicii-profesionale-de-creare-continut",
+      "destination": "/blog/copywriting-servicii-profesionale-de-creare-continut/",
+      "type": 301
+    },
+    {
+      "source": "/copywriting-servicii-profesionale-de-creare-continut/",
+      "destination": "/blog/copywriting-servicii-profesionale-de-creare-continut/",
+      "type": 301
+    },
+    {
+      "source": "/marketing-digital-pentru-afacerile-mici",
+      "destination": "/blog/marketing-digital-pentru-afacerile-mici/",
+      "type": 301
+    },
+    {
+      "source": "/marketing-digital-pentru-afacerile-mici/",
+      "destination": "/blog/marketing-digital-pentru-afacerile-mici/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-caut-scriitor-articole-pentru-site-ul-meu-ce-beneficii-pot-obtine",
+      "destination": "/blog/de-ce-sa-caut-scriitor-articole-pentru-site-ul-meu-ce-beneficii-pot-obtine/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-caut-scriitor-articole-pentru-site-ul-meu-ce-beneficii-pot-obtine/",
+      "destination": "/blog/de-ce-sa-caut-scriitor-articole-pentru-site-ul-meu-ce-beneficii-pot-obtine/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-iti-ofera-o-colaborare-redactare-articole-cum-iti-poate-sustine-afacerea-ta-online",
+      "destination": "/blog/ce-avantaje-iti-ofera-o-colaborare-redactare-articole-cum-iti-poate-sustine-afacerea-ta-online/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-iti-ofera-o-colaborare-redactare-articole-cum-iti-poate-sustine-afacerea-ta-online/",
+      "destination": "/blog/ce-avantaje-iti-ofera-o-colaborare-redactare-articole-cum-iti-poate-sustine-afacerea-ta-online/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-obtii-daca-alegi-servicii-de-content-writing-pentru-site-ul-tau",
+      "destination": "/blog/ce-avantaje-obtii-daca-alegi-servicii-de-content-writing-pentru-site-ul-tau/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-obtii-daca-alegi-servicii-de-content-writing-pentru-site-ul-tau/",
+      "destination": "/blog/ce-avantaje-obtii-daca-alegi-servicii-de-content-writing-pentru-site-ul-tau/",
+      "type": 301
+    },
+    {
+      "source": "/ce-servicii-iti-poate-oferi-o-agentie-redactare-articole-are-nevoie-afacerea-ta-de-ele-sau-crezi-ca-functioneaza-si-fara",
+      "destination": "/blog/ce-servicii-iti-poate-oferi-o-agentie-redactare-articole-are-nevoie-afacerea-ta-de-ele-sau-crezi-ca-functioneaza-si-fara/",
+      "type": 301
+    },
+    {
+      "source": "/ce-servicii-iti-poate-oferi-o-agentie-redactare-articole-are-nevoie-afacerea-ta-de-ele-sau-crezi-ca-functioneaza-si-fara/",
+      "destination": "/blog/ce-servicii-iti-poate-oferi-o-agentie-redactare-articole-are-nevoie-afacerea-ta-de-ele-sau-crezi-ca-functioneaza-si-fara/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-blog-de-ce-greseli-sa-te-feresti",
+      "destination": "/blog/content-writing-blog-de-ce-greseli-sa-te-feresti/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-blog-de-ce-greseli-sa-te-feresti/",
+      "destination": "/blog/content-writing-blog-de-ce-greseli-sa-te-feresti/",
+      "type": 301
+    },
+    {
+      "source": "/cum-obtin-cele-mai-bune-servicii-de-content-writing-romania",
+      "destination": "/blog/cum-obtin-cele-mai-bune-servicii-de-content-writing-romania/",
+      "type": 301
+    },
+    {
+      "source": "/cum-obtin-cele-mai-bune-servicii-de-content-writing-romania/",
+      "destination": "/blog/cum-obtin-cele-mai-bune-servicii-de-content-writing-romania/",
+      "type": 301
+    },
+    {
+      "source": "/cum-sa-iti-extinzi-afacerea-cu-servicii-de-content-writing-seo",
+      "destination": "/blog/cum-sa-iti-extinzi-afacerea-cu-servicii-de-content-writing-seo/",
+      "type": 301
+    },
+    {
+      "source": "/cum-sa-iti-extinzi-afacerea-cu-servicii-de-content-writing-seo/",
+      "destination": "/blog/cum-sa-iti-extinzi-afacerea-cu-servicii-de-content-writing-seo/",
+      "type": 301
+    },
+    {
+      "source": "/cum-te-poate-ajuta-o-agentie-de-content-writing-sa-iti-imbunatatesti-prezenta-pe-platformele-de-socializare",
+      "destination": "/blog/cum-te-poate-ajuta-o-agentie-de-content-writing-sa-iti-imbunatatesti-prezenta-pe-platformele-de-socializare/",
+      "type": 301
+    },
+    {
+      "source": "/cum-te-poate-ajuta-o-agentie-de-content-writing-sa-iti-imbunatatesti-prezenta-pe-platformele-de-socializare/",
+      "destination": "/blog/cum-te-poate-ajuta-o-agentie-de-content-writing-sa-iti-imbunatatesti-prezenta-pe-platformele-de-socializare/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-optezi-pentru-servicii-content-writing-ce-avantaje-sunt-la-mijloc",
+      "destination": "/blog/de-ce-sa-optezi-pentru-servicii-content-writing-ce-avantaje-sunt-la-mijloc/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-optezi-pentru-servicii-content-writing-ce-avantaje-sunt-la-mijloc/",
+      "destination": "/blog/de-ce-sa-optezi-pentru-servicii-content-writing-ce-avantaje-sunt-la-mijloc/",
+      "type": 301
+    },
+    {
+      "source": "/serviciul-de-redactare-articole-seo-cum-iti-poate-imbunatati-afacerea",
+      "destination": "/blog/serviciul-de-redactare-articole-seo-cum-iti-poate-imbunatati-afacerea/",
+      "type": 301
+    },
+    {
+      "source": "/serviciul-de-redactare-articole-seo-cum-iti-poate-imbunatati-afacerea/",
+      "destination": "/blog/serviciul-de-redactare-articole-seo-cum-iti-poate-imbunatati-afacerea/",
+      "type": 301
+    },
+    {
+      "source": "/un-redactor-articole-online-se-poate-ocupa-de-prezenta-afacerii-tale-si-in-social-media-raspunsul-e-da-ba-chiar-este-indicat",
+      "destination": "/blog/un-redactor-articole-online-se-poate-ocupa-de-prezenta-afacerii-tale-si-in-social-media-raspunsul-e-da-ba-chiar-este-indicat/",
+      "type": 301
+    },
+    {
+      "source": "/un-redactor-articole-online-se-poate-ocupa-de-prezenta-afacerii-tale-si-in-social-media-raspunsul-e-da-ba-chiar-este-indicat/",
+      "destination": "/blog/un-redactor-articole-online-se-poate-ocupa-de-prezenta-afacerii-tale-si-in-social-media-raspunsul-e-da-ba-chiar-este-indicat/",
+      "type": 301
+    },
+    {
+      "source": "/ce-beneficii-pot-obtine-de-la-o-colaborare-redactare-articole-pentru-blogul-meu",
+      "destination": "/blog/ce-beneficii-pot-obtine-de-la-o-colaborare-redactare-articole-pentru-blogul-meu/",
+      "type": 301
+    },
+    {
+      "source": "/ce-beneficii-pot-obtine-de-la-o-colaborare-redactare-articole-pentru-blogul-meu/",
+      "destination": "/blog/ce-beneficii-pot-obtine-de-la-o-colaborare-redactare-articole-pentru-blogul-meu/",
+      "type": 301
+    },
+    {
+      "source": "/cum-pot-sa-imi-promovez-afacerea-cu-un-buget-mic-este-indicat-sa-caut-redactor-articole",
+      "destination": "/blog/cum-pot-sa-imi-promovez-afacerea-cu-un-buget-mic-este-indicat-sa-caut-redactor-articole/",
+      "type": 301
+    },
+    {
+      "source": "/cum-pot-sa-imi-promovez-afacerea-cu-un-buget-mic-este-indicat-sa-caut-redactor-articole/",
+      "destination": "/blog/cum-pot-sa-imi-promovez-afacerea-cu-un-buget-mic-este-indicat-sa-caut-redactor-articole/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-imi-poate-oferi-colaborarea-cu-un-redactor-articole-site-uri-online",
+      "destination": "/blog/ce-avantaje-imi-poate-oferi-colaborarea-cu-un-redactor-articole-site-uri-online/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-imi-poate-oferi-colaborarea-cu-un-redactor-articole-site-uri-online/",
+      "destination": "/blog/ce-avantaje-imi-poate-oferi-colaborarea-cu-un-redactor-articole-site-uri-online/",
+      "type": 301
+    },
+    {
+      "source": "/este-o-idee-buna-sa-caut-scriitor-articole-pentru-blogul-meu-cum-imi-poate-fi-de-ajutor",
+      "destination": "/blog/este-o-idee-buna-sa-caut-scriitor-articole-pentru-blogul-meu-cum-imi-poate-fi-de-ajutor/",
+      "type": 301
+    },
+    {
+      "source": "/este-o-idee-buna-sa-caut-scriitor-articole-pentru-blogul-meu-cum-imi-poate-fi-de-ajutor/",
+      "destination": "/blog/este-o-idee-buna-sa-caut-scriitor-articole-pentru-blogul-meu-cum-imi-poate-fi-de-ajutor/",
+      "type": 301
+    },
+    {
+      "source": "/ce-criterii-sa-am-in-minte-atunci-cand-caut-content-writer",
+      "destination": "/blog/ce-criterii-sa-am-in-minte-atunci-cand-caut-content-writer/",
+      "type": 301
+    },
+    {
+      "source": "/ce-criterii-sa-am-in-minte-atunci-cand-caut-content-writer/",
+      "destination": "/blog/ce-criterii-sa-am-in-minte-atunci-cand-caut-content-writer/",
+      "type": 301
+    },
+    {
+      "source": "/cat-de-recomandat-este-sa-caut-copywriter-pentru-afacerea-mea-online",
+      "destination": "/blog/cat-de-recomandat-este-sa-caut-copywriter-pentru-afacerea-mea-online/",
+      "type": 301
+    },
+    {
+      "source": "/cat-de-recomandat-este-sa-caut-copywriter-pentru-afacerea-mea-online/",
+      "destination": "/blog/cat-de-recomandat-este-sa-caut-copywriter-pentru-afacerea-mea-online/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-las-o-agentie-content-writing-sa-se-ocupe-de-blogul-meu-de-afaceri",
+      "destination": "/blog/de-ce-sa-las-o-agentie-content-writing-sa-se-ocupe-de-blogul-meu-de-afaceri/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-las-o-agentie-content-writing-sa-se-ocupe-de-blogul-meu-de-afaceri/",
+      "destination": "/blog/de-ce-sa-las-o-agentie-content-writing-sa-se-ocupe-de-blogul-meu-de-afaceri/",
+      "type": 301
+    },
+    {
+      "source": "/3-motive-pentru-care-serviciul-de-optimizare-site-este-atat-de-important",
+      "destination": "/blog/3-motive-pentru-care-serviciul-de-optimizare-site-este-atat-de-important/",
+      "type": 301
+    },
+    {
+      "source": "/3-motive-pentru-care-serviciul-de-optimizare-site-este-atat-de-important/",
+      "destination": "/blog/3-motive-pentru-care-serviciul-de-optimizare-site-este-atat-de-important/",
+      "type": 301
+    },
+    {
+      "source": "/ce-inseamna-servicii-seo-eficiente-cum-imi-pot-stimula-afacerea",
+      "destination": "/blog/ce-inseamna-servicii-seo-eficiente-cum-imi-pot-stimula-afacerea/",
+      "type": 301
+    },
+    {
+      "source": "/ce-inseamna-servicii-seo-eficiente-cum-imi-pot-stimula-afacerea/",
+      "destination": "/blog/ce-inseamna-servicii-seo-eficiente-cum-imi-pot-stimula-afacerea/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-afacerea-mea-are-nevoie-de-promovare-seo",
+      "destination": "/blog/de-ce-afacerea-mea-are-nevoie-de-promovare-seo/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-afacerea-mea-are-nevoie-de-promovare-seo/",
+      "destination": "/blog/de-ce-afacerea-mea-are-nevoie-de-promovare-seo/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-obtii-daca-apelezi-la-o-firma-de-content-writing",
+      "destination": "/blog/ce-avantaje-obtii-daca-apelezi-la-o-firma-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-obtii-daca-apelezi-la-o-firma-de-content-writing/",
+      "destination": "/blog/ce-avantaje-obtii-daca-apelezi-la-o-firma-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/cum-te-poate-ajuta-o-firma-servicii-content-writing",
+      "destination": "/blog/cum-te-poate-ajuta-o-firma-servicii-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/cum-te-poate-ajuta-o-firma-servicii-content-writing/",
+      "destination": "/blog/cum-te-poate-ajuta-o-firma-servicii-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/cum-sa-alegi-o-firma-redactare-articole-care-sa-te-conduca-spre-rezultatele-pe-care-le-doresti",
+      "destination": "/blog/cum-sa-alegi-o-firma-redactare-articole-care-sa-te-conduca-spre-rezultatele-pe-care-le-doresti/",
+      "type": 301
+    },
+    {
+      "source": "/cum-sa-alegi-o-firma-redactare-articole-care-sa-te-conduca-spre-rezultatele-pe-care-le-doresti/",
+      "destination": "/blog/cum-sa-alegi-o-firma-redactare-articole-care-sa-te-conduca-spre-rezultatele-pe-care-le-doresti/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-de-copywriting-ce-avantaje-pot-aduce-afacerii-tale",
+      "destination": "/blog/servicii-de-copywriting-ce-avantaje-pot-aduce-afacerii-tale/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-de-copywriting-ce-avantaje-pot-aduce-afacerii-tale/",
+      "destination": "/blog/servicii-de-copywriting-ce-avantaje-pot-aduce-afacerii-tale/",
+      "type": 301
+    },
+    {
+      "source": "/cat-de-recomandata-este-o-colaborare-cu-o-agentie-seo-daca-detin-o-afacere-online",
+      "destination": "/blog/cat-de-recomandata-este-o-colaborare-cu-o-agentie-seo-daca-detin-o-afacere-online/",
+      "type": 301
+    },
+    {
+      "source": "/cat-de-recomandata-este-o-colaborare-cu-o-agentie-seo-daca-detin-o-afacere-online/",
+      "destination": "/blog/cat-de-recomandata-este-o-colaborare-cu-o-agentie-seo-daca-detin-o-afacere-online/",
+      "type": 301
+    },
+    {
+      "source": "/ce-am-de-castigat-daca-postez-continut-pentru-site-in-mod-regulat",
+      "destination": "/blog/ce-am-de-castigat-daca-postez-continut-pentru-site-in-mod-regulat/",
+      "type": 301
+    },
+    {
+      "source": "/ce-am-de-castigat-daca-postez-continut-pentru-site-in-mod-regulat/",
+      "destination": "/blog/ce-am-de-castigat-daca-postez-continut-pentru-site-in-mod-regulat/",
+      "type": 301
+    },
+    {
+      "source": "/cum-puteti-atrage-noi-utilizatori-prin-creare-continut-site",
+      "destination": "/blog/cum-puteti-atrage-noi-utilizatori-prin-creare-continut-site/",
+      "type": 301
+    },
+    {
+      "source": "/cum-puteti-atrage-noi-utilizatori-prin-creare-continut-site/",
+      "destination": "/blog/cum-puteti-atrage-noi-utilizatori-prin-creare-continut-site/",
+      "type": 301
+    },
+    {
+      "source": "/redactare-articole-seo-ce-reguli-trebuie-respectate",
+      "destination": "/blog/redactare-articole-seo-ce-reguli-trebuie-respectate/",
+      "type": 301
+    },
+    {
+      "source": "/redactare-articole-seo-ce-reguli-trebuie-respectate/",
+      "destination": "/blog/redactare-articole-seo-ce-reguli-trebuie-respectate/",
+      "type": 301
+    },
+    {
+      "source": "/sarami-media-agentie-de-marketing-de-continut-pentru-afacerile-online",
+      "destination": "/blog/sarami-media-agentie-de-marketing-de-continut-pentru-afacerile-online/",
+      "type": 301
+    },
+    {
+      "source": "/sarami-media-agentie-de-marketing-de-continut-pentru-afacerile-online/",
+      "destination": "/blog/sarami-media-agentie-de-marketing-de-continut-pentru-afacerile-online/",
+      "type": 301
+    },
+    {
+      "source": "/am-nevoie-de-articole-pentru-site-ce-impact-au-asupra-afacerii-mele",
+      "destination": "/blog/am-nevoie-de-articole-pentru-site-ce-impact-au-asupra-afacerii-mele/",
+      "type": 301
+    },
+    {
+      "source": "/am-nevoie-de-articole-pentru-site-ce-impact-au-asupra-afacerii-mele/",
+      "destination": "/blog/am-nevoie-de-articole-pentru-site-ce-impact-au-asupra-afacerii-mele/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-este-necesar-sa-creati-articole-pentru-blog-cum-va-pot-influenta-activitatea",
+      "destination": "/blog/de-ce-este-necesar-sa-creati-articole-pentru-blog-cum-va-pot-influenta-activitatea/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-este-necesar-sa-creati-articole-pentru-blog-cum-va-pot-influenta-activitatea/",
+      "destination": "/blog/de-ce-este-necesar-sa-creati-articole-pentru-blog-cum-va-pot-influenta-activitatea/",
+      "type": 301
+    },
+    {
+      "source": "/ce-implica-o-buna-campanie-de-optimizare-motoare-de-cautare",
+      "destination": "/blog/ce-implica-o-buna-campanie-de-optimizare-motoare-de-cautare/",
+      "type": 301
+    },
+    {
+      "source": "/ce-implica-o-buna-campanie-de-optimizare-motoare-de-cautare/",
+      "destination": "/blog/ce-implica-o-buna-campanie-de-optimizare-motoare-de-cautare/",
+      "type": 301
+    },
+    {
+      "source": "/content-writer-ce-inseamna-si-care-este-implicatia-sa-in-cadrul-unei-campanii-seo",
+      "destination": "/blog/content-writer-ce-inseamna-si-care-este-implicatia-sa-in-cadrul-unei-campanii-seo/",
+      "type": 301
+    },
+    {
+      "source": "/content-writer-ce-inseamna-si-care-este-implicatia-sa-in-cadrul-unei-campanii-seo/",
+      "destination": "/blog/content-writer-ce-inseamna-si-care-este-implicatia-sa-in-cadrul-unei-campanii-seo/",
+      "type": 301
+    },
+    {
+      "source": "/despre-servicii-copywriting-preturi-si-cum-va-avantajeaza-site-ul",
+      "destination": "/blog/despre-servicii-copywriting-preturi-si-cum-va-avantajeaza-site-ul/",
+      "type": 301
+    },
+    {
+      "source": "/despre-servicii-copywriting-preturi-si-cum-va-avantajeaza-site-ul/",
+      "destination": "/blog/despre-servicii-copywriting-preturi-si-cum-va-avantajeaza-site-ul/",
+      "type": 301
+    },
+    {
+      "source": "/descrieri-produse-articole-informative-si-alte-tehnici-prin-care-va-puteti-promova-afacerea-online",
+      "destination": "/blog/descrieri-produse-articole-informative-si-alte-tehnici-prin-care-va-puteti-promova-afacerea-online/",
+      "type": 301
+    },
+    {
+      "source": "/descrieri-produse-articole-informative-si-alte-tehnici-prin-care-va-puteti-promova-afacerea-online/",
+      "destination": "/blog/descrieri-produse-articole-informative-si-alte-tehnici-prin-care-va-puteti-promova-afacerea-online/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-ca-parte-esentiala-in-promovarea-online",
+      "destination": "/blog/content-writing-ca-parte-esentiala-in-promovarea-online/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-ca-parte-esentiala-in-promovarea-online/",
+      "destination": "/blog/content-writing-ca-parte-esentiala-in-promovarea-online/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-ul-pasiune-pentru-scris-transformata-in-job",
+      "destination": "/blog/content-writing-ul-pasiune-pentru-scris-transformata-in-job/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-ul-pasiune-pentru-scris-transformata-in-job/",
+      "destination": "/blog/content-writing-ul-pasiune-pentru-scris-transformata-in-job/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-de-content-writing-pe-intelesul-tututor",
+      "destination": "/blog/servicii-de-content-writing-pe-intelesul-tututor/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-de-content-writing-pe-intelesul-tututor/",
+      "destination": "/blog/servicii-de-content-writing-pe-intelesul-tututor/",
+      "type": 301
+    },
+    {
+      "source": "/serviciile-de-content-writing-calea-spre-succes",
+      "destination": "/blog/serviciile-de-content-writing-calea-spre-succes/",
+      "type": 301
+    },
+    {
+      "source": "/serviciile-de-content-writing-calea-spre-succes/",
+      "destination": "/blog/serviciile-de-content-writing-calea-spre-succes/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-seo-profesionale-2-avantaje-clare-pe-care-le-ofera-afacerilor-online",
+      "destination": "/blog/servicii-seo-profesionale-2-avantaje-clare-pe-care-le-ofera-afacerilor-online/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-seo-profesionale-2-avantaje-clare-pe-care-le-ofera-afacerilor-online/",
+      "destination": "/blog/servicii-seo-profesionale-2-avantaje-clare-pe-care-le-ofera-afacerilor-online/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-seo-ce-impact-are-asupra-afacerilor-online",
+      "destination": "/blog/content-writing-seo-ce-impact-are-asupra-afacerilor-online/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-seo-ce-impact-are-asupra-afacerilor-online/",
+      "destination": "/blog/content-writing-seo-ce-impact-are-asupra-afacerilor-online/",
+      "type": 301
+    },
+    {
+      "source": "/2-tehnici-sigure-pentru-optimizarea-continutului-site-ului",
+      "destination": "/blog/2-tehnici-sigure-pentru-optimizarea-continutului-site-ului/",
+      "type": 301
+    },
+    {
+      "source": "/2-tehnici-sigure-pentru-optimizarea-continutului-site-ului/",
+      "destination": "/blog/2-tehnici-sigure-pentru-optimizarea-continutului-site-ului/",
+      "type": 301
+    },
+    {
+      "source": "/care-sunt-cele-mai-potrivite-servicii-seo-pentru-dezvoltarea-afacerii-mele",
+      "destination": "/blog/care-sunt-cele-mai-potrivite-servicii-seo-pentru-dezvoltarea-afacerii-mele/",
+      "type": 301
+    },
+    {
+      "source": "/care-sunt-cele-mai-potrivite-servicii-seo-pentru-dezvoltarea-afacerii-mele/",
+      "destination": "/blog/care-sunt-cele-mai-potrivite-servicii-seo-pentru-dezvoltarea-afacerii-mele/",
+      "type": 301
+    },
+    {
+      "source": "/8-tipuri-de-continut-eficiente-pentru-crearea-de-continut-seo",
+      "destination": "/blog/8-tipuri-de-continut-eficiente-pentru-crearea-de-continut-seo/",
+      "type": 301
+    },
+    {
+      "source": "/8-tipuri-de-continut-eficiente-pentru-crearea-de-continut-seo/",
+      "destination": "/blog/8-tipuri-de-continut-eficiente-pentru-crearea-de-continut-seo/",
+      "type": 301
+    },
+    {
+      "source": "/serviciile-de-content-writing-cum-va-pot-ajuta-sa-va-dezvoltati-afacerea",
+      "destination": "/blog/serviciile-de-content-writing-cum-va-pot-ajuta-sa-va-dezvoltati-afacerea/",
+      "type": 301
+    },
+    {
+      "source": "/serviciile-de-content-writing-cum-va-pot-ajuta-sa-va-dezvoltati-afacerea/",
+      "destination": "/blog/serviciile-de-content-writing-cum-va-pot-ajuta-sa-va-dezvoltati-afacerea/",
+      "type": 301
+    },
+    {
+      "source": "/serviciile-de-content-writing-de-calitate",
+      "destination": "/blog/serviciile-de-content-writing-de-calitate/",
+      "type": 301
+    },
+    {
+      "source": "/serviciile-de-content-writing-de-calitate/",
+      "destination": "/blog/serviciile-de-content-writing-de-calitate/",
+      "type": 301
+    },
+    {
+      "source": "/brand-urile-care-adopta-serviciile-de-content-writing-sunt-cu-un-pas-in-fata",
+      "destination": "/blog/brand-urile-care-adopta-serviciile-de-content-writing-sunt-cu-un-pas-in-fata/",
+      "type": 301
+    },
+    {
+      "source": "/brand-urile-care-adopta-serviciile-de-content-writing-sunt-cu-un-pas-in-fata/",
+      "destination": "/blog/brand-urile-care-adopta-serviciile-de-content-writing-sunt-cu-un-pas-in-fata/",
+      "type": 301
+    },
+    {
+      "source": "/2-strategii-eficiente-de-optimizare-site",
+      "destination": "/blog/2-strategii-eficiente-de-optimizare-site/",
+      "type": 301
+    },
+    {
+      "source": "/2-strategii-eficiente-de-optimizare-site/",
+      "destination": "/blog/2-strategii-eficiente-de-optimizare-site/",
+      "type": 301
+    },
+    {
+      "source": "/articole-pentru-blog-3-moduri-prin-care-sustin-marketingul-afiliat",
+      "destination": "/blog/articole-pentru-blog-3-moduri-prin-care-sustin-marketingul-afiliat/",
+      "type": 301
+    },
+    {
+      "source": "/articole-pentru-blog-3-moduri-prin-care-sustin-marketingul-afiliat/",
+      "destination": "/blog/articole-pentru-blog-3-moduri-prin-care-sustin-marketingul-afiliat/",
+      "type": 301
+    },
+    {
+      "source": "/despre-articole-seo-creare-optimizare-site-aspecte-bine-de-stiut",
+      "destination": "/blog/despre-articole-seo-creare-optimizare-site-aspecte-bine-de-stiut/",
+      "type": 301
+    },
+    {
+      "source": "/despre-articole-seo-creare-optimizare-site-aspecte-bine-de-stiut/",
+      "destination": "/blog/despre-articole-seo-creare-optimizare-site-aspecte-bine-de-stiut/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-obtin-daca-detin-un-blog-de-afaceri-si-incep-sa-colaborez-cu-o-firma-de-content-writing",
+      "destination": "/blog/ce-avantaje-obtin-daca-detin-un-blog-de-afaceri-si-incep-sa-colaborez-cu-o-firma-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-obtin-daca-detin-un-blog-de-afaceri-si-incep-sa-colaborez-cu-o-firma-de-content-writing/",
+      "destination": "/blog/ce-avantaje-obtin-daca-detin-un-blog-de-afaceri-si-incep-sa-colaborez-cu-o-firma-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/ce-servicii-seo-romania-sunt-recomandate-pentru-conversia-traficului",
+      "destination": "/blog/ce-servicii-seo-romania-sunt-recomandate-pentru-conversia-traficului/",
+      "type": 301
+    },
+    {
+      "source": "/ce-servicii-seo-romania-sunt-recomandate-pentru-conversia-traficului/",
+      "destination": "/blog/ce-servicii-seo-romania-sunt-recomandate-pentru-conversia-traficului/",
+      "type": 301
+    },
+    {
+      "source": "/cat-de-recomandat-este-sa-optez-pentru-servicii-content-marketing-externe",
+      "destination": "/blog/cat-de-recomandat-este-sa-optez-pentru-servicii-content-marketing-externe/",
+      "type": 301
+    },
+    {
+      "source": "/cat-de-recomandat-este-sa-optez-pentru-servicii-content-marketing-externe/",
+      "destination": "/blog/cat-de-recomandat-este-sa-optez-pentru-servicii-content-marketing-externe/",
+      "type": 301
+    },
+    {
+      "source": "/cele-mai-recente-tendinte-de-content-writing-si-marketing-digital",
+      "destination": "/blog/cele-mai-recente-tendinte-de-content-writing-si-marketing-digital/",
+      "type": 301
+    },
+    {
+      "source": "/cele-mai-recente-tendinte-de-content-writing-si-marketing-digital/",
+      "destination": "/blog/cele-mai-recente-tendinte-de-content-writing-si-marketing-digital/",
+      "type": 301
+    },
+    {
+      "source": "/2-dintre-cele-mai-eficiente-tehnici-de-optimizare-continut-site",
+      "destination": "/blog/2-dintre-cele-mai-eficiente-tehnici-de-optimizare-continut-site/",
+      "type": 301
+    },
+    {
+      "source": "/2-dintre-cele-mai-eficiente-tehnici-de-optimizare-continut-site/",
+      "destination": "/blog/2-dintre-cele-mai-eficiente-tehnici-de-optimizare-continut-site/",
+      "type": 301
+    },
+    {
+      "source": "/ce-pot-face-pentru-a-stimula-si-mai-mult-strategia-seo-de-creare-continut-site",
+      "destination": "/blog/ce-pot-face-pentru-a-stimula-si-mai-mult-strategia-seo-de-creare-continut-site/",
+      "type": 301
+    },
+    {
+      "source": "/ce-pot-face-pentru-a-stimula-si-mai-mult-strategia-seo-de-creare-continut-site/",
+      "destination": "/blog/ce-pot-face-pentru-a-stimula-si-mai-mult-strategia-seo-de-creare-continut-site/",
+      "type": 301
+    },
+    {
+      "source": "/creare-continut-blog-cat-de-necesar-este-pentru-marketingul-afiliat",
+      "destination": "/blog/creare-continut-blog-cat-de-necesar-este-pentru-marketingul-afiliat/",
+      "type": 301
+    },
+    {
+      "source": "/creare-continut-blog-cat-de-necesar-este-pentru-marketingul-afiliat/",
+      "destination": "/blog/creare-continut-blog-cat-de-necesar-este-pentru-marketingul-afiliat/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-ofera-advertorialele-platite",
+      "destination": "/blog/ce-avantaje-ofera-advertorialele-platite/",
+      "type": 301
+    },
+    {
+      "source": "/ce-avantaje-ofera-advertorialele-platite/",
+      "destination": "/blog/ce-avantaje-ofera-advertorialele-platite/",
+      "type": 301
+    },
+    {
+      "source": "/cum-difera-crearea-de-continut-pentru-site-de-conservarea-continutului",
+      "destination": "/blog/cum-difera-crearea-de-continut-pentru-site-de-conservarea-continutului/",
+      "type": 301
+    },
+    {
+      "source": "/cum-difera-crearea-de-continut-pentru-site-de-conservarea-continutului/",
+      "destination": "/blog/cum-difera-crearea-de-continut-pentru-site-de-conservarea-continutului/",
+      "type": 301
+    },
+    {
+      "source": "/serviciul-de-redactare-la-comanda-cum-imi-poate-fi-de-ajutor-daca-am-deja-un-site-mai-vechi",
+      "destination": "/blog/serviciul-de-redactare-la-comanda-cum-imi-poate-fi-de-ajutor-daca-am-deja-un-site-mai-vechi/",
+      "type": 301
+    },
+    {
+      "source": "/serviciul-de-redactare-la-comanda-cum-imi-poate-fi-de-ajutor-daca-am-deja-un-site-mai-vechi/",
+      "destination": "/blog/serviciul-de-redactare-la-comanda-cum-imi-poate-fi-de-ajutor-daca-am-deja-un-site-mai-vechi/",
+      "type": 301
+    },
+    {
+      "source": "/advertoriale-seo-de-calitate-cum-te-ajuta",
+      "destination": "/blog/advertoriale-seo-de-calitate-cum-te-ajuta/",
+      "type": 301
+    },
+    {
+      "source": "/advertoriale-seo-de-calitate-cum-te-ajuta/",
+      "destination": "/blog/advertoriale-seo-de-calitate-cum-te-ajuta/",
+      "type": 301
+    },
+    {
+      "source": "/text-redactor-online-cum-imi-poate-dezvolta-website-ul",
+      "destination": "/blog/text-redactor-online-cum-imi-poate-dezvolta-website-ul/",
+      "type": 301
+    },
+    {
+      "source": "/text-redactor-online-cum-imi-poate-dezvolta-website-ul/",
+      "destination": "/blog/text-redactor-online-cum-imi-poate-dezvolta-website-ul/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-ai-nevoie-de-campanii-advertoriale-pentru-afacerea-ta",
+      "destination": "/blog/de-ce-ai-nevoie-de-campanii-advertoriale-pentru-afacerea-ta/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-ai-nevoie-de-campanii-advertoriale-pentru-afacerea-ta/",
+      "destination": "/blog/de-ce-ai-nevoie-de-campanii-advertoriale-pentru-afacerea-ta/",
+      "type": 301
+    },
+    {
+      "source": "/creare-advertoriale-un-serviciu-seo-de-o-mare-importanta",
+      "destination": "/blog/creare-advertoriale-un-serviciu-seo-de-o-mare-importanta/",
+      "type": 301
+    },
+    {
+      "source": "/creare-advertoriale-un-serviciu-seo-de-o-mare-importanta/",
+      "destination": "/blog/creare-advertoriale-un-serviciu-seo-de-o-mare-importanta/",
+      "type": 301
+    },
+    {
+      "source": "/doresc-sa-imi-deschid-un-magazin-online-am-nevoie-de-servicii-de-marketing-si-de-descrieri-produse-sau-de-servicii-web-design",
+      "destination": "/blog/doresc-sa-imi-deschid-un-magazin-online-am-nevoie-de-servicii-de-marketing-si-de-descrieri-produse-sau-de-servicii-web-design/",
+      "type": 301
+    },
+    {
+      "source": "/doresc-sa-imi-deschid-un-magazin-online-am-nevoie-de-servicii-de-marketing-si-de-descrieri-produse-sau-de-servicii-web-design/",
+      "destination": "/blog/doresc-sa-imi-deschid-un-magazin-online-am-nevoie-de-servicii-de-marketing-si-de-descrieri-produse-sau-de-servicii-web-design/",
+      "type": 301
+    },
+    {
+      "source": "/content-writer-ce-inseamna-si-ce-presupune",
+      "destination": "/blog/content-writer-ce-inseamna-si-ce-presupune/",
+      "type": 301
+    },
+    {
+      "source": "/content-writer-ce-inseamna-si-ce-presupune/",
+      "destination": "/blog/content-writer-ce-inseamna-si-ce-presupune/",
+      "type": 301
+    },
+    {
+      "source": "/cat-de-important-este-un-advertorial-pentru-dezvoltarea-site-ului-tau",
+      "destination": "/blog/cat-de-important-este-un-advertorial-pentru-dezvoltarea-site-ului-tau/",
+      "type": 301
+    },
+    {
+      "source": "/cat-de-important-este-un-advertorial-pentru-dezvoltarea-site-ului-tau/",
+      "destination": "/blog/cat-de-important-este-un-advertorial-pentru-dezvoltarea-site-ului-tau/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-ai-nevoie-de-un-redactor-articole-online-pentru-site-ul-tau",
+      "destination": "/blog/de-ce-ai-nevoie-de-un-redactor-articole-online-pentru-site-ul-tau/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-ai-nevoie-de-un-redactor-articole-online-pentru-site-ul-tau/",
+      "destination": "/blog/de-ce-ai-nevoie-de-un-redactor-articole-online-pentru-site-ul-tau/",
+      "type": 301
+    },
+    {
+      "source": "/informatii-complete-despre-preturi-advertoriale",
+      "destination": "/blog/informatii-complete-despre-preturi-advertoriale/",
+      "type": 301
+    },
+    {
+      "source": "/informatii-complete-despre-preturi-advertoriale/",
+      "destination": "/blog/informatii-complete-despre-preturi-advertoriale/",
+      "type": 301
+    },
+    {
+      "source": "/redactare-articole-seo-salveaza-ti-site-ul-de-esec",
+      "destination": "/blog/redactare-articole-seo-salveaza-ti-site-ul-de-esec/",
+      "type": 301
+    },
+    {
+      "source": "/redactare-articole-seo-salveaza-ti-site-ul-de-esec/",
+      "destination": "/blog/redactare-articole-seo-salveaza-ti-site-ul-de-esec/",
+      "type": 301
+    },
+    {
+      "source": "/beneficiaza-de-servicii-de-copywriting-de-calitate",
+      "destination": "/blog/beneficiaza-de-servicii-de-copywriting-de-calitate/",
+      "type": 301
+    },
+    {
+      "source": "/beneficiaza-de-servicii-de-copywriting-de-calitate/",
+      "destination": "/blog/beneficiaza-de-servicii-de-copywriting-de-calitate/",
+      "type": 301
+    },
+    {
+      "source": "/publicare-advertoriale-seo",
+      "destination": "/blog/publicare-advertoriale-seo/",
+      "type": 301
+    },
+    {
+      "source": "/publicare-advertoriale-seo/",
+      "destination": "/blog/publicare-advertoriale-seo/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-copywriting-preturi-care-este-pretul-pe-care-trebuie-sa-il-platesti",
+      "destination": "/blog/servicii-copywriting-preturi-care-este-pretul-pe-care-trebuie-sa-il-platesti/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-copywriting-preturi-care-este-pretul-pe-care-trebuie-sa-il-platesti/",
+      "destination": "/blog/servicii-copywriting-preturi-care-este-pretul-pe-care-trebuie-sa-il-platesti/",
+      "type": 301
+    },
+    {
+      "source": "/ghidul-tau-pentru-scriere-articole",
+      "destination": "/blog/ghidul-tau-pentru-scriere-articole/",
+      "type": 301
+    },
+    {
+      "source": "/ghidul-tau-pentru-scriere-articole/",
+      "destination": "/blog/ghidul-tau-pentru-scriere-articole/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-de-redactare-articole-online-o-idee-buna",
+      "destination": "/blog/servicii-de-redactare-articole-online-o-idee-buna/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-de-redactare-articole-online-o-idee-buna/",
+      "destination": "/blog/servicii-de-redactare-articole-online-o-idee-buna/",
+      "type": 301
+    },
+    {
+      "source": "/continut-pentru-site-ce-presupune",
+      "destination": "/blog/continut-pentru-site-ce-presupune/",
+      "type": 301
+    },
+    {
+      "source": "/continut-pentru-site-ce-presupune/",
+      "destination": "/blog/continut-pentru-site-ce-presupune/",
+      "type": 301
+    },
+    {
+      "source": "/apelam-la-firma-de-content-writing",
+      "destination": "/blog/apelam-la-firma-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/apelam-la-firma-de-content-writing/",
+      "destination": "/blog/apelam-la-firma-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-optezi-pentru-o-colaborare-cu-o-firma-redactare-articole",
+      "destination": "/blog/de-ce-sa-optezi-pentru-o-colaborare-cu-o-firma-redactare-articole/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-optezi-pentru-o-colaborare-cu-o-firma-redactare-articole/",
+      "destination": "/blog/de-ce-sa-optezi-pentru-o-colaborare-cu-o-firma-redactare-articole/",
+      "type": 301
+    },
+    {
+      "source": "/beneficiile-aduse-de-o-firma-servicii-content-writing",
+      "destination": "/blog/beneficiile-aduse-de-o-firma-servicii-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/beneficiile-aduse-de-o-firma-servicii-content-writing/",
+      "destination": "/blog/beneficiile-aduse-de-o-firma-servicii-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/descrieri-produse-de-ce-sa-le-creezi",
+      "destination": "/blog/descrieri-produse-de-ce-sa-le-creezi/",
+      "type": 301
+    },
+    {
+      "source": "/descrieri-produse-de-ce-sa-le-creezi/",
+      "destination": "/blog/descrieri-produse-de-ce-sa-le-creezi/",
+      "type": 301
+    },
+    {
+      "source": "/cele-mai-bune-articole-pentru-blog",
+      "destination": "/blog/cele-mai-bune-articole-pentru-blog/",
+      "type": 301
+    },
+    {
+      "source": "/cele-mai-bune-articole-pentru-blog/",
+      "destination": "/blog/cele-mai-bune-articole-pentru-blog/",
+      "type": 301
+    },
+    {
+      "source": "/articole-pentru-site-importanta-si-beneficii",
+      "destination": "/blog/articole-pentru-site-importanta-si-beneficii/",
+      "type": 301
+    },
+    {
+      "source": "/articole-pentru-site-importanta-si-beneficii/",
+      "destination": "/blog/articole-pentru-site-importanta-si-beneficii/",
+      "type": 301
+    },
+    {
+      "source": "/totul-despre-redactare-articole-optimizate",
+      "destination": "/blog/totul-despre-redactare-articole-optimizate/",
+      "type": 301
+    },
+    {
+      "source": "/totul-despre-redactare-articole-optimizate/",
+      "destination": "/blog/totul-despre-redactare-articole-optimizate/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-scrii-articole-seo-pentru-site-ul-tau",
+      "destination": "/blog/de-ce-sa-scrii-articole-seo-pentru-site-ul-tau/",
+      "type": 301
+    },
+    {
+      "source": "/de-ce-sa-scrii-articole-seo-pentru-site-ul-tau/",
+      "destination": "/blog/de-ce-sa-scrii-articole-seo-pentru-site-ul-tau/",
+      "type": 301
+    },
+    {
+      "source": "/agentie-articole-seo-ce-plusuri-ofera",
+      "destination": "/blog/agentie-articole-seo-ce-plusuri-ofera/",
+      "type": 301
+    },
+    {
+      "source": "/agentie-articole-seo-ce-plusuri-ofera/",
+      "destination": "/blog/agentie-articole-seo-ce-plusuri-ofera/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-content-writing-importanta",
+      "destination": "/blog/servicii-content-writing-importanta/",
+      "type": 301
+    },
+    {
+      "source": "/servicii-content-writing-importanta/",
+      "destination": "/blog/servicii-content-writing-importanta/",
+      "type": 301
+    },
+    {
+      "source": "/ce-presupune-serviciul-de-content-writing-seo",
+      "destination": "/blog/ce-presupune-serviciul-de-content-writing-seo/",
+      "type": 301
+    },
+    {
+      "source": "/ce-presupune-serviciul-de-content-writing-seo/",
+      "destination": "/blog/ce-presupune-serviciul-de-content-writing-seo/",
+      "type": 301
+    },
+    {
+      "source": "/aportul-unei-agentii-de-redactare-articole-la-strategia-de-marketing-a-unui-site",
+      "destination": "/blog/aportul-unei-agentii-de-redactare-articole-la-strategia-de-marketing-a-unui-site/",
+      "type": 301
+    },
+    {
+      "source": "/aportul-unei-agentii-de-redactare-articole-la-strategia-de-marketing-a-unui-site/",
+      "destination": "/blog/aportul-unei-agentii-de-redactare-articole-la-strategia-de-marketing-a-unui-site/",
+      "type": 301
+    },
+    {
+      "source": "/cine-poate-presta-servicii-de-content-writing",
+      "destination": "/blog/cine-poate-presta-servicii-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/cine-poate-presta-servicii-de-content-writing/",
+      "destination": "/blog/cine-poate-presta-servicii-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/avantajele-colaborarii-cu-o-firma-pentru-redactarea-de-articole",
+      "destination": "/blog/avantajele-colaborarii-cu-o-firma-pentru-redactarea-de-articole/",
+      "type": 301
+    },
+    {
+      "source": "/avantajele-colaborarii-cu-o-firma-pentru-redactarea-de-articole/",
+      "destination": "/blog/avantajele-colaborarii-cu-o-firma-pentru-redactarea-de-articole/",
+      "type": 301
+    },
+    {
+      "source": "/apelarea-la-servicii-de-content-writing-garantia-succesului",
+      "destination": "/blog/apelarea-la-servicii-de-content-writing-garantia-succesului/",
+      "type": 301
+    },
+    {
+      "source": "/apelarea-la-servicii-de-content-writing-garantia-succesului/",
+      "destination": "/blog/apelarea-la-servicii-de-content-writing-garantia-succesului/",
+      "type": 301
+    },
+    {
+      "source": "/cum-sa-ti-optimizezi-blogul-prin-intermediul-unor-servicii-content-writing-blog",
+      "destination": "/blog/cum-sa-ti-optimizezi-blogul-prin-intermediul-unor-servicii-content-writing-blog/",
+      "type": 301
+    },
+    {
+      "source": "/cum-sa-ti-optimizezi-blogul-prin-intermediul-unor-servicii-content-writing-blog/",
+      "destination": "/blog/cum-sa-ti-optimizezi-blogul-prin-intermediul-unor-servicii-content-writing-blog/",
+      "type": 301
+    },
+    {
+      "source": "/agentie-de-content-writing-sau-freelancer-pe-cine-ar-fi-mai-indicat-sa-alegem",
+      "destination": "/blog/agentie-de-content-writing-sau-freelancer-pe-cine-ar-fi-mai-indicat-sa-alegem/",
+      "type": 301
+    },
+    {
+      "source": "/agentie-de-content-writing-sau-freelancer-pe-cine-ar-fi-mai-indicat-sa-alegem/",
+      "destination": "/blog/agentie-de-content-writing-sau-freelancer-pe-cine-ar-fi-mai-indicat-sa-alegem/",
+      "type": 301
+    },
+    {
+      "source": "/ce-presupun-serviciile-de-content-writing",
+      "destination": "/blog/ce-presupun-serviciile-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/ce-presupun-serviciile-de-content-writing/",
+      "destination": "/blog/ce-presupun-serviciile-de-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-seo-o-solutie-eficienta-pentru-promovarea-online",
+      "destination": "/blog/content-writing-seo-o-solutie-eficienta-pentru-promovarea-online/",
+      "type": 301
+    },
+    {
+      "source": "/content-writing-seo-o-solutie-eficienta-pentru-promovarea-online/",
+      "destination": "/blog/content-writing-seo-o-solutie-eficienta-pentru-promovarea-online/",
+      "type": 301
+    },
+    {
+      "source": "/importanta-seo-sau-o-lovitura-de-marketing-prin-optimizare-site",
+      "destination": "/blog/importanta-seo-sau-o-lovitura-de-marketing-prin-optimizare-site/",
+      "type": 301
+    },
+    {
+      "source": "/importanta-seo-sau-o-lovitura-de-marketing-prin-optimizare-site/",
+      "destination": "/blog/importanta-seo-sau-o-lovitura-de-marketing-prin-optimizare-site/",
+      "type": 301
+    },
+    {
+      "source": "/ce-reprezinta-oferirea-de-servicii-seo-si-cine-le-poate-presta",
+      "destination": "/blog/ce-reprezinta-oferirea-de-servicii-seo-si-cine-le-poate-presta/",
+      "type": 301
+    },
+    {
+      "source": "/ce-reprezinta-oferirea-de-servicii-seo-si-cine-le-poate-presta/",
+      "destination": "/blog/ce-reprezinta-oferirea-de-servicii-seo-si-cine-le-poate-presta/",
+      "type": 301
+    },
+    {
+      "source": "/cum-se-poate-face-promovare-seo-pentru-un-site",
+      "destination": "/blog/cum-se-poate-face-promovare-seo-pentru-un-site/",
+      "type": 301
+    },
+    {
+      "source": "/cum-se-poate-face-promovare-seo-pentru-un-site/",
+      "destination": "/blog/cum-se-poate-face-promovare-seo-pentru-un-site/",
+      "type": 301
+    },
+    {
+      "source": "/beneficiile-oferite-de-o-firma-servicii-content-writing",
+      "destination": "/blog/beneficiile-oferite-de-o-firma-servicii-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/beneficiile-oferite-de-o-firma-servicii-content-writing/",
+      "destination": "/blog/beneficiile-oferite-de-o-firma-servicii-content-writing/",
+      "type": 301
+    },
+    {
+      "source": "/cum-te-poate-ajuta-o-firma-redactare-articole",
+      "destination": "/blog/cum-te-poate-ajuta-o-firma-redactare-articole/",
+      "type": 301
+    },
+    {
+      "source": "/cum-te-poate-ajuta-o-firma-redactare-articole/",
+      "destination": "/blog/cum-te-poate-ajuta-o-firma-redactare-articole/",
+      "type": 301
+    },
+    {
+      "source": "/ce-calitati-trebuie-sa-aiba-un-content-writer-limba-romana",
+      "destination": "/blog/ce-calitati-trebuie-sa-aiba-un-content-writer-limba-romana/",
+      "type": 301
+    },
+    {
+      "source": "/ce-calitati-trebuie-sa-aiba-un-content-writer-limba-romana/",
+      "destination": "/blog/ce-calitati-trebuie-sa-aiba-un-content-writer-limba-romana/",
+      "type": 301
+    }
+  ]
+}

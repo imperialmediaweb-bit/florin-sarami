@@ -498,6 +498,21 @@ if (redirects.length) {
   fs.writeFileSync(HTACCESS, lines.join('\n'));
   console.log(`\n✔ ${redirects.length} redirecturi 301 scrise în public/.htaccess`);
   console.log('  (fișierul ajunge automat în out/ la build și e citit de serverul Apache/cPanel)');
+
+  // același set de redirecturi și pentru `serve` (Railway / npm start)
+  const serveRedirects = redirects.flatMap(r => {
+    const src = r.from.replace(/\/$/, '');
+    const dest = r.to;
+    return [
+      { source: src, destination: dest, type: 301 },
+      { source: `${src}/`, destination: dest, type: 301 },
+    ];
+  });
+  fs.writeFileSync(
+    path.join(process.cwd(), 'public', 'serve.json'),
+    JSON.stringify({ trailingSlash: true, redirects: serveRedirects }, null, 2)
+  );
+  console.log(`✔ redirecturile scrise și în public/serve.json (pentru găzduire pe Railway)`);
 }
 
 console.log(`\n✔ Gata! ${rawPosts.length} articole salvate în content/blog/.`);

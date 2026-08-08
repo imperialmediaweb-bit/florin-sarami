@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
+import LatestPosts from '@/components/LatestPosts';
 import Photo from '@/components/Photo';
 import { ArrowIcon, MockDoc } from '@/components/Visuals';
 
@@ -236,6 +237,9 @@ export default function RedactareContinutPage() {
           <Faq items={FAQ_ITEMS} />
         </div>
       </section>
+
+      {/* Ultimele articole */}
+      <LatestPosts />
 
       <CtaBand
         title="Hai să scriem povestea brandului tău"

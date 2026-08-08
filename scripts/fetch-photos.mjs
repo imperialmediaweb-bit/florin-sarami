@@ -30,9 +30,17 @@ if (fs.existsSync(envPath)) {
 
 const KEY = process.env.PEXELS_API_KEY;
 if (!KEY) {
-  console.error('Lipsește PEXELS_API_KEY. Adaugă în .env un rând:  PEXELS_API_KEY="cheia-ta"');
-  console.error('Cheia se obține gratuit de la https://www.pexels.com/api/');
-  process.exit(1);
+  // fără cheie nu oprim build-ul — site-ul funcționează și fără poze (are fallback-uri)
+  console.warn('PEXELS_API_KEY nu este setat — sar peste descărcarea pozelor.');
+  console.warn('Cheia se obține gratuit de la https://www.pexels.com/api/ și se pune în .env sau în variabilele de mediu (Railway).');
+  process.exit(0);
+}
+
+/* nu re-descărcăm dacă pozele există deja (build-uri repetate rapide) */
+if (fs.existsSync(path.join(OUT, 'video-editing.jpg')) && fs.existsSync(path.join(process.cwd(), 'public', 'videos', 'editare.mp4'))) {
+  console.log('Pozele și clipurile există deja în public/photos și public/videos — sar peste descărcare.');
+  console.log('(șterge folderele dacă vrei poze noi și rulează din nou)');
+  process.exit(0);
 }
 
 /* Pozele căutate — nume fix (folosit de site) + căutare Pexels */

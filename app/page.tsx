@@ -3,6 +3,7 @@ import HeroSlider from '@/components/HeroSlider';
 import Testimonials from '@/components/Testimonials';
 import CtaBand from '@/components/CtaBand';
 import Faq from '@/components/Faq';
+import LatestPosts from '@/components/LatestPosts';
 import Photo from '@/components/Photo';
 import { ArrowIcon, MockDoc } from '@/components/Visuals';
 
@@ -242,6 +243,9 @@ export default function HomePage() {
           <Faq items={FAQ_ITEMS} />
         </div>
       </section>
+
+      {/* Ultimele articole */}
+      <LatestPosts />
 
       <CtaBand
         title="Ai un proiect? Contactează-ne!"
