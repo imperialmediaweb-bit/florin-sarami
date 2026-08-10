@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/editare-video', priority: 0.9 },
     { path: '/portofoliu', priority: 0.8 },
     { path: '/redactare-continut', priority: 0.9 },
+    { path: '/cere-oferta', priority: 0.9 },
     { path: '/blog', priority: 0.8 },
     { path: '/contact', priority: 0.7 },
     { path: '/termeni-si-conditii', priority: 0.2 },

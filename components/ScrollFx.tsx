@@ -54,8 +54,11 @@ export default function ScrollFx() {
 
     // 3D tilt + spotlight: cardurile se înclină subtil după cursor
     // (calculul rulează o singură dată pe cadru — requestAnimationFrame — ca să nu sacadeze)
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const TILT_SELECTOR = '.card, .media-card, .folio-item, .step, .value-pill, .stat';
+    const reducedMotion =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      // pe touch (telefon/tabletă) nu există hover — nu irosim procesorul
+      window.matchMedia('(hover: none)').matches;
+    const TILT_SELECTOR = '.card, .media-card, .folio-item';
     let rafId = 0;
     let lastEvent: PointerEvent | null = null;
 

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import RichEditor from '@/components/RichEditor';
 import UploadImage from '@/components/UploadImage';
+import UploadVideo from '@/components/UploadVideo';
 
 type Post = {
   slug: string;
@@ -29,15 +30,18 @@ type Message = {
 
 type FolioItem = {
   id: string;
-  cat: 'social' | 'promo' | 'podcast' | 'eveniment' | 'redactare';
+  cat: 'shorts' | 'longform' | 'social' | 'promo' | 'podcast' | 'eveniment' | 'redactare';
   title: string;
   desc: string;
   videoId?: string;
+  video?: string;
   link?: string;
   image?: string;
 };
 
 const FOLIO_CATS = [
+  { key: 'shorts', label: 'Shorts' },
+  { key: 'longform', label: 'Long Form' },
   { key: 'social', label: 'Social Media' },
   { key: 'promo', label: 'Promoționale' },
   { key: 'podcast', label: 'Podcasturi' },
@@ -45,11 +49,11 @@ const FOLIO_CATS = [
   { key: 'redactare', label: 'Redactare conținut' },
 ] as const;
 
-type Testimonial = { id: string; name: string; role: string; text: string };
+type Testimonial = { id: string; name: string; role: string; text: string; image?: string };
 
 const EMPTY: Post = { slug: '', title: '', date: '', category: '', excerpt: '', contentHtml: '', image: '' };
-const EMPTY_FOLIO: FolioItem = { id: '', cat: 'social', title: '', desc: '', videoId: '', link: '' };
-const EMPTY_TESTI: Testimonial = { id: '', name: '', role: '', text: '' };
+const EMPTY_FOLIO: FolioItem = { id: '', cat: 'shorts', title: '', desc: '', videoId: '', video: '', link: '' };
+const EMPTY_TESTI: Testimonial = { id: '', name: '', role: '', text: '', image: '' };
 
 const slugify = (s: string) =>
   s
@@ -564,10 +568,16 @@ export default function AdminPage() {
                           <input value={folioEdit.link || ''} onChange={e => setFolioEdit(f => f && { ...f, link: e.target.value, videoId: '' })} placeholder="https://site-client.ro/articolul-scris-de-noi" />
                         </div>
                       ) : (
-                        <div className="form-field full">
-                          <label>Link YouTube (sau doar ID-ul clipului)</label>
-                          <input value={folioEdit.videoId || ''} onChange={e => setFolioEdit(f => f && { ...f, videoId: e.target.value, link: '' })} placeholder="https://www.youtube.com/watch?v=..." />
-                        </div>
+                        <>
+                          <div className="form-field full">
+                            <label>Clipul — încarcă-l direct de pe calculator</label>
+                            <UploadVideo value={folioEdit.video} onChange={url => setFolioEdit(f => f && { ...f, video: url, link: '' })} />
+                          </div>
+                          <div className="form-field full">
+                            <label>...sau link YouTube (dacă clipul e deja publicat acolo)</label>
+                            <input value={folioEdit.videoId || ''} onChange={e => setFolioEdit(f => f && { ...f, videoId: e.target.value, link: '' })} placeholder="https://www.youtube.com/watch?v=..." />
+                          </div>
+                        </>
                       )}
                       <div className="form-field full">
                         <label>Descriere scurtă</label>
@@ -591,9 +601,10 @@ export default function AdminPage() {
                 {folio.map((f, i) => (
                   <div className="admin-row" key={f.id}>
                     <div style={{ minWidth: 0 }}>
-                      <b style={{ display: 'block', fontSize: '.96rem' }}>{f.videoId ? '▶️' : '⬜'} {f.title}</b>
+                      <b style={{ display: 'block', fontSize: '.96rem' }}>{f.video ? '🎞️' : f.videoId ? '▶️' : '⬜'} {f.title}</b>
                       <span style={{ color: 'var(--text-faint)', fontSize: '.8rem' }}>
-                        {FOLIO_CATS.find(c => c.key === f.cat)?.label}{f.videoId ? ` • youtube: ${f.videoId}` : ' • fără clip încă (placeholder)'}
+                        {FOLIO_CATS.find(c => c.key === f.cat)?.label}
+                        {f.video ? ' • clip încărcat pe site' : f.videoId ? ` • youtube: ${f.videoId}` : f.link ? ' • link extern' : ' • fără clip încă (placeholder)'}
                       </span>
                     </div>
                     <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
@@ -632,6 +643,10 @@ export default function AdminPage() {
                       <div className="form-field full">
                         <label>Textul testimonialului *</label>
                         <textarea style={{ minHeight: 110 }} value={testiEdit.text} onChange={e => setTestiEdit(t => t && { ...t, text: e.target.value })} required />
+                      </div>
+                      <div className="form-field full">
+                        <label>Poza clientului (opțional — apare lângă nume)</label>
+                        <UploadImage value={testiEdit.image} onChange={url => setTestiEdit(t => t && { ...t, image: url })} />
                       </div>
                     </div>
                     {error && <p style={{ color: '#dc2626', fontSize: '.9rem', marginTop: 12 }}>⚠ {error}</p>}
@@ -727,6 +742,10 @@ export default function AdminPage() {
                     <div className="form-field">
                       <label>Anunț / promoție — bară sus pe site (gol = ascunsă)</label>
                       <input value={settings.anunt || ''} onChange={e => setSettings(s => ({ ...s, anunt: e.target.value }))} placeholder="🎬 Ofertă: -20% la primul proiect video în august!" />
+                    </div>
+                    <div className="form-field">
+                      <label>Google Analytics — Measurement ID (gol = oprit)</label>
+                      <input value={settings.ga || ''} onChange={e => setSettings(s => ({ ...s, ga: e.target.value }))} placeholder="G-XXXXXXXXXX" />
                     </div>
                   </div>
                   {error && <p style={{ color: '#dc2626', fontSize: '.9rem', marginTop: 12 }}>⚠ {error}</p>}

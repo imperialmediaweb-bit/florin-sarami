@@ -44,7 +44,12 @@ export default function Testimonials({ items }: { items: Testimonial[] }) {
               <div className="testi-stars">★★★★★</div>
               <blockquote>{t.text}</blockquote>
               <div className="testi-author">
-                <div className="testi-avatar">{initialsOf(t.name)}</div>
+                {t.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="testi-avatar" src={t.image} alt={t.name} loading="lazy" />
+                ) : (
+                  <div className="testi-avatar">{initialsOf(t.name)}</div>
+                )}
                 <div>
                   <b>{t.name}</b>
                   <span>{t.role}</span>

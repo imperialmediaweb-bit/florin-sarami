@@ -33,11 +33,16 @@ export async function POST(req: Request) {
     if (!name || !text) {
       return NextResponse.json({ error: 'Fiecare testimonial are nevoie de nume și text.' }, { status: 400 });
     }
+    const image = String(raw.image || '').trim();
+    if (image && !/^(https?:\/\/|\/api\/media\/)/.test(image)) {
+      return NextResponse.json({ error: `Poza de la „${name}" e invalidă.` }, { status: 400 });
+    }
     items.push({
       id: String(raw.id || '').trim() || `testi-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
       name,
       role: String(raw.role || '').trim(),
       text,
+      image: image || undefined,
     });
   }
 

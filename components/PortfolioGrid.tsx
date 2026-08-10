@@ -5,6 +5,8 @@ import type { FolioItem } from '@/lib/portfolio';
 
 const CATS: { key: 'toate' | FolioItem['cat']; label: string }[] = [
   { key: 'toate', label: 'Toate' },
+  { key: 'shorts', label: 'Shorts' },
+  { key: 'longform', label: 'Long Form' },
   { key: 'social', label: 'Social Media' },
   { key: 'promo', label: 'Promoționale' },
   { key: 'podcast', label: 'Podcasturi' },
@@ -41,8 +43,19 @@ export default function PortfolioGrid({ items }: { items: FolioItem[] }) {
         {visible.map((item, i) => {
           // zona media: clip YouTube, imagine sau placeholder cu gradient;
           // învelită în link extern când există (lucrările de redactare)
-          const media = item.videoId ? (
-            <div className="folio-media">
+          const vertical = item.cat === 'shorts';
+          const media = item.video ? (
+            <div className={`folio-media${vertical ? ' vert' : ''}`}>
+              <video
+                src={item.video}
+                controls
+                playsInline
+                preload="metadata"
+                poster={item.image || undefined}
+              />
+            </div>
+          ) : item.videoId ? (
+            <div className={`folio-media${vertical ? ' vert' : ''}`}>
               <iframe
                 src={`https://www.youtube.com/embed/${item.videoId}`}
                 title={item.title}

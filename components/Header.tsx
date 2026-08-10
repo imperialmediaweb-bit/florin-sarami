@@ -69,7 +69,7 @@ export default function Header() {
               </Link>
             )
           )}
-          <Link href="/contact" className="nav-cta">Cere ofertă</Link>
+          <Link href="/cere-oferta" className="nav-cta">Cere ofertă</Link>
         </nav>
       </div>
     </header>

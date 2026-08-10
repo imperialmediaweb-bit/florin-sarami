@@ -8,6 +8,8 @@ export type Testimonial = {
   name: string;
   role: string;
   text: string;
+  /** poza clientului sau captură cu recenzia (opțional) */
+  image?: string;
 };
 
 /** Exemplele afișate până când adaugi testimonialele reale din /admin. */

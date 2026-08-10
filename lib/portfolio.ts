@@ -5,11 +5,13 @@ import { cloudPut } from './cloudstore';
 
 export type FolioItem = {
   id: string;
-  cat: 'social' | 'promo' | 'podcast' | 'eveniment' | 'redactare';
+  cat: 'shorts' | 'longform' | 'social' | 'promo' | 'podcast' | 'eveniment' | 'redactare';
   title: string;
   desc: string;
   /** ID-ul clipului YouTube (ex: abc123XYZ). Gol = placeholder cu gradient. */
   videoId?: string;
+  /** Clip încărcat direct pe site (URL Cloudinary .mp4) — are prioritate față de YouTube. */
+  video?: string;
   /** Link extern (ex: articolul publicat) — folosit la lucrările de redactare. */
   link?: string;
   /** Imagine de copertă (thumbnail) — afișată când nu există clip YouTube. */
@@ -17,6 +19,8 @@ export type FolioItem = {
 };
 
 export const FOLIO_CATS: { key: FolioItem['cat']; label: string }[] = [
+  { key: 'shorts', label: 'Shorts' },
+  { key: 'longform', label: 'Long Form' },
   { key: 'social', label: 'Social Media' },
   { key: 'promo', label: 'Promoționale' },
   { key: 'podcast', label: 'Podcasturi' },

@@ -33,6 +33,8 @@ export async function POST(req: Request) {
     program: String(data.program ?? current.program).trim(),
     whatsapp: String(data.whatsapp ?? current.whatsapp).replace(/[^0-9]/g, ''),
     anunt: String(data.anunt ?? current.anunt).trim(),
+    // doar format valid de Measurement ID (G-XXXX...) — altfel gol
+    ga: (String(data.ga ?? current.ga).trim().toUpperCase().match(/^G-[A-Z0-9]{4,20}$/) || [''])[0],
   };
   saveSettings(next);
   return NextResponse.json({ ok: true });

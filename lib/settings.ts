@@ -15,6 +15,8 @@ export type SiteSettings = {
   whatsapp: string;
   /** text promoțional — completat → apare bara de anunț sus pe site */
   anunt: string;
+  /** ID Google Analytics 4 (ex: G-XXXXXXXXXX) — completat → măsurare activă */
+  ga: string;
 };
 
 const DEFAULTS: SiteSettings = {
@@ -27,6 +29,7 @@ const DEFAULTS: SiteSettings = {
   program: 'Luni – Vineri: 09:00 – 18:00',
   whatsapp: '',
   anunt: '',
+  ga: '',
 };
 
 function fileFor(): string {

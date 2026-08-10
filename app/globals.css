@@ -83,12 +83,13 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
     radial-gradient(ellipse 70% 50% at 50% 112%, rgba(125, 211, 252, .32), transparent 60%),
     linear-gradient(165deg, #eef6ff 0%, #f5f9ff 45%, #e6f2fe 100%);
 }
+/* pete de culoare statice — stratul animat (4× ecranul, în mișcare continuă)
+   ținea placa video ocupată permanent și făcea scroll-ul sacadat */
 .bg-scene::before {
-  content: ""; position: absolute; inset: -50%;
+  content: ""; position: absolute; inset: 0;
   background:
-    radial-gradient(circle 340px at 25% 30%, rgba(56, 189, 248, .14), transparent 70%),
-    radial-gradient(circle 280px at 75% 65%, rgba(37, 99, 235, .10), transparent 70%);
-  animation: drift 26s ease-in-out infinite alternate;
+    radial-gradient(circle 340px at 25% 22%, rgba(56, 189, 248, .14), transparent 70%),
+    radial-gradient(circle 280px at 75% 70%, rgba(37, 99, 235, .10), transparent 70%);
 }
 /* inel de gradient static — adâncime fără cost de performanță
    (rotirea + blur-ul mare consumau procesorul și sacadau scroll-ul) */
@@ -99,10 +100,6 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
     rgba(56, 189, 248, .20), rgba(37, 99, 235, .06),
     rgba(125, 211, 252, .16), rgba(29, 78, 216, .07), rgba(56, 189, 248, .20));
   filter: blur(60px);
-}
-@keyframes drift {
-  from { transform: translate(-2%, -2%) rotate(0deg); }
-  to   { transform: translate(3%, 3%) rotate(4deg); }
 }
 .bg-grid {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
@@ -119,10 +116,9 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; font-weight: 
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: var(--nav-h);
   display: flex; align-items: center;
-  /* fundal alb permanent — logo-ul albastru se citește mereu perfect */
-  background: rgba(255, 255, 255, .94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* fundal alb aproape opac, fără backdrop-blur — blur-ul pe un element fixat
+     forța recompunerea întregii pagini la fiecare scroll și sacada site-ul */
+  background: rgba(255, 255, 255, .97);
   border-bottom: 1px solid var(--line);
   transition: box-shadow .35s;
 }
@@ -487,8 +483,9 @@ main { padding-top: var(--nav-h); }
 
 /* ============ Pași / proces ============ */
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; counter-reset: step; }
-@media (max-width: 980px) { .steps { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .steps { grid-template-columns: 1fr; } }
+.steps.three { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 980px) { .steps, .steps.three { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .steps, .steps.three { grid-template-columns: 1fr; } }
 .step {
   counter-increment: step; padding: 30px 26px; border-radius: var(--radius-lg);
   background: #fff; border: 1px solid var(--line); position: relative;
@@ -578,6 +575,9 @@ main { padding-top: var(--nav-h); }
 .folio-item:hover { transform: translateY(-8px); border-color: var(--ring); box-shadow: var(--shadow-glow); }
 .folio-media { aspect-ratio: 16 / 9; position: relative; background: linear-gradient(135deg, #10245a, #1d4ed8); }
 .folio-media iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.folio-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #0d1c42; }
+/* Shorts: format vertical 9/16, ca pe TikTok/Reels */
+.folio-media.vert { aspect-ratio: 9 / 16; max-height: 560px; margin-inline: auto; width: 100%; }
 .folio-media.placeholder { display: grid; place-items: center; }
 .folio-media.placeholder .mock-play { position: static; animation: pulse 2.6s infinite; }
 .folio-body { padding: 20px 22px; }
@@ -649,6 +649,7 @@ main { padding-top: var(--nav-h); }
   width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
   background: var(--grad-brand); font-family: var(--font-head); font-weight: 700; font-size: 1.1rem; color: #fff;
   box-shadow: 0 10px 22px -8px rgba(37, 99, 235, .6);
+  object-fit: cover; flex-shrink: 0;
 }
 .testi-author b { display: block; font-family: var(--font-head); font-size: .98rem; text-align: left; }
 .testi-author span { display: block; color: var(--text-faint); font-size: .85rem; text-align: left; }

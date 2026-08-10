@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation';
  */
 export default function SiteExtras() {
   const pathname = usePathname();
-  const [info, setInfo] = useState<{ whatsapp?: string; anunt?: string }>({});
+  const [info, setInfo] = useState<{ whatsapp?: string; anunt?: string; ga?: string }>({});
 
   useEffect(() => {
     fetch('/api/site-info/')
@@ -18,6 +18,23 @@ export default function SiteExtras() {
       .then(setInfo)
       .catch(() => { /* fără extra-uri dacă cererea pică */ });
   }, []);
+
+  // Google Analytics 4 — pornit din /admin → Setări (Measurement ID)
+  useEffect(() => {
+    const ga = info.ga;
+    if (!ga || !/^G-[A-Z0-9]{4,20}$/.test(ga) || document.getElementById('ga-loader')) return;
+    const s = document.createElement('script');
+    s.id = 'ga-loader';
+    s.async = true;
+    s.src = `https://www.googletagmanager.com/gtag/js?id=${ga}`;
+    document.head.appendChild(s);
+    const init = document.createElement('script');
+    init.id = 'ga-init';
+    init.textContent =
+      `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}` +
+      `gtag('js',new Date());gtag('config','${ga}');`;
+    document.head.appendChild(init);
+  }, [info.ga]);
 
   if (pathname.startsWith('/admin')) return null;
 

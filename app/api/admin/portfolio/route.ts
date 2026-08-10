@@ -45,12 +45,17 @@ export async function POST(req: Request) {
     if (image && !/^(https?:\/\/|\/api\/media\/)/.test(image)) {
       return NextResponse.json({ error: `Imagine invalidă la „${title}".` }, { status: 400 });
     }
+    const video = String(raw.video || '').trim();
+    if (video && !/^https:\/\//.test(video)) {
+      return NextResponse.json({ error: `Clipul de la „${title}" trebuie să fie un link https.` }, { status: 400 });
+    }
     items.push({
       id: String(raw.id || '').trim() || `item-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
       cat: cat as FolioItem['cat'],
       title,
       desc: String(raw.desc || '').trim(),
       videoId: videoId || undefined,
+      video: video || undefined,
       link: link || undefined,
       image: image || undefined,
     });
