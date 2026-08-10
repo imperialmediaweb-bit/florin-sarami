@@ -261,12 +261,16 @@ export default function AdminPage() {
   function submitFolioEdit(e: FormEvent) {
     e.preventDefault();
     if (!folioEdit) return;
+    // la „redactare" contează doar linkul articolului — sursele video se golesc
+    const isText = folioEdit.cat === 'redactare';
     const item = {
       ...folioEdit,
-      videoId: parseYoutubeId(folioEdit.videoId || '') || undefined,
-      tiktok: parseTiktokId(folioEdit.tiktok || '') || undefined,
+      videoId: isText ? undefined : parseYoutubeId(folioEdit.videoId || '') || undefined,
+      tiktok: isText ? undefined : parseTiktokId(folioEdit.tiktok || '') || undefined,
+      video: isText ? undefined : folioEdit.video || undefined,
+      link: isText ? folioEdit.link || undefined : undefined,
     };
-    if ((folioEdit.tiktok || '').trim() && !item.tiktok) {
+    if (!isText && (folioEdit.tiktok || '').trim() && !item.tiktok) {
       setError('Linkul TikTok nu e recunoscut — folosește linkul complet al clipului (tiktok.com/@user/video/...), nu linkul scurt de share.');
       return;
     }
@@ -585,17 +589,18 @@ export default function AdminPage() {
                         </div>
                       ) : (
                         <>
+                          {/* o singură sursă video pe clip — alegerea uneia le golește pe celelalte */}
                           <div className="form-field full">
                             <label>Clipul — încarcă-l direct de pe calculator</label>
-                            <UploadVideo value={folioEdit.video} onChange={url => setFolioEdit(f => f && { ...f, video: url, link: '' })} />
+                            <UploadVideo value={folioEdit.video} onChange={url => setFolioEdit(f => f && { ...f, video: url, videoId: url ? '' : f.videoId, tiktok: url ? '' : f.tiktok, link: '' })} />
                           </div>
                           <div className="form-field">
                             <label>...sau link YouTube (merge și nelistat)</label>
-                            <input value={folioEdit.videoId || ''} onChange={e => setFolioEdit(f => f && { ...f, videoId: e.target.value, link: '' })} placeholder="https://www.youtube.com/watch?v=..." />
+                            <input value={folioEdit.videoId || ''} onChange={e => setFolioEdit(f => f && { ...f, videoId: e.target.value, video: e.target.value ? '' : f.video, tiktok: e.target.value ? '' : f.tiktok, link: '' })} placeholder="https://www.youtube.com/watch?v=..." />
                           </div>
                           <div className="form-field">
                             <label>...sau link TikTok (clipul clientului)</label>
-                            <input value={folioEdit.tiktok || ''} onChange={e => setFolioEdit(f => f && { ...f, tiktok: e.target.value, link: '' })} placeholder="https://www.tiktok.com/@client/video/..." />
+                            <input value={folioEdit.tiktok || ''} onChange={e => setFolioEdit(f => f && { ...f, tiktok: e.target.value, video: e.target.value ? '' : f.video, videoId: e.target.value ? '' : f.videoId, link: '' })} placeholder="https://www.tiktok.com/@client/video/..." />
                           </div>
                         </>
                       )}

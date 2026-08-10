@@ -16,6 +16,8 @@ export default function CookieBanner() {
 
   const choose = (value: string) => {
     try { localStorage.setItem(KEY, value); } catch { /* ignoră */ }
+    // anunță restul site-ului (ex: Google Analytics pornește doar după „Accept")
+    window.dispatchEvent(new CustomEvent('sm-consent', { detail: value }));
     setShow(false);
   };
 

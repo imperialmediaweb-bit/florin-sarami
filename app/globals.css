@@ -815,9 +815,10 @@ footer h4 { font-size: .95rem; margin-bottom: 18px; color: var(--blue-700); lett
   color: #fff; font-weight: 600; font-size: .88rem; letter-spacing: .01em;
 }
 .announce-bar span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* când bara există, împingem nav-ul și conținutul mai jos */
-body:has(.announce-bar) .nav { top: var(--announce-h, 40px); }
-body:has(.announce-bar) main { padding-top: calc(var(--nav-h) + var(--announce-h, 40px)); }
+/* când bara există, împingem nav-ul și conținutul mai jos —
+   clasa e pusă din JavaScript (merge în orice browser, fără :has()) */
+body.has-announce .nav { top: var(--announce-h, 40px); }
+body.has-announce main { padding-top: calc(var(--nav-h) + var(--announce-h, 40px)); }
 
 /* ============ Buton plutitor WhatsApp (setabil din /admin → Setări) ============ */
 .wa-btn {

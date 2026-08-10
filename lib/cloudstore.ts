@@ -14,13 +14,26 @@ import { getBlogDir } from './blog';
 
 const PREFIX = 'sarami-data/';
 const SAFE = /^[a-zA-Z0-9._-]+$/;
+/** limită pe fiecare cerere spre Cloudinary — o pană de rețea nu blochează site-ul */
+const TIMEOUT = 10_000;
 
-function cfg() {
+/** Credențialele Cloudinary din variabilele de mediu (null dacă lipsesc). */
+export function cloudinaryConfig() {
   const cloud = process.env.CLOUDINARY_CLOUD_NAME;
   const key = process.env.CLOUDINARY_API_KEY;
   const secret = process.env.CLOUDINARY_API_SECRET;
   if (!cloud || !key || !secret) return null;
   return { cloud, key, secret };
+}
+const cfg = cloudinaryConfig;
+
+/** Semnătura cerută de Cloudinary: sha1 peste parametrii sortați alfabetic + secretul. */
+export function signCloudinaryParams(params: Record<string, string | number>, secret: string): string {
+  const toSign = Object.keys(params)
+    .sort()
+    .map(k => `${k}=${params[k]}`)
+    .join('&');
+  return crypto.createHash('sha1').update(toSign + secret).digest('hex');
 }
 
 export function cloudEnabled(): boolean {
@@ -38,10 +51,7 @@ export async function cloudPut(sub: string, name: string, content: string): Prom
   try {
     const publicId = `${PREFIX}${sub}/${name}`;
     const timestamp = Math.floor(Date.now() / 1000);
-    const signature = crypto
-      .createHash('sha1')
-      .update(`invalidate=true&overwrite=true&public_id=${publicId}&timestamp=${timestamp}${c.secret}`)
-      .digest('hex');
+    const params = { invalidate: 'true', overwrite: 'true', public_id: publicId, timestamp };
     const body = new FormData();
     body.append('file', `data:application/octet-stream;base64,${Buffer.from(content).toString('base64')}`);
     body.append('api_key', c.key);
@@ -49,8 +59,12 @@ export async function cloudPut(sub: string, name: string, content: string): Prom
     body.append('public_id', publicId);
     body.append('overwrite', 'true');
     body.append('invalidate', 'true');
-    body.append('signature', signature);
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${c.cloud}/raw/upload`, { method: 'POST', body });
+    body.append('signature', signCloudinaryParams(params, c.secret));
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${c.cloud}/raw/upload`, {
+      method: 'POST',
+      body,
+      signal: AbortSignal.timeout(TIMEOUT),
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
   } catch (err) {
     console.error(`Backup Cloudinary eșuat (${sub}/${name}):`, err);
@@ -65,7 +79,7 @@ export async function cloudDelete(sub: string, name: string): Promise<void> {
     const pid = encodeURIComponent(`${PREFIX}${sub}/${name}`);
     const res = await fetch(
       `https://api.cloudinary.com/v1_1/${c.cloud}/resources/raw/upload?public_ids[]=${pid}`,
-      { method: 'DELETE', headers: { Authorization: basicAuth(c.key, c.secret) } }
+      { method: 'DELETE', headers: { Authorization: basicAuth(c.key, c.secret) }, signal: AbortSignal.timeout(TIMEOUT) }
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
   } catch (err) {
@@ -117,7 +131,10 @@ async function listAll(c: { cloud: string; key: string; secret: string }): Promi
       `https://api.cloudinary.com/v1_1/${c.cloud}/resources/raw/upload` +
       `?prefix=${encodeURIComponent(PREFIX)}&max_results=500` +
       (cursor ? `&next_cursor=${cursor}` : '');
-    const res = await fetch(url, { headers: { Authorization: basicAuth(c.key, c.secret) } });
+    const res = await fetch(url, {
+      headers: { Authorization: basicAuth(c.key, c.secret) },
+      signal: AbortSignal.timeout(TIMEOUT),
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
     const data = await res.json();
     out.push(...(data.resources || []));
@@ -140,18 +157,26 @@ export async function cloudHydrate(): Promise<void> {
     const persistent = Boolean(process.env.DATA_DIR) || fs.existsSync('/data');
     const resources = await listAll(c);
     let restored = 0;
-    for (const r of resources) {
-      const rel = r.public_id.slice(PREFIX.length);
-      const parts = rel.split('/');
-      if (parts.length !== 2) continue;
-      const [sub, name] = parts;
-      if (!SAFE.test(sub) || !SAFE.test(name)) continue;
-      const target = sub === 'blog' ? path.join(blogDir, name) : path.join(dataDir(sub), name);
-      if (persistent && fs.existsSync(target)) continue;
-      const res = await fetch(r.secure_url);
-      if (!res.ok) continue;
-      fs.writeFileSync(target, Buffer.from(await res.arrayBuffer()));
-      restored++;
+    // descărcăm în loturi de 10 în paralel — pornirea rămâne rapidă
+    // chiar și cu sute de briefuri/articole în seif
+    for (let i = 0; i < resources.length; i += 10) {
+      await Promise.all(
+        resources.slice(i, i + 10).map(async r => {
+          const rel = r.public_id.slice(PREFIX.length);
+          const parts = rel.split('/');
+          if (parts.length !== 2) return;
+          const [sub, name] = parts;
+          if (!SAFE.test(sub) || !SAFE.test(name)) return;
+          const target = sub === 'blog' ? path.join(blogDir, name) : path.join(dataDir(sub), name);
+          if (persistent && fs.existsSync(target)) return;
+          try {
+            const res = await fetch(r.secure_url, { signal: AbortSignal.timeout(TIMEOUT) });
+            if (!res.ok) return;
+            fs.writeFileSync(target, Buffer.from(await res.arrayBuffer()));
+            restored++;
+          } catch { /* fișier sărit — rămâne varianta locală */ }
+        })
+      );
     }
     // aplică ștergerile de articole făcute din admin
     for (const slug of readTombstones()) {

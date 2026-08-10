@@ -23,6 +23,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Cerere invalidă.' }, { status: 400 });
   }
   const current = getSettings();
+  const gaRaw = String(data.ga ?? current.ga).trim().toUpperCase();
+  if (gaRaw && !/^G-[A-Z0-9]{4,20}$/.test(gaRaw)) {
+    return NextResponse.json(
+      { error: 'ID Google Analytics invalid — trebuie să arate ca G-XXXXXXXXXX (nu GTM-... sau UA-...).' },
+      { status: 400 }
+    );
+  }
   const next: SiteSettings = {
     telefon: String(data.telefon ?? current.telefon).trim(),
     email: String(data.email ?? current.email).trim(),
@@ -33,8 +40,7 @@ export async function POST(req: Request) {
     program: String(data.program ?? current.program).trim(),
     whatsapp: String(data.whatsapp ?? current.whatsapp).replace(/[^0-9]/g, ''),
     anunt: String(data.anunt ?? current.anunt).trim(),
-    // doar format valid de Measurement ID (G-XXXX...) — altfel gol
-    ga: (String(data.ga ?? current.ga).trim().toUpperCase().match(/^G-[A-Z0-9]{4,20}$/) || [''])[0],
+    ga: gaRaw,
   };
   saveSettings(next);
   return NextResponse.json({ ok: true });

@@ -49,8 +49,9 @@ export async function POST(req: Request) {
       2
     );
     fs.writeFileSync(path.join(dataDir('mesaje'), `${id}.json`), json);
-    // și în seiful Cloudinary — briefurile supraviețuiesc redeploy-urilor
-    await cloudPut('mesaje', `${id}.json`, json);
+    // și în seiful Cloudinary, fără să ținem vizitatorul în așteptare —
+    // briefurile supraviețuiesc redeploy-urilor
+    void cloudPut('mesaje', `${id}.json`, json);
   } catch (err) {
     console.error('Nu am putut salva mesajul pe disc:', err);
   }

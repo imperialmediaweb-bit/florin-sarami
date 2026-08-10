@@ -88,7 +88,7 @@ export default function PortfolioGrid({ items }: { items: FolioItem[] }) {
 
           return (
           <article className="folio-item reveal in" key={item.id}>
-            {item.link && !item.videoId ? (
+            {item.link && !item.videoId && !item.video && !item.tiktok ? (
               <a href={item.link} target="_blank" rel="noopener noreferrer">{media}</a>
             ) : (
               media

@@ -7,10 +7,13 @@ import { usePathname } from 'next/navigation';
  * Extra-urile activate din /admin → Setări:
  *  - bara de anunț/promoție (câmpul „anunt" — gol = ascunsă)
  *  - butonul plutitor de WhatsApp (câmpul „whatsapp" — gol = ascuns)
+ *  - Google Analytics 4 (câmpul „ga" — pornește DOAR după „Accept" la cookies)
  */
 export default function SiteExtras() {
   const pathname = usePathname();
   const [info, setInfo] = useState<{ whatsapp?: string; anunt?: string; ga?: string }>({});
+  const [consent, setConsent] = useState('');
+  const isAdmin = pathname.startsWith('/admin');
 
   useEffect(() => {
     fetch('/api/site-info/')
@@ -19,10 +22,23 @@ export default function SiteExtras() {
       .catch(() => { /* fără extra-uri dacă cererea pică */ });
   }, []);
 
-  // Google Analytics 4 — pornit din /admin → Setări (Measurement ID)
+  // consimțământul de cookies: citit la pornire + actualizat live când
+  // vizitatorul apasă Accept/Refuz în banner (evenimentul „sm-consent")
+  useEffect(() => {
+    try {
+      setConsent(localStorage.getItem('sarami-cookie-consent') || '');
+    } catch { /* storage indisponibil */ }
+    const onConsent = (e: Event) => setConsent(String((e as CustomEvent).detail || ''));
+    window.addEventListener('sm-consent', onConsent);
+    return () => window.removeEventListener('sm-consent', onConsent);
+  }, []);
+
+  // Google Analytics 4 — doar cu consimțământ, niciodată în panoul de admin
   useEffect(() => {
     const ga = info.ga;
-    if (!ga || !/^G-[A-Z0-9]{4,20}$/.test(ga) || document.getElementById('ga-loader')) return;
+    if (!ga || !/^G-[A-Z0-9]{4,20}$/.test(ga)) return;
+    if (isAdmin || consent !== 'accepted') return;
+    if (document.getElementById('ga-loader')) return;
     const s = document.createElement('script');
     s.id = 'ga-loader';
     s.async = true;
@@ -30,22 +46,33 @@ export default function SiteExtras() {
     document.head.appendChild(s);
     const init = document.createElement('script');
     init.id = 'ga-init';
+    // send_page_view:false — page_view-urile le trimitem noi, la fiecare rută,
+    // altfel prima pagină s-ar număra de două ori
     init.textContent =
       `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}` +
-      `gtag('js',new Date());gtag('config','${ga}');`;
+      `gtag('js',new Date());gtag('config','${ga}',{send_page_view:false});`;
     document.head.appendChild(init);
-  }, [info.ga]);
+  }, [info.ga, consent, isAdmin]);
 
   // navigările din site sunt fără reîncărcare de pagină — trimitem manual
-  // câte un page_view la fiecare schimbare de rută, altfel GA vede doar prima pagină
+  // câte un page_view la fiecare schimbare de rută
   useEffect(() => {
+    if (isAdmin || consent !== 'accepted') return;
     const w = window as unknown as { gtag?: (...args: unknown[]) => void };
     if (info.ga && w.gtag) {
       w.gtag('event', 'page_view', { page_path: pathname });
     }
-  }, [pathname, info.ga]);
+  }, [pathname, info.ga, consent, isAdmin]);
 
-  if (pathname.startsWith('/admin')) return null;
+  // fallback pentru browserele fără suport CSS :has() — clasa de pe <body>
+  // împinge meniul și conținutul sub bara de anunț
+  const showAnnounce = Boolean(info.anunt) && !isAdmin;
+  useEffect(() => {
+    document.body.classList.toggle('has-announce', showAnnounce);
+    return () => document.body.classList.remove('has-announce');
+  }, [showAnnounce]);
+
+  if (isAdmin) return null;
 
   return (
     <>

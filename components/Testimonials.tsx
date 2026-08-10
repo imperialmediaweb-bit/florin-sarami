@@ -18,17 +18,19 @@ const initialsOf = (name: string) =>
  */
 function TestiImage({ src, name }: { src: string; name: string }) {
   const [wide, setWide] = useState(false);
+  const measure = (img: HTMLImageElement | null) => {
+    // ref + onLoad: acoperă și pozele deja încărcate din cache înainte de hidratare
+    if (img && img.complete && img.naturalWidth > img.naturalHeight * 1.4) setWide(true);
+  };
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
+      ref={measure}
       className={wide ? 'testi-capture' : 'testi-avatar'}
       src={src}
       alt={name}
       loading="lazy"
-      onLoad={e => {
-        const img = e.currentTarget;
-        if (img.naturalWidth > img.naturalHeight * 1.4) setWide(true);
-      }}
+      onLoad={e => measure(e.currentTarget)}
     />
   );
 }
