@@ -38,6 +38,10 @@ export async function POST(req: Request) {
     if (videoId && !/^[A-Za-z0-9_-]{5,20}$/.test(videoId)) {
       return NextResponse.json({ error: `ID YouTube invalid la „${title}".` }, { status: 400 });
     }
+    const tiktok = String(raw.tiktok || '').trim();
+    if (tiktok && !/^[0-9]{5,25}$/.test(tiktok)) {
+      return NextResponse.json({ error: `ID TikTok invalid la „${title}".` }, { status: 400 });
+    }
     if (link && !/^https?:\/\//.test(link)) {
       return NextResponse.json({ error: `Linkul de la „${title}" trebuie să înceapă cu https://` }, { status: 400 });
     }
@@ -55,6 +59,7 @@ export async function POST(req: Request) {
       title,
       desc: String(raw.desc || '').trim(),
       videoId: videoId || undefined,
+      tiktok: tiktok || undefined,
       video: video || undefined,
       link: link || undefined,
       image: image || undefined,

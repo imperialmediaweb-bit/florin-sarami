@@ -34,6 +34,7 @@ type FolioItem = {
   title: string;
   desc: string;
   videoId?: string;
+  tiktok?: string;
   video?: string;
   link?: string;
   image?: string;
@@ -48,7 +49,7 @@ const FOLIO_CATS = [
 type Testimonial = { id: string; name: string; role: string; text: string; image?: string };
 
 const EMPTY: Post = { slug: '', title: '', date: '', category: '', excerpt: '', contentHtml: '', image: '' };
-const EMPTY_FOLIO: FolioItem = { id: '', cat: 'shorts', title: '', desc: '', videoId: '', video: '', link: '' };
+const EMPTY_FOLIO: FolioItem = { id: '', cat: 'shorts', title: '', desc: '', videoId: '', tiktok: '', video: '', link: '' };
 const EMPTY_TESTI: Testimonial = { id: '', name: '', role: '', text: '', image: '' };
 
 const slugify = (s: string) =>
@@ -65,6 +66,14 @@ const parseYoutubeId = (input: string): string => {
   const m = s.match(/(?:youtu\.be\/|v=|shorts\/|embed\/|live\/)([A-Za-z0-9_-]{5,20})/);
   if (m) return m[1];
   return /^[A-Za-z0-9_-]{5,20}$/.test(s) ? s : '';
+};
+
+/** extrage ID-ul numeric al clipului dintr-un link TikTok (sau îl acceptă direct) */
+const parseTiktokId = (input: string): string => {
+  const s = input.trim();
+  const m = s.match(/tiktok\.com\/.*(?:video|photo)\/(\d{5,25})/);
+  if (m) return m[1];
+  return /^\d{5,25}$/.test(s) ? s : '';
 };
 
 export default function AdminPage() {
@@ -252,7 +261,15 @@ export default function AdminPage() {
   function submitFolioEdit(e: FormEvent) {
     e.preventDefault();
     if (!folioEdit) return;
-    const item = { ...folioEdit, videoId: parseYoutubeId(folioEdit.videoId || '') || undefined };
+    const item = {
+      ...folioEdit,
+      videoId: parseYoutubeId(folioEdit.videoId || '') || undefined,
+      tiktok: parseTiktokId(folioEdit.tiktok || '') || undefined,
+    };
+    if ((folioEdit.tiktok || '').trim() && !item.tiktok) {
+      setError('Linkul TikTok nu e recunoscut — folosește linkul complet al clipului (tiktok.com/@user/video/...), nu linkul scurt de share.');
+      return;
+    }
     if (!item.title.trim()) { setError('Titlul e obligatoriu.'); return; }
     const exists = folio.some(f => f.id === item.id);
     const items = exists
@@ -572,9 +589,13 @@ export default function AdminPage() {
                             <label>Clipul — încarcă-l direct de pe calculator</label>
                             <UploadVideo value={folioEdit.video} onChange={url => setFolioEdit(f => f && { ...f, video: url, link: '' })} />
                           </div>
-                          <div className="form-field full">
-                            <label>...sau link YouTube (dacă clipul e deja publicat acolo)</label>
+                          <div className="form-field">
+                            <label>...sau link YouTube (merge și nelistat)</label>
                             <input value={folioEdit.videoId || ''} onChange={e => setFolioEdit(f => f && { ...f, videoId: e.target.value, link: '' })} placeholder="https://www.youtube.com/watch?v=..." />
+                          </div>
+                          <div className="form-field">
+                            <label>...sau link TikTok (clipul clientului)</label>
+                            <input value={folioEdit.tiktok || ''} onChange={e => setFolioEdit(f => f && { ...f, tiktok: e.target.value, link: '' })} placeholder="https://www.tiktok.com/@client/video/..." />
                           </div>
                         </>
                       )}
@@ -600,10 +621,10 @@ export default function AdminPage() {
                 {folio.map((f, i) => (
                   <div className="admin-row" key={f.id}>
                     <div style={{ minWidth: 0 }}>
-                      <b style={{ display: 'block', fontSize: '.96rem' }}>{f.video ? '🎞️' : f.videoId ? '▶️' : '⬜'} {f.title}</b>
+                      <b style={{ display: 'block', fontSize: '.96rem' }}>{f.video ? '🎞️' : f.tiktok ? '🎵' : f.videoId ? '▶️' : '⬜'} {f.title}</b>
                       <span style={{ color: 'var(--text-faint)', fontSize: '.8rem' }}>
                         {FOLIO_CATS.find(c => c.key === f.cat)?.label || f.cat}
-                        {f.video ? ' • clip încărcat pe site' : f.videoId ? ` • youtube: ${f.videoId}` : f.link ? ' • link extern' : ' • fără clip încă (placeholder)'}
+                        {f.video ? ' • clip încărcat pe site' : f.tiktok ? ' • TikTok' : f.videoId ? ` • youtube: ${f.videoId}` : f.link ? ' • link extern' : ' • fără clip încă (placeholder)'}
                       </span>
                     </div>
                     <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>

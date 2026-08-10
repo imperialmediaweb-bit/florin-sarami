@@ -10,6 +10,8 @@ export type FolioItem = {
   desc: string;
   /** ID-ul clipului YouTube (ex: abc123XYZ). Gol = placeholder cu gradient. */
   videoId?: string;
+  /** ID-ul clipului TikTok (numeric) — redat cu playerul oficial TikTok. */
+  tiktok?: string;
   /** Clip încărcat direct pe site (URL Cloudinary .mp4) — are prioritate față de YouTube. */
   video?: string;
   /** Link extern (ex: articolul publicat) — folosit la lucrările de redactare. */

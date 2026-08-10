@@ -44,8 +44,18 @@ export default function PortfolioGrid({ items }: { items: FolioItem[] }) {
         {visible.map((item, i) => {
           // zona media: clip YouTube, imagine sau placeholder cu gradient;
           // învelită în link extern când există (lucrările de redactare)
-          const vertical = item.cat === 'shorts';
-          const media = item.video ? (
+          const vertical = item.cat === 'shorts' || Boolean(item.tiktok);
+          const media = item.tiktok ? (
+            <div className="folio-media vert">
+              <iframe
+                src={`https://www.tiktok.com/player/v1/${item.tiktok}?rel=0`}
+                title={item.title}
+                allow="fullscreen; encrypted-media; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+              />
+            </div>
+          ) : item.video ? (
             <div className={`folio-media${vertical ? ' vert' : ''}`}>
               <video
                 src={item.video}
