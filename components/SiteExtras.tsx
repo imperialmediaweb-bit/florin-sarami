@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 /**
@@ -11,8 +11,10 @@ import { usePathname } from 'next/navigation';
  */
 export default function SiteExtras() {
   const pathname = usePathname();
-  const [info, setInfo] = useState<{ whatsapp?: string; anunt?: string; ga?: string }>({});
+  const [info, setInfo] = useState<{ whatsapp?: string; anunt?: string; ga?: string; fbpixel?: string }>({});
   const [consent, setConsent] = useState('');
+  // pixelul trimite singur primul PageView la init — îl sărim la prima rută
+  const firstRoute = useRef(true);
   const isAdmin = pathname.startsWith('/admin');
 
   useEffect(() => {
@@ -54,15 +56,38 @@ export default function SiteExtras() {
     document.head.appendChild(init);
   }, [info.ga, consent, isAdmin]);
 
+  // Meta/Facebook Pixel — la fel: doar cu consimțământ, niciodată în admin
+  useEffect(() => {
+    const px = info.fbpixel;
+    if (!px || !/^[0-9]{5,20}$/.test(px)) return;
+    if (isAdmin || consent !== 'accepted') return;
+    if (document.getElementById('fb-pixel')) return;
+    const s = document.createElement('script');
+    s.id = 'fb-pixel';
+    // scriptul oficial Meta Pixel; PageView-urile le trimitem noi, per rută
+    s.textContent =
+      `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?` +
+      `n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;` +
+      `n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;` +
+      `t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}` +
+      `(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');` +
+      `fbq('init','${px}');fbq('track','PageView');`;
+    document.head.appendChild(s);
+  }, [info.fbpixel, consent, isAdmin]);
+
   // navigările din site sunt fără reîncărcare de pagină — trimitem manual
-  // câte un page_view la fiecare schimbare de rută
+  // câte un page_view la fiecare schimbare de rută (Google + Meta)
   useEffect(() => {
     if (isAdmin || consent !== 'accepted') return;
-    const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+    const w = window as unknown as { gtag?: (...args: unknown[]) => void; fbq?: (...args: unknown[]) => void };
     if (info.ga && w.gtag) {
       w.gtag('event', 'page_view', { page_path: pathname });
     }
-  }, [pathname, info.ga, consent, isAdmin]);
+    if (info.fbpixel && w.fbq && !firstRoute.current) {
+      w.fbq('track', 'PageView');
+    }
+    firstRoute.current = false;
+  }, [pathname, info.ga, info.fbpixel, consent, isAdmin]);
 
   // fallback pentru browserele fără suport CSS :has() — clasa de pe <body>
   // împinge meniul și conținutul sub bara de anunț

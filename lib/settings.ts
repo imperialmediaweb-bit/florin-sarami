@@ -17,6 +17,8 @@ export type SiteSettings = {
   anunt: string;
   /** ID Google Analytics 4 (ex: G-XXXXXXXXXX) — completat → măsurare activă */
   ga: string;
+  /** ID Meta/Facebook Pixel (numeric) — completat → pixelul e activ */
+  fbpixel: string;
 };
 
 const DEFAULTS: SiteSettings = {
@@ -30,6 +32,7 @@ const DEFAULTS: SiteSettings = {
   whatsapp: '',
   anunt: '',
   ga: '',
+  fbpixel: '2108829569729584',
 };
 
 function fileFor(): string {

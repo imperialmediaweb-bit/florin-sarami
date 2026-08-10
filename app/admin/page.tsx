@@ -772,6 +772,10 @@ export default function AdminPage() {
                       <label>Google Analytics — Measurement ID (gol = oprit)</label>
                       <input value={settings.ga || ''} onChange={e => setSettings(s => ({ ...s, ga: e.target.value }))} placeholder="G-XXXXXXXXXX" />
                     </div>
+                    <div className="form-field">
+                      <label>Meta / Facebook Pixel — ID (gol = oprit)</label>
+                      <input value={settings.fbpixel || ''} onChange={e => setSettings(s => ({ ...s, fbpixel: e.target.value }))} placeholder="2108829569729584" />
+                    </div>
                   </div>
                   {error && <p style={{ color: '#dc2626', fontSize: '.9rem', marginTop: 12 }}>⚠ {error}</p>}
                   <div className="btn-row mt-2">

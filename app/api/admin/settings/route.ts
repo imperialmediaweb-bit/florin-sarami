@@ -30,6 +30,13 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
+  const fbRaw = String(data.fbpixel ?? current.fbpixel).trim();
+  if (fbRaw && !/^[0-9]{5,20}$/.test(fbRaw)) {
+    return NextResponse.json(
+      { error: 'ID Meta Pixel invalid — trebuie să fie doar cifre (ex: 2108829569729584).' },
+      { status: 400 }
+    );
+  }
   const next: SiteSettings = {
     telefon: String(data.telefon ?? current.telefon).trim(),
     email: String(data.email ?? current.email).trim(),
@@ -41,6 +48,7 @@ export async function POST(req: Request) {
     whatsapp: String(data.whatsapp ?? current.whatsapp).replace(/[^0-9]/g, ''),
     anunt: String(data.anunt ?? current.anunt).trim(),
     ga: gaRaw,
+    fbpixel: fbRaw,
   };
   saveSettings(next);
   return NextResponse.json({ ok: true });
