@@ -68,7 +68,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Lucrați cu abonament lunar pentru conținut constant?',
-    a: <>Da! Pentru creatorii și firmele care publică regulat, oferim pachete lunare cu preț avantajos și prioritate la livrare. Întreabă-ne despre ele în <Link href="/contact" style={{ color: 'var(--sky-300)' }}>formularul de contact</Link>.</>,
+    a: <>Da! Pentru creatorii și firmele care publică regulat, oferim pachete lunare cu preț avantajos și prioritate la livrare. Completează <Link href="/brief-video" style={{ color: 'var(--sky-300)' }}>brief-ul video</Link> și întreabă-ne despre ele.</>,
   },
 ];
 

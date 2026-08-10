@@ -12,6 +12,27 @@ const initialsOf = (name: string) =>
     .join('')
     .toUpperCase();
 
+/**
+ * Poza unui testimonial: dacă e lată (captură de ecran cu recenzia), o afișăm
+ * mare în card; dacă e portret/pătrată (poza clientului), devine avatar rotund.
+ */
+function TestiImage({ src, name }: { src: string; name: string }) {
+  const [wide, setWide] = useState(false);
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      className={wide ? 'testi-capture' : 'testi-avatar'}
+      src={src}
+      alt={name}
+      loading="lazy"
+      onLoad={e => {
+        const img = e.currentTarget;
+        if (img.naturalWidth > img.naturalHeight * 1.4) setWide(true);
+      }}
+    />
+  );
+}
+
 /** Slider de testimoniale — elementele se administrează din /admin → Testimoniale. */
 export default function Testimonials({ items }: { items: Testimonial[] }) {
   const [idx, setIdx] = useState(0);
@@ -45,8 +66,7 @@ export default function Testimonials({ items }: { items: Testimonial[] }) {
               <blockquote>{t.text}</blockquote>
               <div className="testi-author">
                 {t.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img className="testi-avatar" src={t.image} alt={t.name} loading="lazy" />
+                  <TestiImage src={t.image} name={t.name} />
                 ) : (
                   <div className="testi-avatar">{initialsOf(t.name)}</div>
                 )}

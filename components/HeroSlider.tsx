@@ -39,7 +39,7 @@ export default function HeroSlider() {
             <h1 className="h-xl">Transformăm filmările tale în <span className="grad-text">videoclipuri</span> care atrag atenția!</h1>
             <p className="lead">Montaj, subtitrări, tranziții, corecții de culoare, efecte vizuale și optimizarea conținutului pentru rezultate profesionale — pe orice platformă.</p>
             <div className="btn-row mt-2">
-              <Link href="/editare-video" className="btn btn-primary">Descoperă serviciile <ArrowIcon /></Link>
+              <Link href="/cere-oferta" className="btn btn-primary">Cere ofertă — 2 minute <ArrowIcon /></Link>
               <Link href="/portofoliu" className="btn btn-ghost">Vezi portofoliul</Link>
             </div>
           </div>

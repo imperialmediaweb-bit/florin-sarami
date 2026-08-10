@@ -34,9 +34,10 @@ export default function Footer() {
             <h4>Contact</h4>
             <div className="footer-links">
               <a href="mailto:contact@sarami.ro">contact@sarami.ro</a>
-              <Link href="/contact">Formular de contact</Link>
+              <Link href="/cere-oferta">Cere ofertă</Link>
               <Link href="/brief-video">Brief proiect video</Link>
               <Link href="/brief-continut">Brief conținut scris</Link>
+              <Link href="/contact">Formular de contact</Link>
             </div>
           </div>
         </div>

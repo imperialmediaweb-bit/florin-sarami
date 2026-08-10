@@ -7,11 +7,12 @@ const CATS: { key: 'toate' | FolioItem['cat']; label: string }[] = [
   { key: 'toate', label: 'Toate' },
   { key: 'shorts', label: 'Shorts' },
   { key: 'longform', label: 'Long Form' },
+  { key: 'redactare', label: 'Redactare conținut' },
+  // categorii mai vechi — apar doar dacă există elemente salvate cu ele
   { key: 'social', label: 'Social Media' },
   { key: 'promo', label: 'Promoționale' },
   { key: 'podcast', label: 'Podcasturi' },
   { key: 'eveniment', label: 'Evenimente' },
-  { key: 'redactare', label: 'Redactare conținut' },
 ];
 
 const GRADIENTS = [

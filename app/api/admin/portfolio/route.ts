@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { isAuthorized } from '@/lib/admin';
-import { FOLIO_CATS, getPortfolio, savePortfolio } from '@/lib/portfolio';
+import { ALL_CAT_LABELS, getPortfolio, savePortfolio } from '@/lib/portfolio';
 import type { FolioItem } from '@/lib/portfolio';
 
 export const dynamic = 'force-dynamic';
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Lista de clipuri lipsește.' }, { status: 400 });
   }
 
-  const cats = FOLIO_CATS.map(c => c.key as string);
+  const cats = Object.keys(ALL_CAT_LABELS);
   const items: FolioItem[] = [];
   for (const raw of data.items as Record<string, unknown>[]) {
     const title = String(raw.title || '').trim();

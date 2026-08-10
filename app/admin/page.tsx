@@ -42,10 +42,6 @@ type FolioItem = {
 const FOLIO_CATS = [
   { key: 'shorts', label: 'Shorts' },
   { key: 'longform', label: 'Long Form' },
-  { key: 'social', label: 'Social Media' },
-  { key: 'promo', label: 'Promoționale' },
-  { key: 'podcast', label: 'Podcasturi' },
-  { key: 'eveniment', label: 'Evenimente' },
   { key: 'redactare', label: 'Redactare conținut' },
 ] as const;
 
@@ -560,6 +556,9 @@ export default function AdminPage() {
                         <label>Categorie *</label>
                         <select value={folioEdit.cat} onChange={e => setFolioEdit(f => f && { ...f, cat: e.target.value as FolioItem['cat'] })}>
                           {FOLIO_CATS.map(c => <option key={c.key} value={c.key}>{c.label}</option>)}
+                          {!FOLIO_CATS.some(c => c.key === folioEdit.cat) && (
+                            <option value={folioEdit.cat}>{folioEdit.cat} (categorie veche)</option>
+                          )}
                         </select>
                       </div>
                       {folioEdit.cat === 'redactare' ? (
@@ -603,7 +602,7 @@ export default function AdminPage() {
                     <div style={{ minWidth: 0 }}>
                       <b style={{ display: 'block', fontSize: '.96rem' }}>{f.video ? '🎞️' : f.videoId ? '▶️' : '⬜'} {f.title}</b>
                       <span style={{ color: 'var(--text-faint)', fontSize: '.8rem' }}>
-                        {FOLIO_CATS.find(c => c.key === f.cat)?.label}
+                        {FOLIO_CATS.find(c => c.key === f.cat)?.label || f.cat}
                         {f.video ? ' • clip încărcat pe site' : f.videoId ? ` • youtube: ${f.videoId}` : f.link ? ' • link extern' : ' • fără clip încă (placeholder)'}
                       </span>
                     </div>

@@ -644,7 +644,13 @@ main { padding-top: var(--nav-h); }
 .testi-card blockquote { font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--text-main); font-style: italic; max-width: 640px; margin-inline: auto; }
 .testi-card blockquote::before { content: "\201E"; color: var(--sky-500); font-size: 1.6em; font-family: var(--font-head); }
 .testi-card blockquote::after { content: "\201D"; color: var(--sky-500); font-size: 1.6em; font-family: var(--font-head); line-height: 0; }
-.testi-author { margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+.testi-author { margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+/* captură de ecran cu recenzia (poză lată) — afișată mare, deasupra numelui */
+.testi-capture {
+  order: -1; width: 100%; max-width: 460px; max-height: 240px; object-fit: contain;
+  border-radius: 12px; border: 1px solid var(--line); background: #fff;
+  box-shadow: 0 12px 30px -14px rgba(13, 28, 66, .35);
+}
 .testi-avatar {
   width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
   background: var(--grad-brand); font-family: var(--font-head); font-weight: 700; font-size: 1.1rem; color: #fff;

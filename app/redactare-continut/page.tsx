@@ -82,7 +82,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Cât costă un articol de blog?',
-    a: <>Depinde de lungime, complexitatea documentării și domeniul tău. Oferim și pachete lunare avantajoase pentru colaborări constante. Scrie-ne prin <Link href="/contact" style={{ color: 'var(--sky-300)' }}>formularul de contact</Link> și primești rapid o ofertă personalizată.</>,
+    a: <>Depinde de lungime, complexitatea documentării și domeniul tău. Oferim și pachete lunare avantajoase pentru colaborări constante. Completează <Link href="/brief-continut" style={{ color: 'var(--sky-300)' }}>brief-ul de conținut</Link> și primești rapid o ofertă personalizată.</>,
   },
   {
     q: 'În ce domenii scrieți?',

@@ -36,6 +36,15 @@ export default function SiteExtras() {
     document.head.appendChild(init);
   }, [info.ga]);
 
+  // navigările din site sunt fără reîncărcare de pagină — trimitem manual
+  // câte un page_view la fiecare schimbare de rută, altfel GA vede doar prima pagină
+  useEffect(() => {
+    const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+    if (info.ga && w.gtag) {
+      w.gtag('event', 'page_view', { page_path: pathname });
+    }
+  }, [pathname, info.ga]);
+
   if (pathname.startsWith('/admin')) return null;
 
   return (
