@@ -13,8 +13,9 @@ export default function SiteExtras() {
   const pathname = usePathname();
   const [info, setInfo] = useState<{ whatsapp?: string; anunt?: string; ga?: string; fbpixel?: string }>({});
   const [consent, setConsent] = useState('');
-  // pixelul trimite singur primul PageView la init — îl sărim la prima rută
-  const firstRoute = useRef(true);
+  // pixelul trimite singur un PageView la init — efectul de rută îl sare
+  // exact o dată, imediat după init, ca pagina de intrare să nu se numere dublu
+  const fbqJustInit = useRef(false);
   const isAdmin = pathname.startsWith('/admin');
 
   useEffect(() => {
@@ -73,6 +74,7 @@ export default function SiteExtras() {
       `(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');` +
       `fbq('init','${px}');fbq('track','PageView');`;
     document.head.appendChild(s);
+    fbqJustInit.current = true;
   }, [info.fbpixel, consent, isAdmin]);
 
   // navigările din site sunt fără reîncărcare de pagină — trimitem manual
@@ -83,10 +85,10 @@ export default function SiteExtras() {
     if (info.ga && w.gtag) {
       w.gtag('event', 'page_view', { page_path: pathname });
     }
-    if (info.fbpixel && w.fbq && !firstRoute.current) {
-      w.fbq('track', 'PageView');
+    if (info.fbpixel && w.fbq) {
+      if (fbqJustInit.current) fbqJustInit.current = false; // init-ul tocmai a trimis PageView
+      else w.fbq('track', 'PageView');
     }
-    firstRoute.current = false;
   }, [pathname, info.ga, info.fbpixel, consent, isAdmin]);
 
   // fallback pentru browserele fără suport CSS :has() — clasa de pe <body>

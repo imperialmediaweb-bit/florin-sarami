@@ -106,32 +106,94 @@ export async function listInbox(limit = 40): Promise<InboxMessage[]> {
   });
 }
 
+/** structura MIME a mesajului, parcursă recursiv */
+type MimeNode = {
+  part?: string;
+  type?: string;
+  encoding?: string;
+  size?: number;
+  disposition?: string;
+  dispositionParameters?: { filename?: string };
+  parameters?: { name?: string };
+  childNodes?: MimeNode[];
+};
+
+function walkParts(node: MimeNode | undefined, out: MimeNode[] = []): MimeNode[] {
+  if (!node) return out;
+  if (node.childNodes?.length) node.childNodes.forEach(c => walkParts(c, out));
+  else out.push(node);
+  return out;
+}
+
+const streamToString = async (content: NodeJS.ReadableStream): Promise<string> => {
+  const chunks: Buffer[] = [];
+  for await (const chunk of content) chunks.push(Buffer.from(chunk as Buffer));
+  return Buffer.concat(chunks).toString('utf8');
+};
+
 /** Conținutul complet al unui mesaj (îl marchează și ca citit). */
 export async function readMessage(uid: number): Promise<InboxBody> {
   return withClient(async client => {
     const lock = await client.getMailboxLock('INBOX');
     try {
-      const dl = await client.download(String(uid), undefined, { uid: true });
-      if (!dl?.content) throw new Error('Mesajul nu a fost găsit.');
-      const parsed = await simpleParser(dl.content);
+      const meta = await client.fetchOne(
+        String(uid),
+        { envelope: true, bodyStructure: true, size: true, headers: ['references'] },
+        { uid: true }
+      );
+      if (!meta) throw new Error('Mesajul nu a fost găsit.');
       await client.messageFlagsAdd(String(uid), ['\\Seen'], { uid: true }).catch(() => {});
-      const f = addrText(parsed.from?.value);
-      return {
+
+      const f = addrText(meta.envelope?.from);
+      const toAddr = addrText(meta.envelope?.to);
+      const base = {
         uid,
         from: f.name,
         fromEmail: f.email,
-        to: parsed.to && 'text' in parsed.to ? parsed.to.text : '',
-        subject: parsed.subject || '(fără subiect)',
-        date: (parsed.date || new Date()).toISOString(),
-        html: typeof parsed.html === 'string' ? parsed.html : undefined,
-        text: parsed.text || undefined,
-        messageId: parsed.messageId,
-        references: Array.isArray(parsed.references) ? parsed.references.join(' ') : parsed.references,
-        attachments: (parsed.attachments || []).map(a => ({
-          filename: a.filename || 'atașament',
-          size: a.size || 0,
-        })),
+        to: toAddr.email,
+        subject: meta.envelope?.subject || '(fără subiect)',
+        date: (meta.envelope?.date || new Date()).toISOString(),
+        seen: true,
+        messageId: meta.envelope?.messageId,
+        references:
+          meta.headers
+            ?.toString()
+            .match(/references:\s*([\s\S]*?)(?:\r?\n(?!\s)|$)/i)?.[1]
+            ?.replace(/\s+/g, ' ')
+            .trim() || undefined,
       };
+
+      const parts = walkParts(meta.bodyStructure as MimeNode | undefined);
+      const attachments = parts
+        .filter(p => p.disposition === 'attachment' || (p.dispositionParameters?.filename && !/^text\//.test(p.type || '')))
+        .map(p => ({ filename: p.dispositionParameters?.filename || p.parameters?.name || 'atașament', size: p.size || 0 }));
+
+      // mesaj mic → descărcăm tot și îl parsăm complet (drumul sigur);
+      // mesaj mare (atașamente) → descărcăm DOAR partea de text, nu atașamentele
+      if ((meta.size || 0) <= 3 * 1024 * 1024) {
+        const dl = await client.download(String(uid), undefined, { uid: true });
+        if (!dl?.content) throw new Error('Mesajul nu a putut fi descărcat.');
+        const parsed = await simpleParser(dl.content);
+        return {
+          ...base,
+          html: typeof parsed.html === 'string' ? parsed.html : undefined,
+          text: parsed.text || undefined,
+          attachments: (parsed.attachments || []).map(a => ({ filename: a.filename || 'atașament', size: a.size || 0 })),
+        };
+      }
+
+      const bodyPart =
+        parts.find(p => p.type === 'text/html' && p.disposition !== 'attachment') ||
+        parts.find(p => p.type === 'text/plain' && p.disposition !== 'attachment');
+      let html: string | undefined;
+      let text: string | undefined;
+      if (bodyPart?.part) {
+        const dl = await client.download(String(uid), bodyPart.part, { uid: true });
+        const content = dl?.content ? await streamToString(dl.content) : '';
+        if (bodyPart.type === 'text/html') html = content;
+        else text = content;
+      }
+      return { ...base, html, text, attachments };
     } finally {
       lock.release();
     }

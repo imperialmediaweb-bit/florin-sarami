@@ -5,6 +5,8 @@ import type { FormEvent } from 'react';
 import RichEditor from '@/components/RichEditor';
 import UploadImage from '@/components/UploadImage';
 import UploadVideo from '@/components/UploadVideo';
+// doar tipurile — aceleași forme pe server și pe client, fără drift
+import type { InboxBody, InboxMessage } from '@/lib/mailbox';
 
 type Post = {
   slug: string;
@@ -47,24 +49,6 @@ const FOLIO_CATS = [
 ] as const;
 
 type Testimonial = { id: string; name: string; role: string; text: string; image?: string };
-
-type InboxMsg = {
-  uid: number;
-  from: string;
-  fromEmail: string;
-  subject: string;
-  date: string;
-  seen: boolean;
-  messageId?: string;
-};
-
-type MailBody = InboxMsg & {
-  to: string;
-  html?: string;
-  text?: string;
-  references?: string;
-  attachments: { filename: string; size: number }[];
-};
 
 type SentMail = { id: string; date: string; to: string; subject: string; text: string };
 
@@ -122,10 +106,10 @@ export default function AdminPage() {
 
   /* ---------- cutia poștală (Inbox + Trimise) ---------- */
   const [mailTab, setMailTab] = useState<'primite' | 'trimise'>('primite');
-  const [inbox, setInbox] = useState<InboxMsg[]>([]);
+  const [inbox, setInbox] = useState<InboxMessage[]>([]);
   const [inboxErr, setInboxErr] = useState('');
   const [inboxLoading, setInboxLoading] = useState(false);
-  const [openMail, setOpenMail] = useState<MailBody | null>(null);
+  const [openMail, setOpenMail] = useState<InboxBody | null>(null);
   const [sent, setSent] = useState<SentMail[]>([]);
   const [compose, setCompose] = useState<null | { to: string; subject: string; text: string; inReplyTo?: string; references?: string }>(null);
 
@@ -202,6 +186,7 @@ export default function AdminPage() {
     setInboxErr('');
     try {
       const res = await fetch(`/api/admin/inbox/?uid=${uid}`);
+      if (res.status === 401) { setView('login'); return; }
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Nu am putut deschide mesajul.');
       setOpenMail(data.message);
@@ -219,8 +204,9 @@ export default function AdminPage() {
       const res = await fetch('/api/admin/send/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...compose, simplu: true }),
+        body: JSON.stringify(compose),
       });
+      if (res.status === 401) { setView('login'); return; }
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Trimiterea a eșuat.');
       setCompose(null);

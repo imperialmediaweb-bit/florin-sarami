@@ -15,7 +15,11 @@ export async function GET(req: Request) {
   const sent = fs
     .readdirSync(dir)
     .filter(f => f.endsWith('.json'))
-    .map(f => JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')))
+    .flatMap(f => {
+      // un fișier corupt nu blochează tot istoricul
+      try { return [JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))]; }
+      catch { return []; }
+    })
     .sort((a, b) => (a.date < b.date ? 1 : -1))
     .slice(0, 100);
   return NextResponse.json({ sent });
