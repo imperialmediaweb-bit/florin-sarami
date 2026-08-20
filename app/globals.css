@@ -898,6 +898,25 @@ body:has(.admin-root) main { padding-top: 0; }
   padding: clamp(20px, 3vw, 34px); box-shadow: 0 10px 34px -24px rgba(29, 78, 216, .35);
 }
 
+/* Cutia poștală din panou */
+.mail-tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.mail-tabs button {
+  padding: 9px 20px; border-radius: 999px; border: 1px solid var(--line);
+  background: #fff; color: var(--text-dim); font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.mail-tabs button:hover { border-color: var(--blue-600); color: var(--blue-700); }
+.mail-tabs button.on { background: var(--grad-brand); border-color: transparent; color: #fff; }
+.mail-body {
+  border: 1px solid var(--line); border-radius: 12px; background: var(--bg);
+  padding: 4px; max-height: 460px; overflow: auto;
+}
+.mail-body iframe { width: 100%; min-height: 380px; border: 0; background: #fff; border-radius: 9px; }
+.mail-body pre {
+  margin: 0; padding: 14px 16px; white-space: pre-wrap; word-break: break-word;
+  font-family: inherit; font-size: .93rem; line-height: 1.65; color: var(--text-main);
+}
+
 /* Editor vizual */
 .rich-wrap { border: 1px solid #cfe1fa; border-radius: 13px; overflow: hidden; background: #fff; }
 .rich-toolbar {

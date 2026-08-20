@@ -48,6 +48,26 @@ const FOLIO_CATS = [
 
 type Testimonial = { id: string; name: string; role: string; text: string; image?: string };
 
+type InboxMsg = {
+  uid: number;
+  from: string;
+  fromEmail: string;
+  subject: string;
+  date: string;
+  seen: boolean;
+  messageId?: string;
+};
+
+type MailBody = InboxMsg & {
+  to: string;
+  html?: string;
+  text?: string;
+  references?: string;
+  attachments: { filename: string; size: number }[];
+};
+
+type SentMail = { id: string; date: string; to: string; subject: string; text: string };
+
 const EMPTY: Post = { slug: '', title: '', date: '', category: '', excerpt: '', contentHtml: '', image: '' };
 const EMPTY_FOLIO: FolioItem = { id: '', cat: 'shorts', title: '', desc: '', videoId: '', tiktok: '', video: '', link: '' };
 const EMPTY_TESTI: Testimonial = { id: '', name: '', role: '', text: '', image: '' };
@@ -77,7 +97,7 @@ const parseTiktokId = (input: string): string => {
 };
 
 export default function AdminPage() {
-  const [view, setView] = useState<'login' | 'acasa' | 'articole' | 'editor' | 'portofoliu' | 'testimoniale' | 'mesaje' | 'setari'>('login');
+  const [view, setView] = useState<'login' | 'acasa' | 'articole' | 'editor' | 'portofoliu' | 'testimoniale' | 'mesaje' | 'email' | 'setari'>('login');
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
@@ -99,6 +119,15 @@ export default function AdminPage() {
   const [replyFor, setReplyFor] = useState<string | null>(null);
   const [replySubject, setReplySubject] = useState('');
   const [replyText, setReplyText] = useState('');
+
+  /* ---------- cutia poștală (Inbox + Trimise) ---------- */
+  const [mailTab, setMailTab] = useState<'primite' | 'trimise'>('primite');
+  const [inbox, setInbox] = useState<InboxMsg[]>([]);
+  const [inboxErr, setInboxErr] = useState('');
+  const [inboxLoading, setInboxLoading] = useState(false);
+  const [openMail, setOpenMail] = useState<MailBody | null>(null);
+  const [sent, setSent] = useState<SentMail[]>([]);
+  const [compose, setCompose] = useState<null | { to: string; subject: string; text: string; inReplyTo?: string; references?: string }>(null);
 
   /* ---------- încărcare date ---------- */
   const loadPosts = useCallback(async () => {
@@ -146,11 +175,70 @@ export default function AdminPage() {
     setTesti((await res.json()).items || []);
   }, []);
 
+  const loadInbox = useCallback(async () => {
+    setInboxLoading(true);
+    setInboxErr('');
+    try {
+      const res = await fetch('/api/admin/inbox/');
+      if (res.status === 401) { setView('login'); return; }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Nu am putut citi cutia poștală.');
+      setInbox(data.messages || []);
+    } catch (err) {
+      setInboxErr(err instanceof Error ? err.message : 'Nu am putut citi cutia poștală.');
+    } finally {
+      setInboxLoading(false);
+    }
+  }, []);
+
+  const loadSent = useCallback(async () => {
+    const res = await fetch('/api/admin/sent/');
+    if (res.status === 401) { setView('login'); return; }
+    setSent((await res.json()).sent || []);
+  }, []);
+
+  async function openMessage(uid: number) {
+    setOpenMail(null);
+    setInboxErr('');
+    try {
+      const res = await fetch(`/api/admin/inbox/?uid=${uid}`);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Nu am putut deschide mesajul.');
+      setOpenMail(data.message);
+      setInbox(list => list.map(m => (m.uid === uid ? { ...m, seen: true } : m)));
+    } catch (err) {
+      setInboxErr(err instanceof Error ? err.message : 'Nu am putut deschide mesajul.');
+    }
+  }
+
+  async function sendMail() {
+    if (!compose) return;
+    setBusy(true);
+    setError('');
+    try {
+      const res = await fetch('/api/admin/send/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...compose, simplu: true }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Trimiterea a eșuat.');
+      setCompose(null);
+      setNotice(`✅ Email trimis către ${compose.to}.`);
+      loadSent().catch(() => {});
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Trimiterea a eșuat.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   useEffect(() => {
     if (view === 'mesaje') loadMessages().catch(() => {});
     if (view === 'portofoliu') loadFolio().catch(() => {});
     if (view === 'testimoniale') loadTesti().catch(() => {});
-  }, [view, loadMessages, loadFolio, loadTesti]);
+    if (view === 'email') { loadInbox().catch(() => {}); loadSent().catch(() => {}); }
+  }, [view, loadMessages, loadFolio, loadTesti, loadInbox, loadSent]);
 
   const go = (v: typeof view) => { setNotice(''); setError(''); setView(v); };
 
@@ -423,6 +511,7 @@ export default function AdminPage() {
           <button className={view === 'portofoliu' ? 'on' : ''} onClick={() => go('portofoliu')}>🎬 Portofoliu</button>
           <button className={view === 'testimoniale' ? 'on' : ''} onClick={() => go('testimoniale')}>⭐ Testimoniale</button>
           <button className={view === 'mesaje' ? 'on' : ''} onClick={() => go('mesaje')}>✉️ Mesaje &amp; Briefuri</button>
+          <button className={view === 'email' ? 'on' : ''} onClick={() => go('email')}>📥 Email</button>
           <button className={view === 'setari' ? 'on' : ''} onClick={() => go('setari')}>⚙️ Setări</button>
           <div className="admin-side-bottom">
             <a href="/" target="_blank" rel="noopener noreferrer">🌐 Vezi site-ul</a>
@@ -699,6 +788,152 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
+            </>
+          )}
+
+          {/* ---- EMAIL (Inbox + Trimise) ---- */}
+          {view === 'email' && (
+            <>
+              <div className="admin-title">
+                <h1>📥 Email — contact@sarami.ro</h1>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button className="btn btn-ghost" onClick={() => { loadInbox(); loadSent(); }}>↻ Reîncarcă</button>
+                  <button className="btn btn-primary" onClick={() => { setError(''); setCompose({ to: '', subject: '', text: '' }); }}>✍️ Email nou</button>
+                </div>
+              </div>
+
+              <div className="mail-tabs">
+                <button className={mailTab === 'primite' ? 'on' : ''} onClick={() => setMailTab('primite')}>
+                  Primite {inbox.length ? `(${inbox.length})` : ''}
+                </button>
+                <button className={mailTab === 'trimise' ? 'on' : ''} onClick={() => setMailTab('trimise')}>
+                  Trimise {sent.length ? `(${sent.length})` : ''}
+                </button>
+              </div>
+
+              {/* fereastra de scris/răspuns */}
+              {compose && (
+                <div className="admin-card" style={{ marginBottom: 20 }}>
+                  <h3 className="h-md" style={{ marginBottom: 16 }}>{compose.inReplyTo ? '↩️ Răspunde' : '✍️ Email nou'}</h3>
+                  <div className="form-grid">
+                    <div className="form-field full">
+                      <label>Către *</label>
+                      <input type="email" value={compose.to} onChange={e => setCompose(c => c && { ...c, to: e.target.value })} placeholder="client@email.ro" />
+                    </div>
+                    <div className="form-field full">
+                      <label>Subiect *</label>
+                      <input value={compose.subject} onChange={e => setCompose(c => c && { ...c, subject: e.target.value })} placeholder="Ofertă editare video" />
+                    </div>
+                    <div className="form-field full">
+                      <label>Mesaj *</label>
+                      <textarea style={{ minHeight: 220 }} value={compose.text} onChange={e => setCompose(c => c && { ...c, text: e.target.value })} placeholder="Bună, ..." />
+                    </div>
+                  </div>
+                  <p style={{ color: 'var(--text-faint)', fontSize: '.82rem', marginTop: 10 }}>
+                    Se trimite de pe <strong>contact@sarami.ro</strong>. Răspunsul clientului vine înapoi aici, în Primite.
+                  </p>
+                  <div className="btn-row mt-2">
+                    <button className="btn btn-primary" disabled={busy} onClick={sendMail}>{busy ? 'Se trimite...' : '📨 Trimite'}</button>
+                    <button className="btn btn-ghost" onClick={() => setCompose(null)}>Renunță</button>
+                  </div>
+                </div>
+              )}
+
+              {/* mesajul deschis */}
+              {openMail && mailTab === 'primite' && (
+                <div className="admin-card" style={{ marginBottom: 20 }}>
+                  <div className="admin-title" style={{ marginBottom: 12 }}>
+                    <h3 className="h-md" style={{ margin: 0 }}>{openMail.subject}</h3>
+                    <button className="btn btn-ghost" style={{ padding: '8px 14px', fontSize: '.85rem' }} onClick={() => setOpenMail(null)}>✕ Închide</button>
+                  </div>
+                  <p style={{ color: 'var(--text-faint)', fontSize: '.85rem', marginBottom: 14 }}>
+                    De la <strong style={{ color: 'var(--text-main)' }}>{openMail.from}</strong> &lt;{openMail.fromEmail}&gt; • {new Date(openMail.date).toLocaleString('ro-RO')}
+                  </p>
+                  <div className="mail-body">
+                    {openMail.html
+                      ? <iframe title="Mesaj" sandbox="" srcDoc={openMail.html} />
+                      : <pre>{openMail.text || '(mesaj gol)'}</pre>}
+                  </div>
+                  {openMail.attachments.length > 0 && (
+                    <p style={{ color: 'var(--text-dim)', fontSize: '.85rem', marginTop: 12 }}>
+                      📎 Atașamente: {openMail.attachments.map(a => a.filename).join(', ')} — le vezi în webmail.
+                    </p>
+                  )}
+                  <div className="btn-row mt-2">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        setError('');
+                        setCompose({
+                          to: openMail.fromEmail,
+                          subject: /^re:/i.test(openMail.subject) ? openMail.subject : `Re: ${openMail.subject}`,
+                          text: `\n\n----- Mesajul original de la ${openMail.from} -----\n${(openMail.text || '').slice(0, 1500)}`,
+                          inReplyTo: openMail.messageId,
+                          references: openMail.references,
+                        });
+                      }}
+                    >
+                      ↩️ Răspunde
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* lista */}
+              {mailTab === 'primite' ? (
+                <>
+                  {inboxLoading && <p style={{ color: 'var(--text-dim)' }}>Se citește cutia poștală...</p>}
+                  {inboxErr && (
+                    <div className="admin-card" style={{ borderColor: 'rgba(220,38,38,.35)' }}>
+                      <p style={{ color: '#dc2626', fontWeight: 600, marginBottom: 8 }}>⚠ {inboxErr}</p>
+                      <p style={{ color: 'var(--text-dim)', fontSize: '.9rem' }}>
+                        Emailurile pot fi citite oricând și din webmail: <a href="https://cloud330.mxserver.ro:2096" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue-600)' }}>cloud330.mxserver.ro:2096</a>
+                      </p>
+                    </div>
+                  )}
+                  {!inboxLoading && !inboxErr && inbox.length === 0 && (
+                    <p style={{ color: 'var(--text-faint)' }}>Nu e niciun mesaj în cutia poștală.</p>
+                  )}
+                  <div style={{ display: 'grid', gap: 10 }}>
+                    {inbox.map(m => (
+                      <button
+                        key={m.uid}
+                        className="admin-row"
+                        style={{ cursor: 'pointer', textAlign: 'left', font: 'inherit', width: '100%' }}
+                        onClick={() => openMessage(m.uid)}
+                      >
+                        <div style={{ minWidth: 0, flex: 1 }}>
+                          <b style={{ display: 'block', fontSize: '.96rem', fontWeight: m.seen ? 500 : 800 }}>
+                            {m.seen ? '📨' : '🆕'} {m.subject}
+                          </b>
+                          <span style={{ color: 'var(--text-faint)', fontSize: '.82rem' }}>
+                            {m.from} &lt;{m.fromEmail}&gt; • {new Date(m.date).toLocaleString('ro-RO')}
+                          </span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {sent.length === 0 && <p style={{ color: 'var(--text-faint)' }}>Nu ai trimis încă niciun email din panou.</p>}
+                  <div style={{ display: 'grid', gap: 10 }}>
+                    {sent.map(s => (
+                      <div className="admin-row" key={s.id}>
+                        <div style={{ minWidth: 0, flex: 1 }}>
+                          <b style={{ display: 'block', fontSize: '.96rem' }}>📤 {s.subject}</b>
+                          <span style={{ color: 'var(--text-faint)', fontSize: '.82rem' }}>
+                            către {s.to} • {new Date(s.date).toLocaleString('ro-RO')}
+                          </span>
+                          <span style={{ display: 'block', color: 'var(--text-dim)', fontSize: '.85rem', marginTop: 6 }}>
+                            {s.text.slice(0, 160)}{s.text.length > 160 ? '…' : ''}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </>
           )}
 
