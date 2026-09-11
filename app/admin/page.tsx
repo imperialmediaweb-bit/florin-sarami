@@ -873,7 +873,7 @@ export default function AdminPage() {
                     <div className="admin-card" style={{ borderColor: 'rgba(220,38,38,.35)' }}>
                       <p style={{ color: '#dc2626', fontWeight: 600, marginBottom: 8 }}>⚠ {inboxErr}</p>
                       <p style={{ color: 'var(--text-dim)', fontSize: '.9rem' }}>
-                        Emailurile pot fi citite oricând și din webmail: <a href="https://cloud330.mxserver.ro:2096" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue-600)' }}>cloud330.mxserver.ro:2096</a>
+                        Emailurile pot fi citite oricând și din webmail: <a href="https://cloud610.c-f.ro:2096" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue-600)' }}>cloud610.c-f.ro:2096</a>
                       </p>
                     </div>
                   )}

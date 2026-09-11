@@ -4,7 +4,8 @@ import { simpleParser } from 'mailparser';
 /**
  * Cutia poștală contact@sarami.ro citită prin IMAP, ca să apară direct
  * în panoul de admin. Configurare (Railway → Variables):
- *   IMAP_HOST      — implicit cloud330.mxserver.ro
+ *   IMAP_HOST      — implicit mail.sarami.ro (după migrarea pe cloud610.c-f.ro;
+ *                    dacă certificatul nu se potrivește, setează cloud610.c-f.ro)
  *   IMAP_PORT      — implicit 993 (SSL)
  *   IMAP_USER      — implicit CONTACT_TO (contact@sarami.ro)
  *   IMAP_PASSWORD  — parola căsuței (obligatoriu; doar pe server, niciodată în cod)
@@ -38,7 +39,7 @@ function config() {
   const pass = process.env.IMAP_PASSWORD;
   if (!pass) return null;
   return {
-    host: process.env.IMAP_HOST || 'cloud330.mxserver.ro',
+    host: process.env.IMAP_HOST || 'mail.sarami.ro',
     port: Number(process.env.IMAP_PORT || 993),
     user: process.env.IMAP_USER || process.env.CONTACT_TO || 'contact@sarami.ro',
     pass,
