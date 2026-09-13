@@ -35,6 +35,10 @@ export default function ContactForm() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Trimiterea a eșuat.');
       setStatus('sent');
+      // semnal de „Lead" pentru Meta Pixel / GA
+      const w = window as unknown as { fbq?: (...a: unknown[]) => void; gtag?: (...a: unknown[]) => void };
+      w.fbq?.('track', 'Lead');
+      w.gtag?.('event', 'generate_lead');
       form.reset();
     } catch (err) {
       setStatus('error');
