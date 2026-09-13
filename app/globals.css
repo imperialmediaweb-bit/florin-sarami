@@ -836,6 +836,90 @@ body.has-announce main { padding-top: calc(var(--nav-h) + var(--announce-h, 40px
 
 /* ============ Landing „Ofertă video" ============ */
 html { scroll-behavior: smooth; }
+
+/* hero pe două coloane: text + telefon cu Reel animat */
+.lp-hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 5vw, 60px); align-items: center; text-align: left; }
+.lp-hero .lead { margin-inline: 0; }
+@media (max-width: 900px) {
+  .lp-hero { grid-template-columns: 1fr; text-align: center; }
+  .lp-hero .lead { margin-inline: auto; }
+  .lp-hero .btn-row { justify-content: center; }
+}
+
+/* mockup de telefon — Reel „viu", pur CSS (fără video, fără cost de viteză) */
+.phone {
+  width: min(264px, 68vw); aspect-ratio: 9 / 18.5; border-radius: 40px;
+  background: #0d1c42; border: 7px solid #10245a; position: relative; overflow: hidden;
+  box-shadow: 0 34px 80px -24px rgba(13, 28, 66, .6);
+  margin-inline: auto;
+}
+.phone::before {
+  content: ""; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  width: 86px; height: 20px; border-radius: 999px; background: #10245a; z-index: 4;
+}
+.phone-screen {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle 130px at 78% 24%, rgba(255, 255, 255, .28), transparent 70%),
+    radial-gradient(circle 160px at 18% 78%, rgba(13, 28, 66, .5), transparent 75%),
+    linear-gradient(160deg, #1d4ed8, #0ea5e9 55%, #7dd3fc);
+}
+.phone-progress {
+  position: absolute; top: 0; left: 0; height: 3px; background: #fff; z-index: 3;
+  animation: lpProgress 6s linear infinite;
+}
+@keyframes lpProgress { from { width: 0; } to { width: 100%; } }
+.phone-user {
+  position: absolute; left: 14px; bottom: 46px; color: #fff; font-size: .72rem; font-weight: 700; z-index: 2;
+  text-shadow: 0 2px 8px rgba(13, 28, 66, .5);
+}
+.phone-user i { display: block; font-style: normal; font-weight: 500; opacity: .85; margin-top: 3px; }
+.phone-icons {
+  position: absolute; right: 12px; bottom: 60px; display: grid; gap: 14px; z-index: 2;
+  font-size: 1.25rem; text-align: center; filter: drop-shadow(0 2px 6px rgba(13, 28, 66, .45));
+}
+.phone-icons b { display: block; font-size: .58rem; color: #fff; font-weight: 700; margin-top: 1px; }
+.phone-icons span:first-child { animation: lpPulse 2.2s ease-in-out infinite; display: inline-block; }
+@keyframes lpPulse { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.3); } 24% { transform: scale(1); } }
+/* subtitrările dinamice — trei replici care se schimbă în buclă */
+.phone-cap { position: absolute; left: 12px; right: 12px; bottom: 27%; height: 44px; z-index: 2; }
+.phone-cap span {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-weight: 800; font-size: 1rem; color: #fff; text-align: center;
+  text-shadow: 0 3px 12px rgba(13, 28, 66, .55); opacity: 0;
+  animation: lpCap 6s infinite;
+}
+.phone-cap span:nth-child(2) { animation-delay: 2s; }
+.phone-cap span:nth-child(3) { animation-delay: 4s; }
+@keyframes lpCap {
+  0% { opacity: 0; transform: translateY(12px) scale(.92); }
+  6%, 28% { opacity: 1; transform: none; }
+  33%, 100% { opacity: 0; transform: translateY(-6px); }
+}
+/* varianta „înainte": filmarea brută — ștearsă, fără subtitrări */
+.phone.raw .phone-screen { filter: grayscale(.9) brightness(.75) contrast(.85); }
+.phone-tag { text-align: center; margin-top: 14px; font-weight: 800; font-family: var(--font-head); }
+.phone-tag small { display: block; color: var(--text-faint); font-weight: 500; margin-top: 2px; }
+.lp-vs {
+  width: 58px; height: 58px; border-radius: 50%; background: var(--grad-brand); color: #fff;
+  display: grid; place-items: center; font-family: var(--font-head); font-weight: 800; font-size: 1.05rem;
+  box-shadow: 0 14px 30px -10px rgba(29, 78, 216, .6); margin-inline: auto; flex-shrink: 0;
+}
+.lp-compare { display: flex; gap: clamp(18px, 4vw, 46px); align-items: center; justify-content: center; flex-wrap: wrap; }
+
+/* banda cu servicii care rulează continuu */
+.lp-marquee { overflow: hidden; border-block: 1px solid var(--line); background: #fff; padding: 15px 0; }
+.lp-marquee-track {
+  display: flex; gap: 44px; width: max-content; white-space: nowrap;
+  font-family: var(--font-head); font-weight: 800; letter-spacing: .05em; color: var(--blue-700);
+  animation: lpMarq 30s linear infinite;
+}
+@keyframes lpMarq { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-cap span, .phone-progress, .lp-marquee-track, .phone-icons span:first-child { animation: none; }
+  .phone-cap span:first-child { opacity: 1; }
+}
 /* butonul fix de jos, doar pe mobil — CTA mereu la un deget distanță */
 .lp-sticky {
   position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 140;

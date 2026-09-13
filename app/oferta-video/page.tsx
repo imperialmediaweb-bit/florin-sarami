@@ -39,31 +39,102 @@ const FAQ = [
 export default function OfertaVideoPage() {
   return (
     <>
-      {/* HERO */}
-      <section className="page-hero" style={{ paddingBottom: 30 }}>
+      {/* HERO — text + telefon cu Reel „viu" */}
+      <section className="page-hero" style={{ paddingBottom: 34 }}>
         <div className="container">
-          <span className="eyebrow">🎬 Pentru afaceri și creatori care vor clienți din social media</span>
-          <h1 className="h-xl">
-            Reels-uri care <span className="grad-text">opresc scroll-ul</span><br />— editate de profesioniști
-          </h1>
-          <p className="lead">
-            Tu filmezi cu telefonul. Noi transformăm filmarea în clipuri care atrag urmăritori și aduc
-            clienți: montaj alert, subtitrări dinamice, culoare premium — gata de postat.
-          </p>
-          <div className="btn-row" style={{ justifyContent: 'center', marginTop: 26 }}>
-            <a href="#brief" className="btn btn-primary" style={{ fontSize: '1.05rem', padding: '16px 34px' }}>
-              🎁 Vreau clipul meu de probă GRATUIT <ArrowIcon />
-            </a>
+          <div className="lp-hero">
+            <div>
+              <span className="eyebrow">🎬 Pentru afaceri și creatori care vor clienți din social media</span>
+              <h1 className="h-xl" style={{ marginBottom: 18 }}>
+                Reels-uri care <span className="grad-text">opresc scroll-ul</span> — editate de profesioniști
+              </h1>
+              <p className="lead">
+                Tu filmezi cu telefonul. Noi transformăm filmarea în clipuri care atrag urmăritori și aduc
+                clienți: montaj alert, subtitrări dinamice, culoare premium — gata de postat.
+              </p>
+              <div className="btn-row" style={{ marginTop: 26 }}>
+                <a href="#brief" className="btn btn-primary" style={{ fontSize: '1.05rem', padding: '16px 34px' }}>
+                  🎁 Vreau clipul meu de probă GRATUIT <ArrowIcon />
+                </a>
+              </div>
+              <p style={{ color: 'var(--text-faint)', fontSize: '.88rem', marginTop: 12 }}>
+                Fără plată. Fără obligații. Răspundem în aceeași zi lucrătoare.
+              </p>
+            </div>
+            <div className="reveal-right in">
+              <div className="phone">
+                <div className="phone-screen"></div>
+                <div className="phone-progress"></div>
+                <div className="phone-cap">
+                  <span>❌ Nimeni nu-ți vede clipurile?</span>
+                  <span>✨ Subtitrări. Ritm. Culoare.</span>
+                  <span>📈 Așa arată un Reel care vinde</span>
+                </div>
+                <div className="phone-user">@afacerea_ta<i>♫ trending sound · Reels</i></div>
+                <div className="phone-icons">
+                  <span>❤️<b>12.4K</b></span>
+                  <span>💬<b>347</b></span>
+                  <span>↗️<b>1.2K</b></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p style={{ color: 'var(--text-faint)', fontSize: '.88rem', marginTop: 12 }}>
-            Fără plată. Fără obligații. Răspundem în aceeași zi lucrătoare.
-          </p>
-          <div className="stats" style={{ marginTop: 44 }}>
-            <div className="stat"><b>17+</b><span>ani de experiență în conținut</span></div>
-            <div className="stat"><b>500+</b><span>proiecte livrate</span></div>
-            <div className="stat"><b>100+</b><span>clienți mulțumiți</span></div>
-            <div className="stat"><b>48h</b><span>livrarea clipului de probă</span></div>
+          <div className="stats" style={{ marginTop: 46 }}>
+            <div className="stat"><b data-count="17" data-suffix="+">0</b><span>ani de experiență în conținut</span></div>
+            <div className="stat"><b data-count="500" data-suffix="+">0</b><span>proiecte livrate</span></div>
+            <div className="stat"><b data-count="100" data-suffix="+">0</b><span>clienți mulțumiți</span></div>
+            <div className="stat"><b data-count="48" data-suffix="h">0</b><span>livrarea clipului de probă</span></div>
           </div>
+        </div>
+      </section>
+
+      {/* banda cu servicii — mișcare continuă, senzație de „studio viu" */}
+      <div className="lp-marquee" aria-hidden="true">
+        <div className="lp-marquee-track">
+          {[0, 1].map(i => (
+            <span key={i}>
+              HOOK ÎN 2 SECUNDE ✦ SUBTITRĂRI DINAMICE ✦ COLOR GRADING ✦ MONTAJ ALERT ✦ SUNET CURAT ✦
+              REELS ✦ TIKTOK ✦ SHORTS ✦ LIVRARE 48H ✦ REVIZII INCLUSE ✦&nbsp;
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ÎNAINTE / DUPĂ — de ce contează editarea */}
+      <section className="section-tight">
+        <div className="container">
+          <div className="center reveal">
+            <span className="eyebrow">Diferența se vede în 2 secunde</span>
+            <h2 className="h-lg">Aceeași filmare. <span className="grad-text">Alt rezultat.</span></h2>
+          </div>
+          <div className="lp-compare mt-3">
+            <div className="reveal-left in">
+              <div className="phone raw">
+                <div className="phone-screen"></div>
+                <div className="phone-user">@afacerea_ta<i>fără sunet · fără subtitrări</i></div>
+                <div className="phone-icons"><span>❤️<b>23</b></span><span>💬<b>1</b></span><span>↗️<b>0</b></span></div>
+              </div>
+              <p className="phone-tag">Filmarea brută<small>postată așa cum e — trecută cu vederea</small></p>
+            </div>
+            <div className="lp-vs">VS</div>
+            <div className="reveal-right in">
+              <div className="phone">
+                <div className="phone-screen"></div>
+                <div className="phone-progress"></div>
+                <div className="phone-cap">
+                  <span>🔥 Hook care oprește scroll-ul</span>
+                  <span>💬 Subtitrări care țin atenția</span>
+                  <span>🎨 Culoare ca de cinema</span>
+                </div>
+                <div className="phone-user">@afacerea_ta<i>♫ trending sound · Reels</i></div>
+                <div className="phone-icons"><span>❤️<b>12.4K</b></span><span>💬<b>347</b></span><span>↗️<b>1.2K</b></span></div>
+              </div>
+              <p className="phone-tag">După Sarami Media<small>montaj, subtitrări, culoare, sunet — în 48h</small></p>
+            </div>
+          </div>
+          <p className="center" style={{ marginTop: 26 }}>
+            <a href="#brief" className="btn btn-primary">Vreau să arate așa și clipurile mele <ArrowIcon /></a>
+          </p>
         </div>
       </section>
 
