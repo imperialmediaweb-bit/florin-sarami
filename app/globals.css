@@ -907,6 +907,16 @@ html { scroll-behavior: smooth; }
 }
 .lp-compare { display: flex; gap: clamp(18px, 4vw, 46px); align-items: center; justify-content: center; flex-wrap: wrap; }
 
+/* buton WhatsApp verde, în pereche cu CTA-ul principal */
+.btn-wa {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 14px 28px; border-radius: 999px; font-weight: 700; font-size: .98rem;
+  background: #25d366; color: #fff !important;
+  box-shadow: 0 12px 28px -10px rgba(18, 140, 70, .65);
+  transition: transform .25s, box-shadow .25s;
+}
+.btn-wa:hover { transform: translateY(-2px); box-shadow: 0 16px 34px -10px rgba(18, 140, 70, .75); }
+
 /* banda cu servicii care rulează continuu */
 .lp-marquee { overflow: hidden; border-block: 1px solid var(--line); background: #fff; padding: 15px 0; }
 .lp-marquee-track {

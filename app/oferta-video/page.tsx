@@ -56,6 +56,14 @@ export default function OfertaVideoPage() {
                 <a href="#brief" className="btn btn-primary" style={{ fontSize: '1.05rem', padding: '16px 34px' }}>
                   🎁 Vreau clipul meu de probă GRATUIT <ArrowIcon />
                 </a>
+                <a
+                  href="https://wa.me/40743361684?text=Bun%C4%83!%20Am%20v%C4%83zut%20oferta%20cu%20Reel-ul%20gratuit%20%C8%99i%20vreau%20s%C4%83%20aflu%20mai%20multe."
+                  className="btn-wa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  💬 Întreabă-ne pe WhatsApp
+                </a>
               </div>
               <p style={{ color: 'var(--text-faint)', fontSize: '.88rem', marginTop: 12 }}>
                 Fără plată. Fără obligații. Răspundem în aceeași zi lucrătoare.
@@ -244,8 +252,20 @@ export default function OfertaVideoPage() {
           <div className="center reveal in">
             <span className="eyebrow">🎁 Pasul 1 din 3</span>
             <h2 className="h-lg">Rezervă-ți clipul de probă <span className="grad-text">gratuit</span></h2>
-            <p className="lead" style={{ marginBottom: 30 }}>
-              Durează 2 minute. Primești răspuns în aceeași zi lucrătoare — fără spam, fără telefoane insistente.
+            <p className="lead" style={{ marginBottom: 14 }}>
+              Durează 2 minute. Completezi, iar noi îți trimitem <strong style={{ color: 'var(--text-main)' }}>oferta personalizată</strong> în
+              aceeași zi lucrătoare — fără spam, fără telefoane insistente.
+            </p>
+            <p style={{ color: 'var(--text-dim)', marginBottom: 30 }}>
+              Preferi să vorbim direct? Scrie-ne pe{' '}
+              <a
+                href="https://wa.me/40743361684?text=Bun%C4%83!%20Vreau%20clipul%20de%20prob%C4%83%20gratuit."
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#128c46', fontWeight: 700 }}
+              >
+                WhatsApp: +40 743 361 684
+              </a>
             </p>
           </div>
           <div className="form-card reveal in">

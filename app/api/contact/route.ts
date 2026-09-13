@@ -124,13 +124,18 @@ export async function POST(req: Request) {
         from: process.env.RESEND_FROM || 'Sarami Media <onboarding@resend.dev>',
         to: [email],
         reply_to: process.env.CONTACT_TO || 'contact@sarami.ro',
-        subject: `${nume.split(' ')[0]}, am primit ${formular === 'Contact' ? 'mesajul' : 'brief-ul'} tău! 🎉 — Sarami Media`,
+        subject:
+          formular === 'Ofertă Reel gratuit'
+            ? `${nume.split(' ')[0]}, locul tău e rezervat! 🎬 Clipul de probă gratuit — Sarami Media`
+            : `${nume.split(' ')[0]}, am primit ${formular === 'Contact' ? 'mesajul' : 'brief-ul'} tău! 🎉 — Sarami Media`,
         text: [
           `Bună, ${nume.split(' ')[0]}! 👋`,
           '',
-          formular === 'Contact'
-            ? 'Mesajul tău a ajuns cu bine la noi — mulțumim că ne-ai scris!'
-            : `Brief-ul tău pentru ${serviciu.toLowerCase()} a ajuns cu bine la noi — mulțumim pentru toate detaliile, ne ușurează mult treaba!`,
+          formular === 'Ofertă Reel gratuit'
+            ? 'Vestea bună: ți-ai rezervat clipul de probă GRATUIT! 🎬 Uite ce urmează: 1) Îți răspundem azi (în zilele lucrătoare) ca să stabilim detaliile. 2) Ne trimiți o filmare brută — merge și de pe telefon. 3) În 48h primești Reel-ul editat complet, cadou. Fără plată, fără obligații.'
+            : formular === 'Contact'
+              ? 'Mesajul tău a ajuns cu bine la noi — mulțumim că ne-ai scris!'
+              : `Brief-ul tău pentru ${serviciu.toLowerCase()} a ajuns cu bine la noi — mulțumim pentru toate detaliile, ne ușurează mult treaba!`,
           'Îl citim cu atenție și revenim cu răspunsul nostru de obicei în aceeași zi lucrătoare. Dacă ne-ai scris seara sau în weekend, ne auzim în prima zi lucrătoare, la prima oră. ☕',
           '',
           'Între timp, dacă îți mai vine ceva în minte — linkuri, materiale, idei — răspunde direct la acest email și ajunge la noi.',
@@ -140,13 +145,29 @@ export async function POST(req: Request) {
           'sarami.ro • contact@sarami.ro',
         ].join('\n'),
         html: brandEmail({
-          heading: `Bună, ${nume.split(' ')[0]}! 👋 ${formular === 'Contact' ? 'Mesajul' : 'Brief-ul'} tău a ajuns la noi`,
-          preheader: 'Mulțumim că ne-ai scris! Revenim de obicei în aceeași zi lucrătoare.',
+          heading:
+            formular === 'Ofertă Reel gratuit'
+              ? `${nume.split(' ')[0]}, locul tău e rezervat! 🎬`
+              : `Bună, ${nume.split(' ')[0]}! 👋 ${formular === 'Contact' ? 'Mesajul' : 'Brief-ul'} tău a ajuns la noi`,
+          preheader:
+            formular === 'Ofertă Reel gratuit'
+              ? 'Clipul tău de probă gratuit e rezervat — uite ce urmează.'
+              : 'Mulțumim că ne-ai scris! Revenim de obicei în aceeași zi lucrătoare.',
           bodyHtml: `
             <p style="margin:0 0 14px;">${
-              formular === 'Contact'
-                ? 'Mesajul tău a ajuns cu bine la noi — <strong style="color:#16307a;">mulțumim că ne-ai scris!</strong>'
-                : `Brief-ul tău pentru <strong style="color:#16307a;">${serviciu.toLowerCase()}</strong> a ajuns cu bine la noi — mulțumim pentru toate detaliile, ne ușurează mult treaba!`
+              formular === 'Ofertă Reel gratuit'
+                ? `Vestea bună: ți-ai rezervat <strong style="color:#16307a;">clipul de probă GRATUIT</strong>. Uite ce urmează:</p>
+            <table cellpadding="0" cellspacing="0" style="width:100%;margin:0 0 14px;">
+              <tr><td style="padding:9px 14px;background:#f0f6ff;border-radius:8px;font-size:13.5px;color:#43587f;"><strong style="color:#16307a;">1.</strong> Îți răspundem <strong style="color:#16307a;">azi</strong> (în zilele lucrătoare) ca să stabilim detaliile.</td></tr>
+              <tr><td style="height:6px;"></td></tr>
+              <tr><td style="padding:9px 14px;background:#f0f6ff;border-radius:8px;font-size:13.5px;color:#43587f;"><strong style="color:#16307a;">2.</strong> Ne trimiți o filmare brută — merge și filmată cu telefonul.</td></tr>
+              <tr><td style="height:6px;"></td></tr>
+              <tr><td style="padding:9px 14px;background:#f0f6ff;border-radius:8px;font-size:13.5px;color:#43587f;"><strong style="color:#16307a;">3.</strong> În <strong style="color:#16307a;">48h</strong> primești Reel-ul editat complet — cadou, fără nicio obligație.</td></tr>
+            </table>
+            <p style="margin:0 0 14px;">`
+                : formular === 'Contact'
+                  ? 'Mesajul tău a ajuns cu bine la noi — <strong style="color:#16307a;">mulțumim că ne-ai scris!</strong>'
+                  : `Brief-ul tău pentru <strong style="color:#16307a;">${serviciu.toLowerCase()}</strong> a ajuns cu bine la noi — mulțumim pentru toate detaliile, ne ușurează mult treaba!`
             }</p>
             <p style="margin:0 0 14px;">Îl citim cu atenție și revenim cu răspunsul nostru <strong style="color:#16307a;">de obicei în aceeași zi lucrătoare</strong>. Dacă ne-ai scris seara sau în weekend, ne auzim în prima zi lucrătoare, la prima oră. ☕</p>
             <p style="margin:0 0 20px;">Între timp, dacă îți mai vine ceva în minte — linkuri, materiale, idei — răspunde direct la acest email și ajunge la noi.</p>

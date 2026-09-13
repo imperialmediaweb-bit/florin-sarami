@@ -29,7 +29,7 @@ const DEFAULTS: SiteSettings = {
   regcom: 'Jxx/xxxx/20xx',
   adresa: 'Str. Exemplu nr. 1, Oraș, România',
   program: 'Luni – Vineri: 09:00 – 18:00',
-  whatsapp: '',
+  whatsapp: '40743361684',
   anunt: '',
   ga: '',
   fbpixel: '2108829569729584',
