@@ -3,6 +3,7 @@ import Link from 'next/link';
 import BriefForm from '@/components/BriefForm';
 import Testimonials from '@/components/Testimonials';
 import { getTestimonials } from '@/lib/testimonials';
+import { getPortfolio } from '@/lib/portfolio';
 import { ArrowIcon } from '@/components/Visuals';
 
 // testimonialele vin din admin — pagina se generează la cerere
@@ -10,9 +11,9 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/oferta-video/' },
-  title: 'Primul tău Reel editat GRATUIT — Editare video Sarami Media',
+  title: 'Editare video Reels & TikTok — ofertă gratuită în 24h | Sarami Media',
   description:
-    'Trimite-ne o filmare brută și primești înapoi un Reel editat complet, gratuit — subtitrări dinamice, montaj alert, gata de postat. Vezi calitatea înainte să plătești un leu.',
+    'Editare video profesională pentru Reels, TikTok și Shorts. Completezi formularul și primești în 24h oferta personalizată + 3 idei de clipuri pentru afacerea ta, cadou.',
 };
 
 const BENEFITS = [
@@ -25,18 +26,23 @@ const BENEFITS = [
 ];
 
 const STEPS = [
-  { n: '1', title: 'Completezi formularul', desc: '2 minute, aici mai jos. Ne spui ce afacere ai și ce filmări există.' },
-  { n: '2', title: 'Primești răspuns azi', desc: 'Îți scriem în aceeași zi lucrătoare și stabilim ce clip edităm de probă.' },
-  { n: '3', title: 'Primești Reel-ul gratuit', desc: 'În 48h ai clipul editat, gata de postat. Îți place? Lucrăm împreună. Nu? Rămâi cu clipul.' },
+  { n: '1', title: 'Completezi formularul', desc: '2 minute, aici mai jos. Ne spui ce afacere ai și ce vrei să obții.' },
+  { n: '2', title: 'Primești oferta în 24h', desc: 'Ofertă personalizată pe nevoile tale + 3 idei de Reels gândite pentru afacerea ta — cadou, orice ai decide.' },
+  { n: '3', title: 'Primele clipuri, rapid', desc: 'Dacă oferta îți convine, ne apucăm imediat — primele clipuri sunt gata în câteva zile, gata de postat.' },
 ];
 
 const FAQ = [
-  { q: 'Chiar e gratuit clipul de probă?', a: 'Da, 100%. Fără card, fără abonament, fără obligații. E felul nostru de a-ți arăta calitatea înainte să ne dai un leu. Clipul rămâne al tău orice ai decide.' },
-  { q: 'Cât costă după, dacă vreau să continui?', a: 'Depinde de câte clipuri vrei pe lună și de complexitate — de aceea primești o ofertă personalizată, nu un preț de-a gata. Pachetele lunare au prețuri avantajoase.' },
+  { q: 'Cât costă editarea unui clip?', a: 'Depinde de câte clipuri vrei pe lună și de complexitate — de aceea primești o ofertă personalizată, nu un preț umflat de-a gata. Pachetele lunare au prețuri avantajoase, iar oferta nu te obligă la nimic.' },
+  { q: 'Ce primesc gratuit, mai exact?', a: 'Oferta personalizată + 3 idei concrete de Reels pentru afacerea ta (subiect, hook, structură) — scrise de un copywriter cu 17+ ani de experiență. Rămân ale tale chiar dacă nu lucrăm împreună.' },
   { q: 'Nu am filmări. Mă puteți ajuta?', a: 'Da — îți spunem exact ce și cum să filmezi cu telefonul (e mai simplu decât crezi), iar noi facem restul: montaj, subtitrări, culoare, sunet.' },
 ];
 
 export default function OfertaVideoPage() {
+  // când există un Short încărcat în admin → Portofoliu, rulează automat
+  // în telefonul din hero; până atunci se vede animația demo
+  const items = getPortfolio();
+  const demo = items.find(i => i.video && i.cat === 'shorts') || items.find(i => i.video);
+
   return (
     <>
       {/* HERO — text + telefon cu Reel „viu" */}
@@ -54,10 +60,10 @@ export default function OfertaVideoPage() {
               </p>
               <div className="btn-row" style={{ marginTop: 26 }}>
                 <a href="#brief" className="btn btn-primary" style={{ fontSize: '1.05rem', padding: '16px 34px' }}>
-                  🎁 Vreau clipul meu de probă GRATUIT <ArrowIcon />
+                  🎁 Vreau oferta mea GRATUITĂ <ArrowIcon />
                 </a>
                 <a
-                  href="https://wa.me/40743361684?text=Bun%C4%83!%20Am%20v%C4%83zut%20oferta%20cu%20Reel-ul%20gratuit%20%C8%99i%20vreau%20s%C4%83%20aflu%20mai%20multe."
+                  href="https://wa.me/40743361684?text=Bun%C4%83!%20Vreau%20o%20ofert%C4%83%20pentru%20editare%20video%20(Reels%2FTikTok)."
                   className="btn-wa"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -72,13 +78,17 @@ export default function OfertaVideoPage() {
             <div className="reveal-right in">
               <div className="phone">
                 <div className="phone-screen"></div>
+                {demo ? (
+                  <video className="phone-video" src={demo.video} autoPlay muted loop playsInline preload="metadata" />
+                ) : (
+                  <div className="phone-cap">
+                    <span>❌ Nimeni nu-ți vede clipurile?</span>
+                    <span>✨ Subtitrări. Ritm. Culoare.</span>
+                    <span>📈 Așa arată un Reel care vinde</span>
+                  </div>
+                )}
                 <div className="phone-progress"></div>
-                <div className="phone-cap">
-                  <span>❌ Nimeni nu-ți vede clipurile?</span>
-                  <span>✨ Subtitrări. Ritm. Culoare.</span>
-                  <span>📈 Așa arată un Reel care vinde</span>
-                </div>
-                <div className="phone-user">@afacerea_ta<i>♫ trending sound · Reels</i></div>
+                <div className="phone-user">{demo ? '@sarami.media' : '@afacerea_ta'}<i>♫ trending sound · Reels</i></div>
                 <div className="phone-icons">
                   <span>❤️<b>12.4K</b></span>
                   <span>💬<b>347</b></span>
@@ -91,7 +101,7 @@ export default function OfertaVideoPage() {
             <div className="stat"><b data-count="17" data-suffix="+">0</b><span>ani de experiență în conținut</span></div>
             <div className="stat"><b data-count="500" data-suffix="+">0</b><span>proiecte livrate</span></div>
             <div className="stat"><b data-count="100" data-suffix="+">0</b><span>clienți mulțumiți</span></div>
-            <div className="stat"><b data-count="48" data-suffix="h">0</b><span>livrarea clipului de probă</span></div>
+            <div className="stat"><b data-count="24" data-suffix="h">0</b><span>primești oferta personalizată</span></div>
           </div>
         </div>
       </section>
@@ -150,25 +160,26 @@ export default function OfertaVideoPage() {
       <section className="section-tight" id="oferta">
         <div className="container" style={{ maxWidth: 880 }}>
           <div className="card reveal in" style={{ padding: 'clamp(30px, 5vw, 52px)', textAlign: 'center', border: '2px solid var(--blue-600)' }}>
-            <span className="eyebrow">Oferta de lansare</span>
+            <span className="eyebrow">Ce primești gratuit</span>
             <h2 className="h-lg" style={{ marginBottom: 14 }}>
-              Primul tău Reel — <span className="grad-text">editat GRATUIT</span>
+              Ofertă personalizată + <span className="grad-text">3 idei de Reels</span> pentru afacerea ta
             </h2>
-            <p style={{ color: 'var(--text-dim)', maxWidth: 620, margin: '0 auto 22px' }}>
-              Ne trimiți o filmare brută (chiar și de pe telefon), iar noi ți-o transformăm într-un clip
-              editat complet — subtitrări, montaj, culoare, sunet — <strong style={{ color: 'var(--text-main)' }}>cadou</strong>.
-              Așa vezi exact ce primești, înainte să plătești ceva.
+            <p style={{ color: 'var(--text-dim)', maxWidth: 640, margin: '0 auto 22px' }}>
+              Completezi formularul, iar în <strong style={{ color: 'var(--text-main)' }}>24 de ore</strong> primești
+              oferta exactă pe nevoile tale + <strong style={{ color: 'var(--text-main)' }}>3 idei concrete de clipuri</strong> (subiect,
+              hook, structură) gândite special pentru afacerea ta, de un copywriter cu 17+ ani de experiență.
+              Ideile rămân ale tale, <strong style={{ color: 'var(--text-main)' }}>orice ai decide</strong>.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 26 }}>
-              {['✅ 0 lei — fără card, fără abonament', '✅ Livrat în 48 de ore', '✅ Clipul rămâne al tău, orice ai decide'].map(t => (
+              {['✅ 0 lei — fără card, fără obligații', '✅ Răspuns în 24 de ore lucrătoare', '✅ Fără prețuri umflate „de listă"'].map(t => (
                 <span key={t} style={{ background: 'rgba(37,99,235,.08)', color: 'var(--blue-700)', fontWeight: 600, fontSize: '.9rem', padding: '9px 18px', borderRadius: 999 }}>{t}</span>
               ))}
             </div>
             <a href="#brief" className="btn btn-primary" style={{ fontSize: '1rem', padding: '15px 32px' }}>
-              Îmi rezerv clipul de probă <ArrowIcon />
+              Vreau oferta + ideile mele <ArrowIcon />
             </a>
             <p style={{ color: 'var(--text-faint)', fontSize: '.84rem', marginTop: 14 }}>
-              ⏳ Ca să livrăm rapid, luăm un număr limitat de clipuri de probă în fiecare lună.
+              ⏳ Răspundem în ordinea cererilor — de obicei chiar în aceeași zi.
             </p>
           </div>
         </div>
@@ -190,6 +201,49 @@ export default function OfertaVideoPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* PACHETE LUNARE */}
+      <section className="section-tight">
+        <div className="container">
+          <div className="center reveal">
+            <span className="eyebrow">Pachete lunare de clipuri</span>
+            <h2 className="h-lg">Postezi constant, <span className="grad-text">plătești corect</span></h2>
+            <p className="lead" style={{ marginTop: 10 }}>
+              Algoritmul iubește constanța — de-aia lucrăm pe pachete lunare, la prețuri mult mai bune decât clipurile la bucată.
+            </p>
+          </div>
+          <div className="cards-3 mt-3">
+            {[
+              { name: 'START', clips: '4 clipuri / lună', desc: 'Un clip pe săptămână — prezență constantă, fără efort din partea ta.', d: 'd1' },
+              { name: 'CREȘTERE', clips: '8 clipuri / lună', desc: 'Două clipuri pe săptămână — ritmul ideal ca să crești vizibil pe Reels și TikTok.', d: 'd2', hot: true },
+              { name: 'PRO', clips: '12+ clipuri / lună', desc: 'Prezență aproape zilnică — pentru branduri care vor să domine nișa.', d: 'd3' },
+            ].map(p => (
+              <div className={`card reveal ${p.d}`} key={p.name} style={p.hot ? { border: '2px solid var(--blue-600)', position: 'relative' } : undefined}>
+                {p.hot && (
+                  <span style={{ position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)', background: 'var(--grad-brand)', color: '#fff', fontWeight: 700, fontSize: '.78rem', padding: '5px 16px', borderRadius: 999, whiteSpace: 'nowrap' }}>
+                    ⭐ Cel mai ales
+                  </span>
+                )}
+                <h3 style={{ fontSize: '.95rem', letterSpacing: '.08em', color: 'var(--blue-700)', marginBottom: 6 }}>{p.name}</h3>
+                <p style={{ fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: '1.5rem', marginBottom: 10 }}>{p.clips}</p>
+                <p style={{ color: 'var(--text-dim)', fontSize: '.93rem', marginBottom: 14 }}>{p.desc}</p>
+                <ul style={{ listStyle: 'none', color: 'var(--text-dim)', fontSize: '.9rem', display: 'grid', gap: 7, marginBottom: 18 }}>
+                  <li>✅ Subtitrări dinamice incluse</li>
+                  <li>✅ Culoare + sunet profesionist</li>
+                  <li>✅ Formate pentru toate platformele</li>
+                  <li>✅ Revizii incluse</li>
+                </ul>
+                <a href="#brief" className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
+                  Cere prețul exact — gratuit
+                </a>
+              </div>
+            ))}
+          </div>
+          <p className="center" style={{ color: 'var(--text-faint)', fontSize: '.88rem', marginTop: 22 }}>
+            Prețul exact depinde de complexitate — de-aia îl calculăm pe afacerea ta, nu-ți dăm o listă umflată. Răspuns în 24h.
+          </p>
         </div>
       </section>
 
@@ -250,8 +304,8 @@ export default function OfertaVideoPage() {
       <section className="section" id="brief">
         <div className="container" style={{ maxWidth: 860 }}>
           <div className="center reveal in">
-            <span className="eyebrow">🎁 Pasul 1 din 3</span>
-            <h2 className="h-lg">Rezervă-ți clipul de probă <span className="grad-text">gratuit</span></h2>
+            <span className="eyebrow">🎁 Durează 2 minute</span>
+            <h2 className="h-lg">Cere oferta <span className="grad-text">gratuită</span> — prețuri corecte, fără surprize</h2>
             <p className="lead" style={{ marginBottom: 14 }}>
               Durează 2 minute. Completezi, iar noi îți trimitem <strong style={{ color: 'var(--text-main)' }}>oferta personalizată</strong> în
               aceeași zi lucrătoare — fără spam, fără telefoane insistente.
@@ -259,7 +313,7 @@ export default function OfertaVideoPage() {
             <p style={{ color: 'var(--text-dim)', marginBottom: 30 }}>
               Preferi să vorbim direct? Scrie-ne pe{' '}
               <a
-                href="https://wa.me/40743361684?text=Bun%C4%83!%20Vreau%20clipul%20de%20prob%C4%83%20gratuit."
+                href="https://wa.me/40743361684?text=Bun%C4%83!%20Vreau%20o%20ofert%C4%83%20pentru%20editare%20video."
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: '#128c46', fontWeight: 700 }}
@@ -270,7 +324,7 @@ export default function OfertaVideoPage() {
           </div>
           <div className="form-card reveal in">
             <BriefForm
-              formular="Ofertă Reel gratuit"
+              formular="Ofertă video"
               serviciu="Editare video"
               mesajLabel="Despre afacerea ta *"
               mesajPlaceholder="Ce vinzi / ce faci? Pentru cine? Ai deja filmări sau începem de la zero?"
@@ -286,7 +340,7 @@ export default function OfertaVideoPage() {
       </section>
 
       {/* bară fixă jos pe mobil — butonul e mereu la un deget distanță */}
-      <a href="#brief" className="lp-sticky">🎁 Vreau clipul gratuit →</a>
+      <a href="#brief" className="lp-sticky">🎁 Vreau oferta gratuită →</a>
     </>
   );
 }

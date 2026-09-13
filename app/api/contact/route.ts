@@ -125,14 +125,14 @@ export async function POST(req: Request) {
         to: [email],
         reply_to: process.env.CONTACT_TO || 'contact@sarami.ro',
         subject:
-          formular === 'Ofertă Reel gratuit'
-            ? `${nume.split(' ')[0]}, locul tău e rezervat! 🎬 Clipul de probă gratuit — Sarami Media`
+          formular === 'Ofertă video'
+            ? `${nume.split(' ')[0]}, oferta ta e în lucru! 🎬 + 3 idei de Reels cadou — Sarami Media`
             : `${nume.split(' ')[0]}, am primit ${formular === 'Contact' ? 'mesajul' : 'brief-ul'} tău! 🎉 — Sarami Media`,
         text: [
           `Bună, ${nume.split(' ')[0]}! 👋`,
           '',
-          formular === 'Ofertă Reel gratuit'
-            ? 'Vestea bună: ți-ai rezervat clipul de probă GRATUIT! 🎬 Uite ce urmează: 1) Îți răspundem azi (în zilele lucrătoare) ca să stabilim detaliile. 2) Ne trimiți o filmare brută — merge și de pe telefon. 3) În 48h primești Reel-ul editat complet, cadou. Fără plată, fără obligații.'
+          formular === 'Ofertă video'
+            ? 'Cererea ta de ofertă a ajuns la noi! 🎬 Uite ce urmează: 1) Analizăm afacerea ta și pregătim oferta pe nevoile tale — la prețuri corecte. 2) În maxim 24h lucrătoare primești oferta + 3 idei de Reels gândite pentru afacerea ta, cadou. 3) Dacă îți convine, ne apucăm imediat de primele clipuri. Fără nicio obligație.'
             : formular === 'Contact'
               ? 'Mesajul tău a ajuns cu bine la noi — mulțumim că ne-ai scris!'
               : `Brief-ul tău pentru ${serviciu.toLowerCase()} a ajuns cu bine la noi — mulțumim pentru toate detaliile, ne ușurează mult treaba!`,
@@ -146,23 +146,23 @@ export async function POST(req: Request) {
         ].join('\n'),
         html: brandEmail({
           heading:
-            formular === 'Ofertă Reel gratuit'
-              ? `${nume.split(' ')[0]}, locul tău e rezervat! 🎬`
+            formular === 'Ofertă video'
+              ? `${nume.split(' ')[0]}, oferta ta e în lucru! 🎬`
               : `Bună, ${nume.split(' ')[0]}! 👋 ${formular === 'Contact' ? 'Mesajul' : 'Brief-ul'} tău a ajuns la noi`,
           preheader:
-            formular === 'Ofertă Reel gratuit'
-              ? 'Clipul tău de probă gratuit e rezervat — uite ce urmează.'
+            formular === 'Ofertă video'
+              ? 'În 24h primești oferta + 3 idei de Reels cadou.'
               : 'Mulțumim că ne-ai scris! Revenim de obicei în aceeași zi lucrătoare.',
           bodyHtml: `
             <p style="margin:0 0 14px;">${
-              formular === 'Ofertă Reel gratuit'
-                ? `Vestea bună: ți-ai rezervat <strong style="color:#16307a;">clipul de probă GRATUIT</strong>. Uite ce urmează:</p>
+              formular === 'Ofertă video'
+                ? `Cererea ta de ofertă a ajuns la noi. Uite ce urmează:</p>
             <table cellpadding="0" cellspacing="0" style="width:100%;margin:0 0 14px;">
-              <tr><td style="padding:9px 14px;background:#f0f6ff;border-radius:8px;font-size:13.5px;color:#43587f;"><strong style="color:#16307a;">1.</strong> Îți răspundem <strong style="color:#16307a;">azi</strong> (în zilele lucrătoare) ca să stabilim detaliile.</td></tr>
+              <tr><td style="padding:9px 14px;background:#f0f6ff;border-radius:8px;font-size:13.5px;color:#43587f;"><strong style="color:#16307a;">1.</strong> Analizăm afacerea ta și pregătim oferta — <strong style="color:#16307a;">la prețuri corecte</strong>, pe nevoile tale.</td></tr>
               <tr><td style="height:6px;"></td></tr>
-              <tr><td style="padding:9px 14px;background:#f0f6ff;border-radius:8px;font-size:13.5px;color:#43587f;"><strong style="color:#16307a;">2.</strong> Ne trimiți o filmare brută — merge și filmată cu telefonul.</td></tr>
+              <tr><td style="padding:9px 14px;background:#f0f6ff;border-radius:8px;font-size:13.5px;color:#43587f;"><strong style="color:#16307a;">2.</strong> În maxim <strong style="color:#16307a;">24h lucrătoare</strong> primești oferta + <strong style="color:#16307a;">3 idei de Reels</strong> pentru afacerea ta, cadou.</td></tr>
               <tr><td style="height:6px;"></td></tr>
-              <tr><td style="padding:9px 14px;background:#f0f6ff;border-radius:8px;font-size:13.5px;color:#43587f;"><strong style="color:#16307a;">3.</strong> În <strong style="color:#16307a;">48h</strong> primești Reel-ul editat complet — cadou, fără nicio obligație.</td></tr>
+              <tr><td style="padding:9px 14px;background:#f0f6ff;border-radius:8px;font-size:13.5px;color:#43587f;"><strong style="color:#16307a;">3.</strong> Dacă oferta îți convine, ne apucăm imediat de primele clipuri. Fără nicio obligație.</td></tr>
             </table>
             <p style="margin:0 0 14px;">`
                 : formular === 'Contact'
