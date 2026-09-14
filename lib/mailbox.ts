@@ -39,7 +39,9 @@ function config() {
   const pass = process.env.IMAP_PASSWORD;
   if (!pass) return null;
   return {
-    host: process.env.IMAP_HOST || 'mail.sarami.ro',
+    // numele serverului cPanel — certificatul lui e mereu valid, spre deosebire
+    // de mail.sarami.ro, care poate rămâne fără certificat după migrări
+    host: process.env.IMAP_HOST || 'cloud610.c-f.ro',
     port: Number(process.env.IMAP_PORT || 993),
     user: process.env.IMAP_USER || process.env.CONTACT_TO || 'contact@sarami.ro',
     pass,
