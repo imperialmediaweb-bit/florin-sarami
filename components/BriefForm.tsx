@@ -91,8 +91,19 @@ export default function BriefForm({
           <span>👀 Citim brief-ul cu atenție și calculăm oferta</span>
           <span>💌 Revenim cu oferta — de obicei în aceeași zi lucrătoare</span>
         </div>
+        <p style={{ color: 'var(--text-dim)', marginBottom: 14 }}>
+          Nu vrei să aștepți? <strong style={{ color: 'var(--text-main)' }}>Scrie-ne acum pe WhatsApp</strong> — continuăm discuția pe loc:
+        </p>
         <div className="btn-row" style={{ justifyContent: 'center' }}>
-          <a href="/portofoliu/" className="btn btn-primary">▶ Vezi portofoliul între timp</a>
+          <a
+            href="https://wa.me/40743361684?text=Bun%C4%83!%20Tocmai%20am%20completat%20brief-ul%20pe%20sarami.ro%20%C8%99i%20vreau%20s%C4%83%20continu%C4%83m%20discu%C8%9Bia."
+            className="btn-wa"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            💬 Continuă pe WhatsApp
+          </a>
+          <a href="/portofoliu/" className="btn btn-ghost">▶ Vezi portofoliul între timp</a>
           <button className="btn btn-ghost" onClick={() => setStatus('idle')}>Trimite alt brief</button>
         </div>
       </div>
