@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import BriefForm from '@/components/BriefForm';
+import LpSticky from '@/components/LpSticky';
 import Testimonials from '@/components/Testimonials';
 import { getTestimonials } from '@/lib/testimonials';
 import { getPortfolio } from '@/lib/portfolio';
@@ -341,14 +342,18 @@ export default function OfertaVideoPage() {
                   name: 'tip', label: 'Ce fel de clipuri vrei? *', type: 'select', required: true,
                   options: ['Reels / TikTok pentru afacerea mea', 'Clipuri pentru contul meu de creator', 'Clipuri din podcast / interviuri', 'Altceva — vă zic în mesaj'],
                 },
+                {
+                  name: 'clipuri', label: 'Câte clipuri ai vrea pe lună? *', type: 'select', required: true,
+                  options: ['10 clipuri / lună', '25 clipuri / lună', '50 clipuri / lună', 'Mai multe de 50', 'Nu știu încă — stabilim împreună'],
+                },
               ]}
             />
           </div>
         </div>
       </section>
 
-      {/* bară fixă jos pe mobil — butonul e mereu la un deget distanță */}
-      <a href="#brief" className="lp-sticky">🎁 Vreau Short-ul gratuit →</a>
+      {/* bară fixă jos pe mobil — dispare când formularul e pe ecran */}
+      <LpSticky label="🎁 Vreau Short-ul gratuit →" />
     </>
   );
 }

@@ -37,6 +37,10 @@ export default function BriefVideoPage() {
                   options: ['Clipuri social media (Reels/TikTok/Shorts)', 'Videoclip promoțional / prezentare', 'Podcast', 'Interviu / eveniment', 'Clip de lungă durată (vlog, curs, documentar)', 'Altceva'],
                 },
                 {
+                  name: 'clipuri', label: 'Câte clipuri ai vrea pe lună?', type: 'select',
+                  options: ['10 clipuri / lună', '25 clipuri / lună', '50 clipuri / lună', 'Mai multe de 50', 'Un singur proiect, deocamdată', 'Nu știu încă — stabilim împreună'],
+                },
+                {
                   name: 'platforme', label: 'Pe ce platforme publici?', type: 'checkboxes',
                   options: ['Facebook', 'Instagram', 'TikTok', 'YouTube', 'Site propriu', 'Altele'],
                 },

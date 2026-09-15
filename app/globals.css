@@ -709,7 +709,9 @@ main { padding-top: var(--nav-h); }
 .form-field input, .form-field textarea, .form-field select {
   width: 100%; padding: 14px 16px; border-radius: 13px;
   background: var(--bg); border: 1px solid #cfe1fa;
-  color: var(--text-main); font-family: var(--font-body); font-size: .98rem;
+  /* minim 16px — sub asta, telefoanele (mai ales iPhone) fac zoom brusc
+     la fiecare apăsare pe câmp și pagina „sare" */
+  color: var(--text-main); font-family: var(--font-body); font-size: 1rem;
   transition: border-color .3s, box-shadow .3s, background .3s;
 }
 .form-field input:focus, .form-field textarea:focus, .form-field select:focus {
@@ -940,6 +942,11 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 14px 34px -8px rgba(29, 78, 216, .65);
 }
 @media (max-width: 720px) { .lp-sticky { display: block; } }
+/* ancora #brief aterizează sub meniul fixat, nu ascunsă după el */
+#brief { scroll-margin-top: calc(var(--nav-h) + 16px); }
+/* pe mobil, spațiu generos între butonul de trimitere și linkurile din footer —
+   să nu nimerească nimeni „Editare video" când vrea să apese Trimite */
+@media (max-width: 720px) { #brief .form-card { margin-bottom: 48px; } }
 
 /* ============ Page hero (subpagini) ============ */
 .page-hero { padding: 90px 0 60px; text-align: center; position: relative; }
