@@ -59,7 +59,7 @@ export default function OfertaVideoPage() {
                 Tu filmezi cu telefonul. Noi transformăm filmarea în clipuri care atrag urmăritori și aduc
                 clienți: montaj alert, subtitrări dinamice, culoare premium — gata de postat.
               </p>
-              <div className="btn-row" style={{ marginTop: 26 }}>
+              <div className="btn-row" id="cta-hero" style={{ marginTop: 26 }}>
                 <a href="#brief" className="btn btn-primary" style={{ fontSize: '1.05rem', padding: '16px 34px' }}>
                   🎁 Vreau Short-ul meu de probă GRATUIT <ArrowIcon />
                 </a>

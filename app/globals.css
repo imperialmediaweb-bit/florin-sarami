@@ -941,7 +941,11 @@ html { scroll-behavior: smooth; }
   background: var(--grad-brand); color: #fff; font-weight: 800; font-size: 1rem;
   box-shadow: 0 14px 34px -8px rgba(29, 78, 216, .65);
 }
-@media (max-width: 720px) { .lp-sticky { display: block; } }
+@media (max-width: 720px) {
+  .lp-sticky { display: block; }
+  /* cât e bara vizibilă, WhatsApp-ul urcă deasupra ei, nu se suprapun */
+  body.has-lp-sticky .wa-btn { bottom: 84px; }
+}
 /* ancora #brief aterizează sub meniul fixat, nu ascunsă după el */
 #brief { scroll-margin-top: calc(var(--nav-h) + 16px); }
 /* pe mobil, spațiu generos între butonul de trimitere și linkurile din footer —
