@@ -47,7 +47,7 @@ export default function OfertaVideoPage() {
   return (
     <>
       {/* HERO — text + telefon cu Reel „viu" */}
-      <section className="page-hero" style={{ paddingBottom: 34 }}>
+      <section className="page-hero lp-top" style={{ paddingBottom: 34 }}>
         <div className="container">
           <div className="lp-hero">
             <div>

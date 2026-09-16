@@ -849,6 +849,15 @@ body.has-announce main { padding-top: calc(var(--nav-h) + var(--announce-h, 40px
 /* ============ Landing „Ofertă video" ============ */
 html { scroll-behavior: smooth; }
 
+/* pe telefon, hero-ul e compact — butoanele urcă pe primul ecran */
+@media (max-width: 720px) {
+  .lp-top { padding-top: 36px; }
+  .lp-top .eyebrow { margin-bottom: 10px; font-size: .68rem; }
+  .lp-top .h-xl { font-size: clamp(1.75rem, 8.2vw, 2.3rem); margin-bottom: 12px; }
+  .lp-top .lead { font-size: .95rem; }
+  .lp-top .btn-row { margin-top: 18px !important; }
+}
+
 /* hero pe două coloane: text + telefon cu Reel animat */
 .lp-hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 5vw, 60px); align-items: center; text-align: left; }
 .lp-hero .lead { margin-inline: 0; }

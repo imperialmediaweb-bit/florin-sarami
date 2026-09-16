@@ -22,7 +22,8 @@ export default function SiteExtras() {
   const isAdmin = pathname.startsWith('/admin');
 
   useEffect(() => {
-    const forms = Array.from(document.querySelectorAll('main form'));
+    // ascuns și cât se văd butoanele din hero (#cta-hero are propriul WhatsApp)
+    const forms = Array.from(document.querySelectorAll('main form, #cta-hero'));
     if (!forms.length) { setFormOnScreen(false); return; }
     const visible = new Set<Element>();
     const io = new IntersectionObserver(
