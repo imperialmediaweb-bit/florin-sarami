@@ -24,15 +24,15 @@ export default function OfertaBriefPage() {
             Primești în <strong style={{ color: 'var(--text-main)' }}>24h</strong> oferta personalizată + stabilim{' '}
             <strong style={{ color: 'var(--text-main)' }}>Short-ul tău de probă gratuit</strong>.
           </p>
-          <p style={{ color: 'var(--text-dim)', marginBottom: 26 }}>
-            Preferi să vorbim direct? Scrie-ne pe{' '}
+          <p style={{ color: 'var(--text-dim)', marginBottom: 12 }}>Preferi să vorbim direct?</p>
+          <p style={{ marginBottom: 26 }}>
             <a
               href="https://wa.me/40743361684?text=Bun%C4%83!%20Vreau%20o%20ofert%C4%83%20pentru%20editare%20video."
+              className="btn-wa"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#128c46', fontWeight: 700 }}
             >
-              WhatsApp: +40 743 361 684
+              💬 Scrie-ne pe WhatsApp: +40 743 361 684
             </a>
           </p>
         </div>
