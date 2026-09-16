@@ -16,7 +16,25 @@ export default function SiteExtras() {
   // pixelul trimite singur un PageView la init — efectul de rută îl sare
   // exact o dată, imediat după init, ca pagina de intrare să nu se numere dublu
   const fbqJustInit = useRef(false);
+  // pe telefon, butonul plutitor stătea peste câmpurile formularelor și
+  // fura apăsările (te arunca în WhatsApp) — îl ascundem cât e un formular pe ecran
+  const [formOnScreen, setFormOnScreen] = useState(false);
   const isAdmin = pathname.startsWith('/admin');
+
+  useEffect(() => {
+    const forms = Array.from(document.querySelectorAll('main form'));
+    if (!forms.length) { setFormOnScreen(false); return; }
+    const visible = new Set<Element>();
+    const io = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => { if (e.isIntersecting) visible.add(e.target); else visible.delete(e.target); });
+        setFormOnScreen(visible.size > 0);
+      },
+      { threshold: 0.05 }
+    );
+    forms.forEach(f => io.observe(f));
+    return () => { io.disconnect(); setFormOnScreen(false); };
+  }, [pathname]);
 
   useEffect(() => {
     fetch('/api/site-info/')
@@ -108,7 +126,7 @@ export default function SiteExtras() {
           <span>{info.anunt}</span>
         </div>
       )}
-      {info.whatsapp && (
+      {info.whatsapp && !formOnScreen && (
         <a
           className="wa-btn"
           href={`https://wa.me/${info.whatsapp}?text=${encodeURIComponent('Bună! Am o întrebare despre serviciile Sarami Media.')}`}
