@@ -60,7 +60,7 @@ export default function OfertaVideoPage() {
                 clienți: montaj alert, subtitrări dinamice, culoare premium — gata de postat.
               </p>
               <div className="btn-row" id="cta-hero" style={{ marginTop: 26 }}>
-                <a href="#brief" className="btn btn-primary" style={{ fontSize: '1.05rem', padding: '16px 34px' }}>
+                <a href="/oferta-video/brief/" className="btn btn-primary" style={{ fontSize: '1.05rem', padding: '16px 34px' }}>
                   🎁 Vreau Short-ul meu de probă GRATUIT <ArrowIcon />
                 </a>
                 <a
@@ -153,7 +153,7 @@ export default function OfertaVideoPage() {
             </div>
           </div>
           <p className="center" style={{ marginTop: 26 }}>
-            <a href="#brief" className="btn btn-primary">Vreau să arate așa și clipurile mele <ArrowIcon /></a>
+            <a href="/oferta-video/brief/" className="btn btn-primary">Vreau să arate așa și clipurile mele <ArrowIcon /></a>
           </p>
         </div>
       </section>
@@ -178,7 +178,7 @@ export default function OfertaVideoPage() {
                 <span key={t} style={{ background: 'rgba(37,99,235,.08)', color: 'var(--blue-700)', fontWeight: 600, fontSize: '.9rem', padding: '9px 18px', borderRadius: 999 }}>{t}</span>
               ))}
             </div>
-            <a href="#brief" className="btn btn-primary" style={{ fontSize: '1rem', padding: '15px 32px' }}>
+            <a href="/oferta-video/brief/" className="btn btn-primary" style={{ fontSize: '1rem', padding: '15px 32px' }}>
               Vreau Short-ul meu gratuit <ArrowIcon />
             </a>
             <p style={{ color: 'var(--text-faint)', fontSize: '.84rem', marginTop: 14 }}>
@@ -238,14 +238,14 @@ export default function OfertaVideoPage() {
                   <li>✅ Formate pentru toate platformele</li>
                   <li>✅ Revizii incluse</li>
                 </ul>
-                <a href="#brief" className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
+                <a href="/oferta-video/brief/" className="btn btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
                   Cere prețul exact — gratuit
                 </a>
               </div>
             ))}
           </div>
           <p className="center" style={{ marginTop: 28 }}>
-            <a href="#brief" className="btn btn-primary" style={{ fontSize: '1rem', padding: '15px 30px' }}>
+            <a href="/oferta-video/brief/" className="btn btn-primary" style={{ fontSize: '1rem', padding: '15px 30px' }}>
               Vrei mai multe clipuri lunar? Completează brief-ul și primești ofertă personalizată! <ArrowIcon />
             </a>
           </p>

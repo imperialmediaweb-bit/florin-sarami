@@ -647,7 +647,9 @@ main { padding-top: var(--nav-h); }
 .testi-author { margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
 /* captură de ecran cu recenzia (poză lată) — afișată mare, deasupra numelui */
 .testi-capture {
-  order: -1; width: 100%; max-width: 460px; max-height: 240px; object-fit: contain;
+  /* înălțime FIXĂ — poza încărcată târziu nu mai împinge pagina în jos
+     (împingerea strica aterizarea butoanelor care sar la formular) */
+  order: -1; width: 100%; max-width: 460px; height: 240px; object-fit: contain;
   border-radius: 12px; border: 1px solid var(--line); background: #fff;
   box-shadow: 0 12px 30px -14px rgba(13, 28, 66, .35);
 }
@@ -801,6 +803,14 @@ footer h4 { font-size: .95rem; margin-bottom: 18px; color: var(--blue-700); lett
   display: none; animation: slideUp .5s cubic-bezier(.2, .7, .3, 1);
 }
 .cookie-banner.show { display: block; }
+/* pe telefon: o singură bandă subțire jos — nu acoperă niciun buton al paginii */
+@media (max-width: 720px) {
+  .cookie-banner { left: 6px; right: 6px; bottom: 6px; padding: 9px 12px; border-radius: 12px; }
+  .cookie-banner.show { display: flex; align-items: center; gap: 10px; }
+  .cookie-banner p { font-size: .7rem; line-height: 1.25; margin: 0; flex: 1; }
+  .cookie-actions { gap: 6px; flex-wrap: nowrap; }
+  .cookie-actions .btn { padding: 7px 12px; font-size: .76rem; }
+}
 @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
 .cookie-banner p { font-size: .9rem; color: var(--text-dim); margin-bottom: 16px; }
 .cookie-banner a { color: var(--blue-600); text-decoration: underline; }

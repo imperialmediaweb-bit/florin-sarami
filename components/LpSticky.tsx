@@ -38,6 +38,6 @@ export default function LpSticky({ label }: { label: string }) {
 
   if (!show) return null;
   return (
-    <a href="#brief" className="lp-sticky">{label}</a>
+    <a href="/oferta-video/brief/" className="lp-sticky">{label}</a>
   );
 }
