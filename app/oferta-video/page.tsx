@@ -64,7 +64,7 @@ export default function OfertaVideoPage() {
                   🎁 Vreau Short-ul meu de probă GRATUIT <ArrowIcon />
                 </a>
                 <a
-                  href="https://wa.me/40743361684?text=Bun%C4%83!%20Vreau%20o%20ofert%C4%83%20pentru%20editare%20video%20(Reels%2FTikTok)."
+                  href="https://wa.me/40743361684?text=Bun%C4%83%20ziua%21%20Am%20v%C4%83zut%20reclama%20cu%20serviciile%20de%20editare%20video.%20Am%20nevoie%20de%20aceste%20servicii%2C%20%C8%99i%20a%C8%99%20dori%20o%20ofert%C4%83%21"
                   className="btn-wa"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -322,7 +322,7 @@ export default function OfertaVideoPage() {
             <p style={{ color: 'var(--text-dim)', marginBottom: 30 }}>
               Preferi să vorbim direct? Scrie-ne pe{' '}
               <a
-                href="https://wa.me/40743361684?text=Bun%C4%83!%20Vreau%20o%20ofert%C4%83%20pentru%20editare%20video."
+                href="https://wa.me/40743361684?text=Bun%C4%83%20ziua%21%20Am%20v%C4%83zut%20reclama%20cu%20serviciile%20de%20editare%20video.%20Am%20nevoie%20de%20aceste%20servicii%2C%20%C8%99i%20a%C8%99%20dori%20o%20ofert%C4%83%21"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: '#128c46', fontWeight: 700 }}
