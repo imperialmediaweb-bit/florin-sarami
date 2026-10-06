@@ -38,6 +38,18 @@ const FAQ = [
   { q: 'Nu am filmări. Mă puteți ajuta?', a: 'Da — pe lângă ofertă primești 3 idei de Reels gândite pentru afacerea ta și îți spunem exact ce și cum să filmezi cu telefonul (e mai simplu decât crezi), iar noi facem restul: montaj, subtitrări, culoare, sunet.' },
 ];
 
+/**
+ * Clipul din hero se vede într-un telefon de ~264px lățime, dar Cloudinary
+ * livra fișierul la rezoluția originală — câteva MB pe datele mobile, exact
+ * la primul contact cu vizitatorul venit din reclamă. Cerem o variantă mică
+ * și o poză de copertă care apare instant.
+ */
+const UPLOAD = /\/video\/upload\/(?:[^/]*\/)?(?=v\d|sarami-video)/;
+const liteVideo = (url: string) =>
+  url.replace(UPLOAD, '/video/upload/f_auto:video,q_auto:eco,w_480,c_limit,br_700k/');
+const videoPoster = (url: string) =>
+  url.replace(UPLOAD, '/video/upload/so_0,f_jpg,q_auto,w_480,c_limit/').replace(/\.mp4$/i, '.jpg');
+
 export default function OfertaVideoPage() {
   // când există un Short încărcat în admin → Portofoliu, rulează automat
   // în telefonul din hero; până atunci se vede animația demo
@@ -80,8 +92,17 @@ export default function OfertaVideoPage() {
             <div className="reveal-right in">
               <div className="phone">
                 <div className="phone-screen"></div>
-                {demo ? (
-                  <video className="phone-video" src={demo.video} autoPlay muted loop playsInline preload="metadata" />
+                {demo?.video ? (
+                  <video
+                    className="phone-video"
+                    src={liteVideo(demo.video)}
+                    poster={videoPoster(demo.video)}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                  />
                 ) : (
                   <div className="phone-cap">
                     <span>❌ Nimeni nu-ți vede clipurile?</span>
