@@ -72,6 +72,25 @@ const parseYoutubeId = (input: string): string => {
   return /^[A-Za-z0-9_-]{5,20}$/.test(s) ? s : '';
 };
 
+/**
+ * Link de WhatsApp către clientul care a trimis brief-ul, cu oferta începută.
+ * Numărul e normalizat la formatul internațional (07xx… → 407xx…), ca linkul
+ * să funcționeze din prima, fără să-l rescrie nimeni de mână.
+ */
+const waLink = (m: Message): string | null => {
+  let n = String(m.telefon || '').replace(/[^0-9]/g, '');
+  if (n.startsWith('00')) n = n.slice(2);
+  if (n.startsWith('0')) n = '40' + n.slice(1);
+  else if (n.length === 9 && n.startsWith('7')) n = '40' + n;
+  if (!/^[1-9][0-9]{8,14}$/.test(n)) return null;
+  const prenume = (m.nume || '').trim().split(/\s+/)[0] || 'acolo';
+  const text =
+    `Bună, ${prenume}! Sunt de la Sarami Media 👋\n\n` +
+    `Am primit brief-ul tău de pe sarami.ro${m.serviciu ? ` (${m.serviciu.toLowerCase()})` : ''} ` +
+    `și îți trimit oferta:\n\n`;
+  return `https://wa.me/${n}?text=${encodeURIComponent(text)}`;
+};
+
 /** extrage ID-ul numeric al clipului dintr-un link TikTok (sau îl acceptă direct) */
 const parseTiktokId = (input: string): string => {
   const s = input.trim();
@@ -1057,7 +1076,12 @@ export default function AdminPage() {
                         </div>
                       ) : (
                         <div style={{ marginTop: 8, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                          <button className="btn btn-primary" style={{ padding: '7px 16px', fontSize: '.85rem' }} onClick={() => startReply(m)}>✉️ Răspunde cu ofertă</button>
+                          <button className="btn btn-primary" style={{ padding: '7px 16px', fontSize: '.85rem' }} onClick={() => startReply(m)}>✉️ Trimite oferta pe email</button>
+                          {waLink(m) && (
+                            <a className="btn-wa" style={{ padding: '7px 16px', fontSize: '.85rem' }} href={waLink(m)!} target="_blank" rel="noopener noreferrer">
+                              💬 Trimite oferta pe WhatsApp
+                            </a>
+                          )}
                           <button className="btn btn-ghost" style={{ padding: '7px 14px', fontSize: '.82rem', color: '#dc2626', borderColor: 'rgba(220,38,38,.4)' }} onClick={() => onDeleteMessage(m.id)}>Șterge</button>
                         </div>
                       )}

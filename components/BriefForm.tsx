@@ -40,6 +40,9 @@ export default function BriefForm({
     const form = e.currentTarget;
     const fd = new FormData(form);
     const extra: Record<string, string> = {};
+    // cum vrea clientul să primească oferta — apare primul în panou și în email
+    const canal = String(fd.get('canal') || '').trim();
+    if (canal) extra['📬 Vrea oferta'] = canal;
     for (const f of fields) {
       if (f.type === 'checkboxes') {
         extra[f.label.replace(/\s*\*\s*$/, '')] = fd.getAll(f.name).join(', ');
@@ -122,8 +125,17 @@ export default function BriefForm({
           <input type="email" name="email" required placeholder="adresa@email.ro" />
         </div>
         <div className="form-field">
-          <label>Telefon</label>
-          <input type="tel" name="telefon" placeholder="07xx xxx xxx" />
+          <label>Telefon *</label>
+          <input type="tel" name="telefon" required placeholder="07xx xxx xxx" />
+        </div>
+        <div className="form-field full">
+          <label>Cum vrei să primești oferta? *</label>
+          <select name="canal" required defaultValue="">
+            <option value="" disabled>Alege cum îți trimitem oferta</option>
+            <option>Pe WhatsApp</option>
+            <option>Pe email</option>
+            <option>Sunați-mă</option>
+          </select>
         </div>
 
         {fields.map(f => (
