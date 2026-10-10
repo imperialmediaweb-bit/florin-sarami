@@ -263,7 +263,13 @@ export default function AdminPage() {
       setPassword('');
       setUser('');
       await loadPosts();
-      setView('articole');
+      // încărcăm și restul datelor — altfel dashboard-ul „Acasă" arăta 0
+      // la briefuri, portofoliu și testimoniale până la un refresh
+      loadMessages().catch(() => {});
+      loadFolio().catch(() => {});
+      loadTesti().catch(() => {});
+      loadSettings().catch(() => {});
+      setView('acasa');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Autentificare eșuată.');
     } finally {
