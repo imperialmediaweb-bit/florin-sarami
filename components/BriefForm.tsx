@@ -72,6 +72,14 @@ export default function BriefForm({
       setStatus('sent');
       // semnal de „Lead" pentru Meta Pixel / GA — reclamele învață cine convertește
       const w = window as unknown as { fbq?: (...a: unknown[]) => void; gtag?: (...a: unknown[]) => void };
+      // 18.10.2026 — bifa opțională de sub formular ține loc de „Accept" din
+      // bannerul de cookies: pornește pixelul/GA (SiteExtras ascultă „sm-consent")
+      // și abia apoi trimitem Lead-ul. Fără bifă și fără Accept, nu pleacă nimic.
+      if (fd.get('marketing') === 'on' && !w.fbq) {
+        try { localStorage.setItem('sarami-cookie-consent', 'accepted'); } catch { /* ignoră */ }
+        window.dispatchEvent(new CustomEvent('sm-consent', { detail: 'accepted' }));
+        for (let i = 0; i < 30 && !w.fbq; i++) await new Promise(r => setTimeout(r, 100));
+      }
       w.fbq?.('track', 'Lead');
       w.gtag?.('event', 'generate_lead');
       form.reset();
@@ -174,6 +182,15 @@ export default function BriefForm({
             <span>
               Sunt de acord cu prelucrarea datelor mele personale conform{' '}
               <Link href="/politica-confidentialitate">Politicii de confidențialitate</Link>. *
+            </span>
+          </label>
+        </div>
+        <div className="form-field full">
+          <label className="form-consent">
+            <input type="checkbox" name="marketing" />
+            <span>
+              Sunt de acord cu cookie-urile pentru metrici (opțional,{' '}
+              <Link href="/politica-cookies">detalii</Link>).
             </span>
           </label>
         </div>
