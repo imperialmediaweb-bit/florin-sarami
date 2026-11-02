@@ -19,7 +19,11 @@ const nextConfig = {
   images: { unoptimized: true },
   outputFileTracingRoot: process.cwd(),
   async redirects() {
-    return wpRedirects;
+    return [
+      // pagina Podcast AI a devenit subpagină la Editare video
+      { source: '/podcast-ai/', destination: '/editare-video/podcast-ai/', permanent: true },
+      ...wpRedirects,
+    ];
   },
 };
 

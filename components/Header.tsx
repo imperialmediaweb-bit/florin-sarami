@@ -60,6 +60,7 @@ export default function Header() {
                 </Link>
                 <div className="nav-drop-menu">
                   <Link href="/editare-video">Servicii editare video</Link>
+                  <Link href="/editare-video/podcast-ai">Podcast AI</Link>
                   <Link href="/portofoliu">Portofoliu</Link>
                 </div>
               </div>

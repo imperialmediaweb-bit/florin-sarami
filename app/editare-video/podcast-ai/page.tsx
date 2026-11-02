@@ -6,7 +6,7 @@ import { ArrowIcon } from '@/components/Visuals';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/podcast-ai/' },
+  alternates: { canonical: '/editare-video/podcast-ai/' },
   title: 'Podcast AI — episoade video cu prezentatori și voci AI',
   description:
     'Episoade de podcast video cu doi prezentatori virtuali, voci naturale generate cu AI și decor de studio. Trimiți o poză și un scurt audio, noi facem tot. Pachete de la 1.799 lei.',

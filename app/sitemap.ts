@@ -14,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/portofoliu', priority: 0.8 },
     { path: '/redactare-continut', priority: 0.9 },
     { path: '/cere-oferta', priority: 0.9 },
-    { path: '/podcast-ai', priority: 0.9 },
+    { path: '/editare-video/podcast-ai', priority: 0.9 },
     { path: '/oferta-video', priority: 0.9 },
     { path: '/blog', priority: 0.8 },
     { path: '/contact', priority: 0.7 },

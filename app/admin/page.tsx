@@ -1026,7 +1026,7 @@ export default function AdminPage() {
                       <label>🎙️ Clipul exemplu de pe pagina Podcast AI</label>
                       <UploadVideo value={settings.podcastVideo} onChange={url => setSettings(s => ({ ...s, podcastVideo: url }))} />
                       <p style={{ color: 'var(--text-faint)', fontSize: '.82rem', marginTop: 8 }}>
-                        Apare pe sarami.ro/podcast-ai. Nu uita să apeși „Salvează setările" după încărcare.
+                        Apare pe sarami.ro/editare-video/podcast-ai. Nu uita să apeși „Salvează setările" după încărcare.
                       </p>
                     </div>
                   </div>
