@@ -70,6 +70,8 @@ const PACHETE = [
 
 export default function PodcastAiPage() {
   const { whatsapp, podcastVideo } = getSettings();
+  // clipul livrat cu site-ul; dacă se încarcă altul din admin → Setări, acela câștigă
+  const clip = podcastVideo || '/video/podcast-ai.mp4';
   const waHref = whatsapp
     ? `https://wa.me/${whatsapp}?text=${encodeURIComponent(
         'Bună ziua! Am văzut oferta Podcast AI și vreau să încep un episod.'
@@ -122,14 +124,13 @@ export default function PodcastAiPage() {
             <h2 className="h-lg">Așa arată <span className="grad-text">un episod</span></h2>
           </div>
           <div className="pod-video">
-            {podcastVideo ? (
-              <video src={podcastVideo} controls playsInline preload="metadata" />
-            ) : (
-              <div className="pod-video-gol">
-                <span>🎬</span>
-                <p>Clipul de prezentare se adaugă din panou → Setări</p>
-              </div>
-            )}
+            <video
+              src={clip}
+              poster={podcastVideo ? undefined : '/video/podcast-ai-poster.jpg'}
+              controls
+              playsInline
+              preload="none"
+            />
           </div>
         </div>
       </section>
