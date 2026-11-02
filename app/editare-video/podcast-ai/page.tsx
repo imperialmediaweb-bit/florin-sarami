@@ -7,13 +7,13 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/editare-video/podcast-ai/' },
-  title: 'Podcast AI — episoade video cu prezentatori și voci AI',
+  title: 'Podcast AI — episoade video cu prezentator, invitat și voci AI',
   description:
-    'Episoade de podcast video cu doi prezentatori virtuali, voci naturale generate cu AI și decor de studio. Trimiți o poză și un scurt audio, noi facem tot. Pachete de la 1.799 lei.',
+    'Episoade de podcast video cu prezentator și invitat virtuali, voci naturale generate cu AI și decor de studio. Trimiți o poză și un scurt audio, noi facem tot. Pachete de la 1.799 lei.',
 };
 
 const INCLUDE = [
-  { icon: '👥', text: 'Doi prezentatori virtuali (gazdă + invitat)' },
+  { icon: '👥', text: 'Prezentator și invitat virtuali' },
   { icon: '🎙️', text: 'Voci naturale și expresive, generate cu AI' },
   { icon: '🪑', text: 'Decor vizual de studio, modern și personalizat' },
   { icon: '📄', text: 'Scenariul și conceptul discuției, incluse' },
@@ -23,7 +23,7 @@ const INCLUDE = [
 ];
 
 const PASI = [
-  { n: '1', t: 'Ne trimiți materialele', d: 'O poză și un scurt clip audio pentru fiecare dintre cele două persoane care apar în podcast.' },
+  { n: '1', t: 'Ne trimiți materialele', d: 'O poză și un scurt clip audio pentru prezentator și pentru invitat.' },
   { n: '2', t: 'Construim studioul', d: 'Facem avatarele realiste, vocile naturale, decorul de studio și scenariul discuției.' },
   { n: '3', t: 'Primești episodul', d: 'Montat complet, cu efecte și corecții, exportat în Full HD, gata de publicat.' },
 ];
@@ -35,7 +35,7 @@ const PACHETE = [
     durata: 'până la 15 minute',
     sub: 'Tot ce ai nevoie pentru un episod de podcast profesional.',
     lista: [
-      'Doi prezentatori virtuali (gazdă + invitat)',
+      'Prezentator și invitat virtuali',
       'Avatar realist după persoana reală (imagine și voce)',
       'Voci naturale și expresive, generate cu AI',
       'Decor vizual de studio, modern și personalizat',
@@ -56,7 +56,7 @@ const PACHETE = [
     hot: true,
     lista: [
       'Toate serviciile din pachetul Essential',
-      'Dialog mai lung, cu doi prezentatori',
+      'Dialog mai lung, între prezentator și invitat',
       'Montaj extins și verificări suplimentare',
       'Tranziții, efecte vizuale și dinamizare conținut',
       'Corectarea erorilor de pronunție și sincronizare',
@@ -88,7 +88,7 @@ export default function PodcastAiPage() {
             Conversații care inspiră, <span className="grad-text">într-un studio virtual</span>
           </h1>
           <p className="lead">
-            Episoade de podcast video cu <strong>doi prezentatori virtuali</strong>, voci naturale și
+            Episoade de podcast video cu <strong>prezentator și invitat virtuali</strong>, voci naturale și
             aspect profesional — pentru companii, profesioniști și creatori de conținut.
             Tu trimiți o poză și un scurt audio pentru fiecare persoană, noi facem tot restul.
           </p>
