@@ -49,6 +49,7 @@ export async function POST(req: Request) {
     anunt: String(data.anunt ?? current.anunt).trim(),
     ga: gaRaw,
     fbpixel: fbRaw,
+    podcastVideo: String(data.podcastVideo ?? current.podcastVideo).trim(),
   };
   saveSettings(next);
   return NextResponse.json({ ok: true });

@@ -1022,6 +1022,13 @@ export default function AdminPage() {
                       <label>Meta / Facebook Pixel — ID (gol = oprit)</label>
                       <input value={settings.fbpixel || ''} onChange={e => setSettings(s => ({ ...s, fbpixel: e.target.value }))} placeholder="2108829569729584" />
                     </div>
+                    <div className="form-field full">
+                      <label>🎙️ Clipul exemplu de pe pagina Podcast AI</label>
+                      <UploadVideo value={settings.podcastVideo} onChange={url => setSettings(s => ({ ...s, podcastVideo: url }))} />
+                      <p style={{ color: 'var(--text-faint)', fontSize: '.82rem', marginTop: 8 }}>
+                        Apare pe sarami.ro/podcast-ai. Nu uita să apeși „Salvează setările" după încărcare.
+                      </p>
+                    </div>
                   </div>
                   {error && <p style={{ color: '#dc2626', fontSize: '.9rem', marginTop: 12 }}>⚠ {error}</p>}
                   <div className="btn-row mt-2">

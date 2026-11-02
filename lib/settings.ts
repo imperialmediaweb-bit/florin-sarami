@@ -19,6 +19,8 @@ export type SiteSettings = {
   ga: string;
   /** ID Meta/Facebook Pixel (numeric) — completat → pixelul e activ */
   fbpixel: string;
+  /** clipul exemplu de pe pagina Podcast AI (URL) — gol = se afișează un substitut */
+  podcastVideo: string;
 };
 
 const DEFAULTS: SiteSettings = {
@@ -33,6 +35,7 @@ const DEFAULTS: SiteSettings = {
   anunt: '',
   ga: '',
   fbpixel: '2108829569729584',
+  podcastVideo: '',
 };
 
 function fileFor(): string {
